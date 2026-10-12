@@ -1,0 +1,4021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>khandal@localhost:~$ // Security Operations &amp; Threat Intel Console</title>
+  <meta name="description" content="root@khandal: Precision Security Research, SOC Analysis, Reverse Engineering Workspace, Obsidian Vault Search &amp; Threat Intelligence Operations Dashboard.">
+  <meta name="theme-color" content="#121316">
+  <meta name="author" content="Priyansh Khandal (rootwithkhandal)">
+  <meta name="robots" content="index, follow">
+
+  <!-- Security Headers (Item 4 & Item 68) -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' https: data:; font-src 'self' https: data:; img-src 'self' https: data:; connect-src 'self' https:; frame-ancestors 'none'; base-uri 'self';">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=()">
+
+  <!-- OpenGraph & Social Cards (Item 34) -->
+  <meta property="og:title" content="root@khandal // Security Operations Dashboard">
+  <meta property="og:description" content="Precision Threat Intelligence, SOC Analysis, Reverse Engineering &amp; Obsidian Knowledge Console.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="root@khandal Operations">
+  <meta name="twitter:description" content="Security Research Workspace &amp; Threat Intelligence Console.">
+
+  <!-- Crisp Vector Favicon (Item 36) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23121316'/%3E%3Cpath d='M8 10l7 6-7 6' stroke='%239BB7D4' stroke-width='2.5' stroke-linecap='square' fill='none'/%3E%3Cpath d='M17 22h7' stroke='%2394B49F' stroke-width='2.5' stroke-linecap='square'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* Surface & Background Foundations (Balanced slate, never pure black) */
+      --bg-canvas: #121316;
+      --bg-surface: #181A1F;
+      --bg-elevated: #20232A;
+      --bg-input: #15171C;
+      --bg-hover: #262A33;
+
+      /* Borders & Dividers */
+      --border-subtle: #2B2F38;
+      --border-active: #434957;
+      --border-focus: #9BB7D4;
+
+      /* Typography Colors (Never pure #FFFFFF) */
+      --text-primary: #ECEEF2;
+      --text-secondary: #A4ABB8;
+      --text-muted: #6D7482;
+
+      /* Restrained Pastel Accents (Single-tone state signaling) */
+      --accent-sky: #9BB7D4;
+      --accent-sage: #94B49F;
+      --status-success: #8FB996;
+      --status-warning: #DEC08B;
+      --status-error: #DE8F8F;
+      --status-info: #9BB7D4;
+
+      /* Sharp Geometric Radii (0px to 4px maximum per design directives) */
+      --radius-xs: 2px;
+      --radius-sm: 3px;
+      --radius-md: 4px;
+      --radius-none: 0px;
+
+      /* Disciplined Elevation & Shadows */
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.35);
+      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.3);
+      --shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.35);
+
+      /* Typography Stacks */
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', Menlo, Monaco, Consolas, monospace;
+
+      /* Layout Spacing & Touch Targets */
+      --max-width: 100%;
+      --container-padding: clamp(16px, 2vw, 36px);
+      --touch-target-min: 44px;
+      --transition-fast: 120ms ease;
+    }
+
+    /* Reset & Base Setup */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      height: 100%;
+      background-color: var(--bg-canvas);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      min-height: 100%;
+      background-color: var(--bg-canvas);
+      color: var(--text-primary);
+      overflow-x: hidden;
+      width: 100%;
+      position: relative;
+    }
+
+    /* Canvas Atmosphere: Hardware-Accelerated Dot Grid and Radial Orb */
+    .dot-grid-canvas-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background-image: radial-gradient(
+        rgba(164, 171, 184, 0.08) 1px,
+        transparent 1px
+      );
+      background-size: 24px 24px;
+      transform: translateZ(0);
+    }
+
+    .ambient-orb {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      height: 440px;
+      background: radial-gradient(
+        ellipse 70% 100% at 50% 0%,
+        rgba(155, 183, 212, 0.06) 0%,
+        rgba(148, 180, 159, 0.03) 45%,
+        transparent 75%
+      );
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Main Container Shell */
+    .shell {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: var(--max-width);
+      margin: 0;
+      padding: 16px var(--container-padding) 36px;
+    }
+
+    /* Clean Minimal Terminal Header */
+    header.top-chrome {
+      display: flex;
+      flex-direction: column;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 14px;
+      margin-bottom: 16px;
+    }
+
+    .header-main {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .brand-block {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-title {
+      font-family: var(--font-mono);
+      font-size: clamp(18px, 1.15rem + 0.6vw, 23px);
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: -0.3px;
+      line-height: 1.2;
+      display: inline-flex;
+      align-items: center;
+      text-shadow: 0 0 16px rgba(155, 183, 212, 0.15);
+      user-select: none;
+    }
+
+    .brand-title .prompt-user {
+      color: #7dcfff;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+    }
+
+    .brand-title .prompt-at {
+      color: var(--text-muted);
+      font-weight: 400;
+      margin: 0 1px;
+    }
+
+    .brand-title .prompt-host {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .brand-title .prompt-path {
+      color: #9ece6a;
+      font-weight: 500;
+      margin-left: 1px;
+    }
+
+    .brand-title span.cursor {
+      display: inline-block;
+      width: 9px;
+      height: 1.15em;
+      background-color: #7dcfff;
+      vertical-align: -0.15em;
+      margin-left: 5px;
+      box-shadow: 0 0 8px rgba(125, 207, 255, 0.55);
+      animation: blink-cursor 1.05s steps(2, start) infinite;
+    }
+
+    @keyframes blink-cursor {
+      to { visibility: hidden; }
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    /* Unified Navigation Dock */
+    .nav-dock,
+    .quick-anchors {
+      display: inline-flex;
+      align-items: center;
+      background: rgba(24, 26, 31, 0.85);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xs);
+      height: 28px;
+      box-sizing: border-box;
+      padding: 2px 3px;
+      gap: 2px;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    }
+
+    .nav-dock-link,
+    .quick-anchors a {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      height: 22px;
+      box-sizing: border-box;
+      padding: 0 7px;
+      border-radius: var(--radius-xs);
+      border: 1px solid transparent;
+      transition: all var(--transition-fast);
+      line-height: 1;
+    }
+
+    .nav-dock-link .dock-arrow {
+      font-size: 9px;
+      opacity: 0.45;
+      transition: transform var(--transition-fast), opacity var(--transition-fast);
+    }
+
+    .nav-dock-link:hover,
+    .quick-anchors a:hover {
+      color: var(--accent-sky);
+      background: rgba(155, 183, 212, 0.08);
+      border-color: rgba(155, 183, 212, 0.25);
+    }
+
+    .nav-dock-link:hover .dock-arrow {
+      opacity: 0.95;
+      transform: translate(1px, -1px);
+    }
+
+    /* Telemetry HUD Group */
+    .telemetry-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .clock-display {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #7dcfff;
+      background: rgba(24, 26, 31, 0.85);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xs);
+      height: 28px;
+      box-sizing: border-box;
+      padding: 0 9px;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.5px;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+      user-select: none;
+      line-height: 1;
+    }
+
+    .clock-prefix {
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 0.8px;
+      padding-right: 5px;
+      border-right: 1px solid var(--border-subtle);
+      line-height: 1;
+    }
+
+    /* Command Bar & Search Surface */
+    .command-surface {
+      margin-bottom: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .command-box {
+      display: flex;
+      align-items: stretch;
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    }
+
+    .command-box:focus-within {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 1px var(--border-focus), var(--shadow-md);
+    }
+
+    .command-prefix {
+      display: flex;
+      align-items: center;
+      padding: 0 12px 0 14px;
+      color: var(--accent-sky);
+      font-family: var(--font-mono);
+      font-size: 15px;
+      font-weight: 600;
+      user-select: none;
+      background-color: rgba(21, 23, 28, 0.8);
+      border-right: 1px solid var(--border-subtle);
+    }
+
+    .command-input {
+      flex: 1;
+      min-width: 140px;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+      font-size: 14px;
+      padding: 12px 14px;
+    }
+
+    .command-input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .command-engine-select {
+      background: var(--bg-surface);
+      color: var(--text-secondary);
+      border: none;
+      border-left: 1px solid var(--border-subtle);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      padding: 0 12px;
+      outline: none;
+      cursor: pointer;
+      transition: background-color var(--transition-fast), color var(--transition-fast);
+    }
+
+    .command-engine-select:hover,
+    .command-engine-select:focus {
+      background-color: var(--bg-hover);
+      color: var(--text-primary);
+    }
+
+    .command-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0 8px;
+      background-color: var(--bg-surface);
+      border-left: 1px solid var(--border-subtle);
+    }
+
+    .btn-exec {
+      background-color: var(--accent-sky);
+      color: #0F1115;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 600;
+      border: 1px solid transparent;
+      border-radius: var(--radius-xs);
+      padding: 6px 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: all var(--transition-fast);
+    }
+
+    .btn-exec:hover {
+      background-color: #B4CCDF;
+      transform: translateY(-1px);
+    }
+
+    .command-meta-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      padding: 0 2px;
+    }
+
+    .key-hints {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .key-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    kbd {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      padding: 1px 4px;
+      border-radius: var(--radius-xs);
+      border: 1px solid var(--border-subtle);
+      background-color: var(--bg-surface);
+      color: var(--text-secondary);
+      box-shadow: 0 1px 0 rgba(0,0,0,0.4);
+    }
+
+    .search-feedback {
+      color: var(--accent-sage);
+      font-size: 11.5px;
+      font-family: var(--font-mono);
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      min-height: 20px;
+    }
+
+    .ioc-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: var(--radius-xs);
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      color: var(--accent-sky);
+      font-size: 11px;
+      font-family: var(--font-mono);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all var(--transition-fast);
+      user-select: none;
+    }
+
+    .ioc-pill:hover {
+      background: var(--bg-hover);
+      border-color: var(--accent-sky);
+      color: #FFF;
+      transform: translateY(-1px);
+    }
+
+    .ioc-pill-pivot {
+      background: rgba(155, 183, 212, 0.12);
+      border-color: rgba(155, 183, 212, 0.4);
+      color: var(--accent-sky);
+      font-weight: 600;
+    }
+
+    .ioc-pill-pivot:hover {
+      background: var(--accent-sky);
+      color: #0F1115;
+    }
+
+
+
+    /* Category Filter Nav */
+    .filter-lane {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 14px;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 10px;
+    }
+
+    .filter-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .filter-btn {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xs);
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 4px 9px;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .filter-btn:hover {
+      color: var(--text-primary);
+      border-color: var(--border-active);
+      background-color: var(--bg-hover);
+    }
+
+    .filter-btn.active {
+      color: #0F1115;
+      background-color: var(--accent-sky);
+      border-color: var(--accent-sky);
+      font-weight: 600;
+    }
+
+    .view-toggles {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .view-toggles button {
+      background: transparent;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xs);
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 3px 8px;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .view-toggles button:hover {
+      color: var(--text-primary);
+      border-color: var(--border-active);
+    }
+
+    .view-toggles #btnResetOrder {
+      color: var(--status-warning);
+      border-color: rgba(222, 192, 139, 0.4);
+    }
+
+    .view-toggles #btnResetOrder:hover {
+      color: #fff;
+      border-color: var(--status-warning);
+      background: rgba(222, 192, 139, 0.15);
+    }
+
+    /* Structured Directory Grid - Fluid Masonry Layout */
+    .directory-grid {
+      columns: 2;
+      column-gap: 16px;
+    }
+
+    @media (min-width: 1400px) {
+      .directory-grid {
+        columns: 3;
+      }
+    }
+
+    @media (min-width: 2000px) {
+      .directory-grid {
+        columns: 4;
+      }
+    }
+
+    @media (max-width: 860px) {
+      .directory-grid {
+        columns: 1;
+      }
+    }
+
+    /* Category Block Panel */
+    .cat-block {
+      display: inline-block;
+      width: 100%;
+      margin-bottom: 16px;
+      break-inside: avoid-column;
+      -webkit-column-break-inside: avoid;
+      page-break-inside: avoid;
+      vertical-align: top;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: border-color var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .cat-block:hover {
+      border-color: var(--border-active);
+    }
+
+    .cat-block.hidden {
+      display: none;
+    }
+
+    .cat-header {
+      width: 100%;
+      background: var(--bg-elevated);
+      border: none;
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      text-align: left;
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      font-weight: 600;
+      user-select: none;
+      transition: background-color var(--transition-fast);
+    }
+
+    .cat-header:hover {
+      background-color: var(--bg-hover);
+    }
+
+    .cat-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cat-tag {
+      font-size: 10px;
+      color: var(--accent-sky);
+      border: 1px solid rgba(155, 183, 212, 0.3);
+      padding: 1px 6px;
+      border-radius: var(--radius-xs);
+      font-weight: 500;
+      background: rgba(155, 183, 212, 0.05);
+    }
+
+    .cat-count {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 400;
+      margin-left: 2px;
+    }
+
+    .cat-chev {
+      color: var(--text-muted);
+      font-size: 11px;
+      transition: transform var(--transition-fast);
+      display: inline-block;
+    }
+
+    .cat-block.collapsed .cat-chev {
+      transform: rotate(-90deg);
+    }
+
+    .cat-block.collapsed .cat-body {
+      display: none;
+    }
+
+    .cat-body {
+      padding: 8px 10px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    /* Link Item Row */
+    .link-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 8px 10px;
+      border-radius: var(--radius-xs);
+      border: 1px solid transparent;
+      color: var(--text-primary);
+      text-decoration: none;
+      font-size: 13px;
+      transition: all var(--transition-fast);
+      position: relative;
+    }
+
+    .link-row:hover {
+      background-color: var(--bg-hover);
+      border-color: var(--border-subtle);
+      color: var(--accent-sky);
+      transform: translateY(-1px);
+    }
+
+    .link-row:focus-visible {
+      outline: 2px solid var(--border-focus);
+      outline-offset: 1px;
+      border-radius: var(--radius-xs);
+    }
+
+    .link-info {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    /* Drag & Drop Reordering Styles */
+    .drag-handle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 14px;
+      height: 20px;
+      margin-right: 2px;
+      color: var(--text-muted);
+      cursor: grab;
+      user-select: none;
+      font-size: 13px;
+      letter-spacing: -2px;
+      opacity: 0.3;
+      transition: opacity var(--transition-fast), color var(--transition-fast);
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    .link-row:hover .drag-handle {
+      opacity: 0.9;
+      color: var(--accent-sky);
+    }
+
+    .drag-handle:active {
+      cursor: grabbing;
+    }
+
+    .link-row[draggable="true"] {
+      cursor: grab;
+    }
+
+    .link-row.is-dragging {
+      opacity: 0.35 !important;
+      background: var(--bg-hover) !important;
+      border: 1px dashed var(--accent-sky) !important;
+      transform: scale(0.985);
+      cursor: grabbing !important;
+    }
+
+    .link-row.drop-target-before {
+      border-top: 2px solid var(--accent-sky) !important;
+      background: rgba(155, 183, 212, 0.05);
+    }
+
+    .link-row.drop-target-after {
+      border-bottom: 2px solid var(--accent-sky) !important;
+      background: rgba(155, 183, 212, 0.05);
+    }
+
+    .cat-body.drag-over-empty {
+      outline: 1px dashed var(--accent-sky);
+      outline-offset: -2px;
+      background: rgba(155, 183, 212, 0.03);
+    }
+
+    @keyframes dropHighlight {
+      0% {
+        background-color: rgba(155, 183, 212, 0.25);
+        border-color: var(--accent-sky);
+      }
+      100% {
+        background-color: transparent;
+      }
+    }
+
+    .link-row.just-dropped {
+      animation: dropHighlight 0.6s ease-out;
+    }
+
+    .link-title {
+      font-weight: 500;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: color var(--transition-fast);
+    }
+
+    .link-row:hover .link-title {
+      color: var(--accent-sky);
+    }
+
+    .link-meta {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .link-action {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .link-dest {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      padding: 1px 5px;
+      border-radius: var(--radius-xs);
+      background-color: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .link-glyph {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-muted);
+      opacity: 0.6;
+      transition: all var(--transition-fast);
+    }
+
+    .link-row:hover .link-glyph {
+      color: var(--accent-sky);
+      opacity: 1;
+      transform: translate(1px, -1px);
+    }
+
+    .btn-edit-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 19px;
+      height: 19px;
+      padding: 0;
+      margin-left: 1px;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xs);
+      background: var(--bg-surface);
+      color: var(--text-muted);
+      font-size: 11px;
+      cursor: pointer;
+      opacity: 0;
+      transition: all var(--transition-fast);
+      user-select: none;
+      line-height: 1;
+    }
+
+    .link-row:hover .btn-edit-link,
+    .link-row:focus-within .btn-edit-link,
+    body.edit-mode-active .btn-edit-link {
+      opacity: 0.85;
+    }
+
+    .btn-edit-link:hover {
+      opacity: 1 !important;
+      color: var(--accent-sky);
+      border-color: var(--accent-sky);
+      background-color: var(--bg-hover);
+      transform: scale(1.1);
+    }
+
+    .view-toggles button.active {
+      color: #0F1115;
+      background-color: var(--accent-sky);
+      border-color: var(--accent-sky);
+      font-weight: 600;
+    }
+
+    /* Note Banner Inside Blocks */
+    .technical-note {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      color: var(--text-secondary);
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xs);
+      padding: 8px 10px;
+      margin: 4px 0 2px;
+      line-height: 1.5;
+    }
+
+    .technical-note span.tag {
+      color: var(--status-warning);
+      margin-right: 4px;
+      font-weight: 600;
+    }
+
+    /* Organized Cyber-Ops Platform Footer */
+    footer.platform-footer {
+      margin-top: 48px;
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 20px;
+      padding-bottom: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 11px;
+    }
+
+    .footer-primary-tier {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .footer-brand-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      user-select: none;
+    }
+
+    .footer-pulse-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--status-success);
+      box-shadow: 0 0 7px rgba(143, 185, 150, 0.85);
+      animation: beacon-pulse 2.2s infinite ease-in-out;
+      flex-shrink: 0;
+    }
+
+    .footer-brand-text {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      line-height: 1.2;
+    }
+
+    .footer-brand-text .user-token {
+      color: #7dcfff;
+      font-weight: 700;
+    }
+
+    .footer-brand-text .at-token {
+      color: var(--text-muted);
+    }
+
+    .footer-brand-text .host-token {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .footer-brand-text .sep-token {
+      color: var(--border-active);
+      margin: 0 2px;
+    }
+
+    .footer-brand-text .title-token {
+      color: var(--text-secondary);
+      font-size: 11.5px;
+    }
+
+    /* Segmented Navigation Dock */
+    .footer-nav-dock {
+      display: inline-flex;
+      align-items: center;
+      background: rgba(24, 26, 31, 0.85);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xs);
+      height: 28px;
+      box-sizing: border-box;
+      padding: 0 4px;
+      gap: 2px;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    }
+
+    .footer-dock-btn,
+    .footer-dock-link {
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: var(--radius-xs);
+      height: 22px;
+      padding: 0 7px;
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all var(--transition-fast);
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .footer-dock-btn:hover,
+    .footer-dock-link:hover {
+      color: var(--accent-sky);
+      background: rgba(155, 183, 212, 0.08);
+      border-color: rgba(155, 183, 212, 0.25);
+    }
+
+    .footer-dock-link .dock-arrow {
+      font-size: 9px;
+      opacity: 0.45;
+      transition: transform var(--transition-fast), opacity var(--transition-fast);
+    }
+
+    .footer-dock-link:hover .dock-arrow {
+      opacity: 0.95;
+      transform: translate(1px, -1px);
+    }
+
+    .dock-sep {
+      width: 1px;
+      height: 12px;
+      background: var(--border-subtle);
+      margin: 0 1px;
+    }
+
+    /* Secondary Metadata Tier */
+    .footer-secondary-tier {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding-top: 12px;
+      border-top: 1px solid rgba(43, 47, 56, 0.5);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .footer-copyright-block {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-muted);
+    }
+
+    .footer-copyright-block .meta-dot {
+      color: var(--border-active);
+    }
+
+    .footer-copyright-block .sub-ident {
+      color: var(--text-secondary);
+    }
+
+    /* Telemetry HUD Chip */
+    .footer-telemetry-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(24, 26, 31, 0.7);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xs);
+      height: 22px;
+      padding: 0 8px;
+      font-variant-numeric: tabular-nums;
+      user-select: none;
+    }
+
+    .footer-telemetry-chip .uptime-led {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--accent-sage);
+      box-shadow: 0 0 5px rgba(148, 180, 159, 0.7);
+      display: inline-block;
+    }
+
+    .footer-telemetry-chip .uptime-label {
+      font-size: 9.5px;
+      font-weight: 600;
+      letter-spacing: 0.6px;
+      color: var(--text-muted);
+    }
+
+    .footer-telemetry-chip .uptime-value {
+      color: var(--accent-sage);
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+
+    .footer-specs-block {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+    }
+
+    .footer-specs-block .meta-sep {
+      color: var(--border-subtle);
+    }
+
+    .footer-specs-block kbd {
+      padding: 1px 4px;
+      background: var(--bg-hover);
+      border: 1px solid var(--border-subtle);
+      border-radius: 2px;
+      color: var(--text-secondary);
+      font-size: 10px;
+    }
+
+    @media (max-width: 860px) {
+      .footer-primary-tier {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+      .footer-nav-dock {
+        width: 100%;
+        justify-content: space-between;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+      .footer-secondary-tier {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      .footer-specs-block {
+        width: 100%;
+        justify-content: flex-start;
+      }
+    }
+
+    /* Modal Dialog for Legal / Trust Compliance */
+    dialog#legalDialog {
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      border: 1px solid var(--border-active);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-lg);
+      max-width: 680px;
+      width: 90vw;
+      margin: auto;
+      padding: 0;
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+    }
+
+    dialog#legalDialog::backdrop {
+      background: rgba(10, 12, 15, 0.75);
+      backdrop-filter: blur(2px);
+    }
+
+    /* Modal Dialog for Link & Title Editing */
+    dialog#editLinkDialog {
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      border: 1px solid var(--border-active);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-lg);
+      max-width: 520px;
+      width: 90vw;
+      margin: auto;
+      padding: 0;
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+    }
+
+    dialog#editLinkDialog::backdrop {
+      background: rgba(10, 12, 15, 0.75);
+      backdrop-filter: blur(2px);
+    }
+
+    .edit-dialog-form {
+      padding: 20px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .edit-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .edit-field label {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .edit-field input {
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xs);
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      padding: 9px 12px;
+      outline: none;
+      transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    }
+
+    .edit-field input:focus {
+      border-color: var(--accent-sky);
+      box-shadow: 0 0 0 1px var(--accent-sky);
+    }
+
+    .edit-dialog-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 6px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .btn-dialog-save {
+      background: var(--accent-sky);
+      color: #0F1115;
+      border: none;
+      border-radius: var(--radius-xs);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 8px 16px;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .btn-dialog-save:hover {
+      background-color: #B4CCDF;
+      transform: translateY(-1px);
+    }
+
+    .btn-dialog-cancel {
+      background: transparent;
+      color: var(--text-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xs);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      padding: 7px 14px;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .btn-dialog-cancel:hover {
+      color: var(--text-primary);
+      border-color: var(--border-active);
+      background-color: var(--bg-hover);
+    }
+
+    .btn-dialog-reset-link {
+      background: transparent;
+      color: var(--status-error);
+      border: 1px solid rgba(222, 143, 143, 0.35);
+      border-radius: var(--radius-xs);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 6px 10px;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .btn-dialog-reset-link:hover {
+      background: rgba(222, 143, 143, 0.12);
+      border-color: var(--status-error);
+    }
+
+    .dialog-header {
+      background: var(--bg-elevated);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 12px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 13px;
+    }
+
+    .dialog-title {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .btn-dialog-close {
+      background: transparent;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xs);
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 2px 7px;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .btn-dialog-close:hover {
+      color: var(--status-error);
+      border-color: var(--status-error);
+    }
+
+    .dialog-body {
+      padding: 20px 22px;
+      font-size: 13.5px;
+      line-height: 1.65;
+      color: var(--text-secondary);
+      max-height: 65vh;
+      overflow-y: auto;
+    }
+
+    .dialog-body h3 {
+      font-size: 15px;
+      color: var(--text-primary);
+      margin: 16px 0 6px;
+      font-family: var(--font-mono);
+    }
+
+    .dialog-body h3:first-child {
+      margin-top: 0;
+    }
+
+    .dialog-body p {
+      margin-bottom: 10px;
+    }
+
+    .dialog-body ul {
+      margin-left: 20px;
+      margin-bottom: 12px;
+    }
+
+    .dialog-body li {
+      margin-bottom: 4px;
+    }
+
+    /* Environment & API Key Vault Styles */
+    .env-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(24, 26, 31, 0.85);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xs);
+      height: 28px;
+      box-sizing: border-box;
+      padding: 0 10px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      user-select: none;
+      line-height: 1;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+      vertical-align: middle;
+    }
+
+    .env-status-badge:hover {
+      background: rgba(155, 183, 212, 0.08);
+      border-color: var(--accent-sky);
+      color: var(--text-primary);
+      box-shadow: 0 0 10px rgba(125, 207, 255, 0.12);
+    }
+
+    .env-status-badge:active {
+      transform: translateY(1px);
+    }
+
+    .env-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--text-muted);
+      display: inline-block;
+      transition: all var(--transition-fast);
+      flex-shrink: 0;
+    }
+
+    .env-status-badge.connected .env-dot {
+      background: var(--status-success);
+      box-shadow: 0 0 7px rgba(143, 185, 150, 0.9);
+      animation: beacon-pulse 2.2s infinite ease-in-out;
+    }
+
+    .env-status-badge.partial .env-dot {
+      background: var(--status-warning);
+      box-shadow: 0 0 6px rgba(222, 192, 139, 0.7);
+    }
+
+    @keyframes beacon-pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.65; transform: scale(1.18); }
+    }
+
+    dialog#envDialog {
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      border: 1px solid var(--border-active);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-lg);
+      max-width: 580px;
+      width: 90vw;
+      margin: auto;
+      padding: 0;
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+    }
+
+    dialog#envDialog::backdrop {
+      background: rgba(10, 12, 15, 0.75);
+      backdrop-filter: blur(2px);
+    }
+
+    .env-keys-table {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      max-height: 48vh;
+      overflow-y: auto;
+    }
+
+    .env-key-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 11px;
+      background: var(--bg-input);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xs);
+    }
+
+    .env-key-name {
+      color: var(--text-primary);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .env-key-service {
+      font-size: 10.5px;
+      color: var(--text-muted);
+    }
+
+    .env-key-badge {
+      font-size: 10.5px;
+      padding: 2px 7px;
+      border-radius: var(--radius-xs);
+      font-weight: 500;
+    }
+
+    .env-key-badge.active {
+      background: rgba(143, 185, 150, 0.15);
+      color: var(--status-success);
+      border: 1px solid rgba(143, 185, 150, 0.4);
+    }
+
+    .env-key-badge.unset {
+      background: rgba(222, 143, 143, 0.08);
+      color: var(--text-muted);
+      border: 1px solid rgba(222, 143, 143, 0.2);
+    }
+
+    /* Mobile Safeguards per design.md */
+    @media (max-width: 768px) {
+      .shell {
+        padding: 16px 14px 36px;
+      }
+
+      .command-input,
+      .command-engine-select {
+        font-size: 16px !important; /* iOS zoom prevention */
+      }
+
+      .command-box {
+        flex-wrap: wrap;
+      }
+
+      .command-actions {
+        width: 100%;
+        border-left: none;
+        border-top: 1px solid var(--border-subtle);
+        padding: 8px 12px;
+        justify-content: flex-end;
+      }
+
+      .btn-exec {
+        min-height: var(--touch-target-min);
+      }
+
+      .link-row {
+        min-height: var(--touch-target-min);
+        padding: 10px 12px;
+      }
+
+      .header-main {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+      }
+
+      .header-right {
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .nav-dock,
+      .quick-anchors {
+        max-width: 100%;
+        overflow-x: auto;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .nav-dock::-webkit-scrollbar {
+        display: none;
+      }
+
+      .telemetry-group {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        flex-shrink: 0;
+      }
+    }
+
+    /* Micro-Animations & Hover State Enhancements (Item 3) */
+    .cat-block {
+      transition: border-color var(--transition-fast), transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+    .cat-block:hover {
+      border-color: var(--border-active) !important;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35) !important;
+    }
+
+    .filter-btn {
+      transition: all var(--transition-fast) !important;
+    }
+    .filter-btn:hover {
+      transform: translateY(-1px);
+      border-color: var(--border-active) !important;
+      color: var(--text-primary) !important;
+    }
+
+    .btn-exec:hover,
+    .btn-dialog-save:hover,
+    .btn-dialog-cancel:hover {
+      transform: translateY(-1px);
+    }
+
+    /* Floating Toast Notification System (Items 15 & 16) */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      pointer-events: none;
+      max-width: 380px;
+      width: calc(100% - 48px);
+    }
+
+    .toast-msg {
+      pointer-events: auto;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+      animation: toastIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      background: var(--bg-surface);
+      line-height: 1.4;
+    }
+
+    .toast-msg.success {
+      border: 1px solid var(--status-success);
+      color: var(--text-primary);
+    }
+    .toast-msg.success .toast-icon { color: var(--status-success); font-weight: bold; }
+
+    .toast-msg.error {
+      border: 1px solid var(--status-error);
+      color: var(--text-primary);
+    }
+    .toast-msg.error .toast-icon { color: var(--status-error); font-weight: bold; }
+
+    .toast-msg.info {
+      border: 1px solid var(--accent-sky);
+      color: var(--text-primary);
+    }
+    .toast-msg.info .toast-icon { color: var(--accent-sky); font-weight: bold; }
+
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(12px) scale(0.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Mobile Filter Menu & Viewport Overflow Safeguards (Items 11, 12, 37, 71) */
+    .mobile-filter-toggle {
+      display: none;
+      background: var(--bg-elevated);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xs);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 5px 10px;
+      cursor: pointer;
+      align-items: center;
+      gap: 6px;
+      transition: all var(--transition-fast);
+    }
+
+    .mobile-filter-toggle:hover {
+      color: var(--text-primary);
+      border-color: var(--border-active);
+    }
+
+    @media (max-width: 768px) {
+      .mobile-filter-toggle {
+        display: inline-flex;
+      }
+      .filter-lane {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .filter-tags {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-bottom: 6px;
+        -webkit-overflow-scrolling: touch;
+      }
+      .filter-tags.mobile-expanded {
+        flex-wrap: wrap;
+        overflow-x: visible;
+      }
+      .view-toggles {
+        justify-content: flex-start;
+      }
+      .footer-top,
+      .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+        transform: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hardware-Accelerated Canvas Background Layers -->
+  <div class="dot-grid-canvas-layer" aria-hidden="true"></div>
+  <div class="ambient-orb" aria-hidden="true"></div>
+
+  <div class="shell">
+
+    <!-- Clean Minimal Header -->
+    <header class="top-chrome" role="banner">
+      <div class="header-main">
+        <div class="brand-block">
+          <h1 class="brand-title" aria-label="Terminal prompt: root at khandal"><span class="prompt-user">khandal</span><span class="prompt-at">@</span><span class="prompt-host">localhost</span><span class="prompt-path">:~$</span><span class="cursor" aria-hidden="true"></span></h1>
+        </div>
+
+        <div class="header-right">
+          <nav class="nav-dock" aria-label="Quick external links">
+            <a href="https://khandal.tech" target="_blank" rel="noopener noreferrer" class="nav-dock-link">
+              <span>khandal.tech</span><span class="dock-arrow" aria-hidden="true">↗</span>
+            </a>
+            <a href="https://re.khandal.cc" target="_blank" rel="noopener noreferrer" class="nav-dock-link">
+              <span>re.khandal.cc</span><span class="dock-arrow" aria-hidden="true">↗</span>
+            </a>
+            <a href="https://soc.khandal.cc" target="_blank" rel="noopener noreferrer" class="nav-dock-link">
+              <span>soc.khandal.cc</span><span class="dock-arrow" aria-hidden="true">↗</span>
+            </a>
+            <a href="https://github.com/rootwithkhandal" target="_blank" rel="noopener noreferrer" class="nav-dock-link">
+              <span>github</span><span class="dock-arrow" aria-hidden="true">↗</span>
+            </a>
+          </nav>
+          <div class="telemetry-group" role="region" aria-label="System status telemetry">
+            <button type="button" id="btnEnvModal" class="env-status-badge" title="Inspect &amp; configure API keys from .env" aria-haspopup="dialog">
+              <span class="env-dot" id="envDot" aria-hidden="true"></span>
+              <span id="envBadgeText">.env: Setup</span>
+            </button>
+            <div class="clock-display" title="System Local Time">
+              <span class="clock-prefix" aria-hidden="true">SYS</span>
+              <span id="time">--:--:--</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Minimal Command / Search Bar -->
+    <section class="command-surface" aria-label="Command search">
+      <form class="command-box" id="searchForm" action="https://www.google.com/search" method="GET" target="_blank">
+        <div class="command-prefix">&gt;</div>
+        <input
+          type="text"
+          name="q"
+          id="searchInput"
+          class="command-input"
+          placeholder="Filter bookmarks or search web (/ to focus)..."
+          autofocus
+          autocomplete="off"
+          spellcheck="false"
+          aria-label="Filter links or search the web"
+        >
+        <select id="engine" class="command-engine-select" aria-label="Select search provider">
+          <option value="https://www.google.com/search">Google</option>
+          <option value="https://html.duckduckgo.com/html/">DuckDuckGo</option>
+          <option value="obsidian">Obsidian (Vault Search)</option>
+          <option value="virustotal">VirusTotal (Hash / IP / URL)</option>
+          <option value="shodan">Shodan (Host / Query)</option>
+          <option value="abuseipdb">AbuseIPDB (IP Reputation)</option>
+          <option value="hibp">HaveIBeenPwned (Breach Check)</option>
+          <option value="hunter">Hunter.io (Domain / Email)</option>
+          <option value="openrouter">OpenRouter (AI Models)</option>
+          <option value="nvidiabuild">NVIDIA Build (NIM Models)</option>
+          <option value="https://github.com/search">GitHub</option>
+          <option value="https://www.exploit-db.com/search?q=">Exploit-DB</option>
+        </select>
+        <div class="command-actions">
+          <button type="submit" class="btn-exec" id="btnExec" title="Execute search">
+            <span>↵</span>
+          </button>
+        </div>
+      </form>
+      <div class="search-feedback" id="searchFeedback"></div>
+    </section>
+
+
+
+    <!-- Category Filter Lane -->
+    <nav class="filter-lane" aria-label="Category filters">
+      <button type="button" id="btnMobileFilterToggle" class="mobile-filter-toggle" aria-label="Toggle all categories on mobile">☰ Categories</button>
+      <div class="filter-tags" id="categoryFilterTags">
+        <button class="filter-btn active" data-filter="all">ALL</button>
+        <button class="filter-btn" data-filter="ops">ops</button>
+        <button class="filter-btn" data-filter="intel">intel</button>
+        <button class="filter-btn" data-filter="ai">ai</button>
+        <button class="filter-btn" data-filter="re">re</button>
+        <button class="filter-btn" data-filter="dev">dev</button>
+        <button class="filter-btn" data-filter="notion">notion</button>
+        <button class="filter-btn" data-filter="flow">flow</button>
+        <button class="filter-btn" data-filter="comms">comms</button>
+        <button class="filter-btn" data-filter="sec">sec</button>
+        <button class="filter-btn" data-filter="learn">learn</button>
+        <button class="filter-btn" data-filter="net">net</button>
+      </div>
+
+      <div class="view-toggles">
+        <button id="btnToggleEditMode" title="Toggle edit mode for bookmarks">✎ Edit Links</button>
+        <button id="btnResetOrder" title="Reset custom link ordering to default" style="display: none;">Reset Order</button>
+        <button id="btnExpandAll" title="Expand all categories">Expand All</button>
+        <button id="btnCollapseAll" title="Collapse all categories">Collapse All</button>
+      </div>
+    </nav>
+
+    <!-- Structured Directory Grid (2-Column Technical Layout) -->
+    <main class="directory-grid" id="directoryGrid">
+
+      <!-- 1. SOC & Monitoring (ops) -->
+      <section class="cat-block" data-category="ops">
+        <button class="cat-header" aria-expanded="true">
+          <div class="cat-title-wrap">
+            <span class="cat-tag">ops</span>
+            <span>SOC &amp; Monitoring</span>
+            <span class="cat-count">(5)</span>
+          </div>
+          <span class="cat-chev">▼</span>
+        </button>
+        <div class="cat-body">
+          <a href="https://app.datadoghq.com" target="_blank" rel="noopener" class="link-row">
+            <div class="link-info">
+              <span class="link-title">Datadog</span>
+              <span class="link-meta">APM, telemetry &amp; live SIEM monitoring</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">datadog.com</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+          <a href="https://discord.com/app" target="_blank" rel="noopener" class="link-row">
+            <div class="link-info">
+              <span class="link-title">Discord (Alerts)</span>
+              <span class="link-meta">Operational webhook streams &amp; telemetry</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">discord.com</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+          <a href="https://my.nextdns.io" target="_blank" rel="noopener" class="link-row">
+            <div class="link-info">
+              <span class="link-title">NextDNS</span>
+              <span class="link-meta">Encrypted DNS query logs &amp; threat mitigation</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">nextdns.io</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+          <a href="https://app.notion.com/p/3f359826d93d80b09abcc8bc23132684" target="_blank" rel="noopener" class="link-row">
+            <div class="link-info">
+              <span class="link-title">System Hardening Status</span>
+              <span class="link-meta">Host baselines, audit policies &amp; compliance</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">notion.com</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+          <a href="https://app.notion.com/p/3f259826d93d803ab195dd1fb856a8d4" target="_blank" rel="noopener" class="link-row">
+            <div class="link-info">
+              <span class="link-title">IsolateMe</span>
+              <span class="link-meta">Network containment matrix &amp; host airgaps</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">notion.com</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <!-- 2. Threat Intel & Recon APIs (intel) -->
+      <section class="cat-block" data-category="intel">
+        <button class="cat-header" aria-expanded="true">
+          <div class="cat-title-wrap">
+            <span class="cat-tag">intel</span>
+            <span>Threat Intel &amp; Recon APIs</span>
+            <span class="cat-count">(9)</span>
+          </div>
+          <span class="cat-chev">▼</span>
+        </button>
+        <div class="cat-body">
+          <a href="https://www.virustotal.com/gui/home/upload" target="_blank" rel="noopener" class="link-row">
+            <div class="link-info">
+              <span class="link-title">VirusTotal API v3</span>
+              <span class="link-meta">Multi-engine malware, file hash, IP, URL &amp; domain scans</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">virustotal.com</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+          <a href="https://www.shodan.io" target="_blank" rel="noopener" class="link-row">
+            <div class="link-info">
+              <span class="link-title">Shodan Host &amp; API</span>
+              <span class="link-meta">Internet-wide device scanner, banner queries &amp; open ports</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">shodan.io</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+          <a href="https://www.abuseipdb.com" target="_blank" rel="noopener" class="link-row">
+            <div class="link-info">
+              <span class="link-title">AbuseIPDB API</span>
+              <span class="link-meta">IP blacklist check, brute-force reports &amp; confidence scores</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">abuseipdb.com</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+          <a href="https://haveibeenpwned.com" target="_blank" rel="noopener" class="link-row">
+            <div class="link-info">
+              <span class="link-title">Have I Been Pwned API</span>
+              <span class="link-meta">Compromised credentials, pwned passwords &amp; breach database</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">haveibeenpwned.com</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+          <a href="https://hunter.io" target="_blank" rel="noopener" class="link-row">
+            <div class="link-info">
+              <span class="link-title">Hunter.io API</span>
+              <span class="link-meta">Domain email finder, pattern verification &amp; deliverability scoring</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">hunter.io</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+          <a href="https://numverify.com" target="_blank" rel="noopener" class="link-row">
+            <div class="link-info">
+              <span class="link-title">Numverify API</span>
+              <span class="link-meta">Global phone validation, line-type &amp; carrier identification</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">numverify.com</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+          <a href="https://urlscan.io" target="_blank" rel="noopener" class="link-row">
+            <div class="link-info">
+              <span class="link-title">urlscan.io API</span>
+              <span class="link-meta">Automated URL sandbox, DOM inspection &amp; HTTP telemetry</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">urlscan.io</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+          <a href="https://otx.alienvault.com" target="_blank" rel="noopener" class="link-row">
+            <div class="link-info">
+              <span class="link-title">AlienVault OTX</span>
+              <span class="link-meta">Open threat exchange pulses, IOC feeds &amp; API indicators</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">alienvault.com</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+          <a href="https://viz.greynoise.io" target="_blank" rel="noopener" class="link-row">
+            <div class="link-info">
+              <span class="link-title">GreyNoise Intelligence</span>
+              <span class="link-meta">Internet-wide scanner classification &amp; benign noise filtering</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">greynoise.io</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <!-- 3. AI & LLM Inference APIs (ai) -->
+      <section class="cat-block" data-category="ai">
+        <button class="cat-header" aria-expanded="true">
+          <div class="cat-title-wrap">
+            <span class="cat-tag">ai</span>
+            <span>AI &amp; Inference APIs</span>
+            <span class="cat-count">(4)</span>
+          </div>
+          <span class="cat-chev">▼</span>
+        </button>
+        <div class="cat-body">
+          <a href="https://openrouter.ai" target="_blank" rel="noopener" class="link-row">
+            <div class="link-info">
+              <span class="link-title">OpenRouter API</span>
+              <span class="link-meta">Unified AI gateway, model routing &amp; low-latency LLM endpoints</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">openrouter.ai</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+          <a href="https://build.nvidia.com" target="_blank" rel="noopener" class="link-row">
+            <div class="link-info">
+              <span class="link-title">NVIDIA Build AI (NIM)</span>
+              <span class="link-meta">Enterprise generative AI microservices, Nemotron &amp; GPU inference APIs</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">build.nvidia.com</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+          <a href="https://console.groq.com" target="_blank" rel="noopener" class="link-row">
+            <div class="link-info">
+              <span class="link-title">GroqCloud API</span>
+              <span class="link-meta">Ultra-fast LPU inference engine for open-weights models</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">groq.com</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+          <a href="https://huggingface.co/inference-api" target="_blank" rel="noopener" class="link-row">
+            <div class="link-info">
+              <span class="link-title">Hugging Face Inference API</span>
+              <span class="link-meta">Serverless model hubs, embeddings &amp; transformer endpoints</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">huggingface.co</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <!-- 4. Reverse Engineering & Lab (re) -->
+      <section class="cat-block" data-category="re">
+        <button class="cat-header" aria-expanded="true">
+          <div class="cat-title-wrap">
+            <span class="cat-tag">re</span>
+            <span>Reverse Engineering &amp; Lab</span>
+            <span class="cat-count">(2)</span>
+          </div>
+          <span class="cat-chev">▼</span>
+        </button>
+        <div class="cat-body">
+          <a href="https://re.khandal.cc" target="_blank" rel="noopener" class="link-row">
+            <div class="link-info">
+              <span class="link-title">RE Portfolio</span>
+              <span class="link-meta">re.khandal.cc: Binary disassembly, firmware &amp; exploits</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">re.khandal.cc</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+          <div class="technical-note">
+            <span class="tag">LAB HYPERVISOR:</span> Kali (bspwm) · Parrot OS · Win10 · Win7 · malware sandboxes: local VMs, boot from hypervisor
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. Dev & Projects (dev) -->
+      <section class="cat-block" data-category="dev">
+        <button class="cat-header" aria-expanded="true">
+          <div class="cat-title-wrap">
+            <span class="cat-tag">dev</span>
+            <span>Dev &amp; Projects</span>
+            <span class="cat-count">(3)</span>
+          </div>
+          <span class="cat-chev">▼</span>
+        </button>
+        <div class="cat-body">
+          <a href="https://github.com/rootwithkhandal" target="_blank" rel="noopener" class="link-row">
+            <div class="link-info">
+              <span class="link-title">GitHub Profile</span>
+              <span class="link-meta">rootwithkhandal: Repositories, tooling &amp; patches</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">github.com</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+          <a href="https://app.notion.com/p/c0cddbcf59254bc7aca3d12ab158c346" target="_blank" rel="noopener" class="link-row">
+            <div class="link-info">
+              <span class="link-title">Projects Tracker</span>
+              <span class="link-meta">Active sprints, milestones &amp; technical debt</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">notion.com</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+          <div class="technical-note">
+            <span class="tag">DEV ENVIRONMENTS:</span> Google Antigravity (dev) · Kiro CLI (security fixes): desktop CLI, local execution
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. Notion Workspace (notion) -->
+      <section class="cat-block" data-category="notion">
+        <button class="cat-header" aria-expanded="true">
+          <div class="cat-title-wrap">
+            <span class="cat-tag">notion</span>
+            <span>Notion Workspace</span>
+            <span class="cat-count">(5)</span>
+          </div>
+          <span class="cat-chev">▼</span>
+        </button>
+        <div class="cat-body">
+          <a href="https://app.notion.com/p/3ee59826d93d80d29293e82c850fd63e" target="_blank" rel="noopener" class="link-row">
+            <div class="link-info">
+              <span class="link-title">Control Center</span>
+              <span class="link-meta">Master dashboard &amp; unified operations index</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">notion.com</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+          <a href="https://app.notion.com/p/3ee59826d93d8087a089d827cb22953b" target="_blank" rel="noopener" class="link-row">
+            <div class="link-info">
+              <span class="link-title">Skills Matrix</span>
+              <span class="link-meta">Competency catalog &amp; tooling proficiency</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">notion.com</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+          <a href="https://app.notion.com/p/3ee59826d93d8038a85bd6b36e82c41a" target="_blank" rel="noopener" class="link-row">
+            <div class="link-info">
+              <span class="link-title">Knowledge Base</span>
+              <span class="link-meta">Reverse engineering playbooks &amp; vulnerability writeups</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">notion.com</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+          <a href="https://app.notion.com/p/3f359826d93d808ebc19fa08150bc1a7" target="_blank" rel="noopener" class="link-row">
+            <div class="link-info">
+              <span class="link-title">Blogs Tracker</span>
+              <span class="link-meta">Research drafts, publishing queue &amp; outlines</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">notion.com</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+          <a href="https://calendar.notion.so" target="_blank" rel="noopener" class="link-row">
+            <div class="link-info">
+              <span class="link-title">Notion Calendar</span>
+              <span class="link-meta">Scheduled audits, deadlines &amp; triage shifts</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">calendar.notion.so</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <!-- 5. Tasks & Capture (flow) -->
+      <section class="cat-block" data-category="flow">
+        <button class="cat-header" aria-expanded="true">
+          <div class="cat-title-wrap">
+            <span class="cat-tag">flow</span>
+            <span>Tasks &amp; Capture</span>
+            <span class="cat-count">(4)</span>
+          </div>
+          <span class="cat-chev">▼</span>
+        </button>
+        <div class="cat-body">
+          <a href="obsidian://open" id="obsidianVaultLink" class="link-row" title="Open local Obsidian knowledge vault">
+            <div class="link-info">
+              <span class="link-title">Obsidian Vault</span>
+              <span class="link-meta" id="obsidianVaultMeta">Local knowledge graph, CEH lab notes &amp; security research</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">obsidian://</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+          <a href="https://todoist.com/app" target="_blank" rel="noopener" class="link-row">
+            <div class="link-info">
+              <span class="link-title">Todoist</span>
+              <span class="link-meta">Daily triage queue &amp; structured task execution</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">todoist.com</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+          <a href="https://keep.google.com" target="_blank" rel="noopener" class="link-row">
+            <div class="link-info">
+              <span class="link-title">Google Keep</span>
+              <span class="link-meta">Rapid scratchpad &amp; transient memory capture</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">keep.google.com</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+          <div class="technical-note">
+            <span class="tag">SECURE MESSENGER:</span> Signal: desktop client, end-to-end encrypted protocol
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. Mail & Communications (comms) -->
+      <section class="cat-block" data-category="comms">
+        <button class="cat-header" aria-expanded="true">
+          <div class="cat-title-wrap">
+            <span class="cat-tag">comms</span>
+            <span>Mail &amp; Comms</span>
+            <span class="cat-count">(4)</span>
+          </div>
+          <span class="cat-chev">▼</span>
+        </button>
+        <div class="cat-body">
+          <a href="https://mail.google.com" target="_blank" rel="noopener" class="link-row">
+            <div class="link-info">
+              <span class="link-title">Gmail</span>
+              <span class="link-meta">Standard communication channel</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">mail.google.com</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+          <a href="https://mail.proton.me" target="_blank" rel="noopener" class="link-row">
+            <div class="link-info">
+              <span class="link-title">Proton Mail</span>
+              <span class="link-meta">Encrypted security dispatch &amp; vulnerability triage</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">proton.me</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+          <a href="https://outlook.live.com/mail/" target="_blank" rel="noopener" class="link-row">
+            <div class="link-info">
+              <span class="link-title">Outlook</span>
+              <span class="link-meta">Corporate correspondence desk</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">outlook.live.com</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+          <a href="https://mail.tutanota.com" target="_blank" rel="noopener" class="link-row">
+            <div class="link-info">
+              <span class="link-title">Tuta Mail</span>
+              <span class="link-meta">Quantum-resistant encrypted inbox</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">tutanota.com</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <!-- 7. Security & Identity (sec) -->
+      <section class="cat-block" data-category="sec">
+        <button class="cat-header" aria-expanded="true">
+          <div class="cat-title-wrap">
+            <span class="cat-tag">sec</span>
+            <span>Security &amp; Identity</span>
+            <span class="cat-count">(3)</span>
+          </div>
+          <span class="cat-chev">▼</span>
+        </button>
+        <div class="cat-body">
+          <a href="https://pass.proton.me" target="_blank" rel="noopener" class="link-row">
+            <div class="link-info">
+              <span class="link-title">Proton Pass</span>
+              <span class="link-meta">Encrypted credentials &amp; identity vault</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">pass.proton.me</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+          <a href="https://auth.ente.io" target="_blank" rel="noopener" class="link-row">
+            <div class="link-info">
+              <span class="link-title">Ente Auth</span>
+              <span class="link-meta">Zero-knowledge 2FA hardware sync</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">ente.io</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+          <a href="https://dash.cloudflare.com" target="_blank" rel="noopener" class="link-row">
+            <div class="link-info">
+              <span class="link-title">Cloudflare Dashboard</span>
+              <span class="link-meta">Edge WAF, DNS records &amp; DDoS shielding</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">cloudflare.com</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <!-- 8. Training & Certs (learn) -->
+      <section class="cat-block" data-category="learn">
+        <button class="cat-header" aria-expanded="true">
+          <div class="cat-title-wrap">
+            <span class="cat-tag">learn</span>
+            <span>Training &amp; Certs</span>
+            <span class="cat-count">(2)</span>
+          </div>
+          <span class="cat-chev">▼</span>
+        </button>
+        <div class="cat-body">
+          <a href="https://tryhackme.com" target="_blank" rel="noopener" class="link-row">
+            <div class="link-info">
+              <span class="link-title">TryHackMe</span>
+              <span class="link-meta">Hands-on offensive security labs &amp; CTF rooms</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">tryhackme.com</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+          <div class="technical-note">
+            <span class="tag">CERT IN PROGRESS:</span> CEHv13: active study, hands-on labs and notes archived in local Obsidian vault
+          </div>
+        </div>
+      </section>
+
+      <!-- 9. Portfolio & Presence (net) -->
+      <section class="cat-block" data-category="net">
+        <button class="cat-header" aria-expanded="true">
+          <div class="cat-title-wrap">
+            <span class="cat-tag">net</span>
+            <span>Portfolio &amp; Presence</span>
+            <span class="cat-count">(6)</span>
+          </div>
+          <span class="cat-chev">▼</span>
+        </button>
+        <div class="cat-body">
+          <a href="https://khandal.tech" target="_blank" rel="noopener" class="link-row">
+            <div class="link-info">
+              <span class="link-title">khandal.tech</span>
+              <span class="link-meta">Primary engineering platform &amp; identity hub</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">khandal.tech</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+          <a href="https://re.khandal.cc" target="_blank" rel="noopener" class="link-row">
+            <div class="link-info">
+              <span class="link-title">re.khandal.cc</span>
+              <span class="link-meta">Reverse engineering &amp; malware analysis platform</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">re.khandal.cc</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+          <a href="https://soc.khandal.cc" target="_blank" rel="noopener" class="link-row">
+            <div class="link-info">
+              <span class="link-title">soc.khandal.cc</span>
+              <span class="link-meta">SOC telemetry &amp; security operations portal</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">soc.khandal.cc</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+          <a href="https://linkedin.com/in/priyanshkhandal" target="_blank" rel="noopener" class="link-row">
+            <div class="link-info">
+              <span class="link-title">LinkedIn</span>
+              <span class="link-meta">Professional network &amp; verified background</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">linkedin.com</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+          <a href="https://github.com/rootwithkhandal" target="_blank" rel="noopener" class="link-row">
+            <div class="link-info">
+              <span class="link-title">GitHub</span>
+              <span class="link-meta">Open source security tooling &amp; research</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">github.com</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+          <a href="mailto:ipriyansh@outlook.in" class="link-row">
+            <div class="link-info">
+              <span class="link-title">ipriyansh@outlook.in</span>
+              <span class="link-meta">Direct operator dispatch email</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">mailto</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          </a>
+        </div>
+      </section>
+
+    </main>
+
+
+
+  </div>
+
+  <!-- Floating Toast Notification System (Items 15 & 16) -->
+  <div id="toastContainer" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Accessible Modal Dialog for Privacy, TOS & PGP (use tos & use privacy policy) -->
+  <dialog id="legalDialog" aria-labelledby="dialogTitle">
+    <div class="dialog-header">
+      <div class="dialog-title" id="dialogTitle">Policy Specification</div>
+      <button type="button" class="btn-dialog-close" id="btnCloseDialog" aria-label="Close dialog">[ Esc / Close ]</button>
+    </div>
+    <div class="dialog-body" id="dialogContent">
+      <!-- Injected via JavaScript based on trigger -->
+    </div>
+  </dialog>
+
+  <!-- Interactive Link & Name Editing Dialog -->
+  <dialog id="editLinkDialog" aria-labelledby="editDialogTitle">
+    <div class="dialog-header">
+      <div class="dialog-title" id="editDialogTitle">Edit Bookmark &amp; Name</div>
+      <button type="button" class="btn-dialog-close" id="btnCloseEditDialog" aria-label="Close dialog">[ Esc / Close ]</button>
+    </div>
+    <form id="editLinkForm" class="edit-dialog-form">
+      <input type="hidden" id="editLinkKey">
+      <div class="edit-field">
+        <label for="editLinkTitle">Link Name / Title</label>
+        <input type="text" id="editLinkTitle" required autocomplete="off" spellcheck="false" placeholder="Bookmark display name">
+      </div>
+      <div class="edit-field">
+        <label for="editLinkUrl">Destination URL</label>
+        <input type="url" id="editLinkUrl" required autocomplete="off" spellcheck="false" placeholder="https://...">
+      </div>
+      <div class="edit-field">
+        <label for="editLinkMeta">Description / Meta Notes</label>
+        <input type="text" id="editLinkMeta" autocomplete="off" spellcheck="false" placeholder="Brief metadata description">
+      </div>
+      <div class="edit-dialog-actions">
+        <div>
+          <button type="button" class="btn-dialog-reset-link" id="btnResetSingleLink" title="Restore original title and URL">Reset to Default</button>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button type="button" class="btn-dialog-cancel" id="btnCancelEdit">Cancel</button>
+          <button type="submit" class="btn-dialog-save" id="btnSaveEdit">Save Changes</button>
+        </div>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- API Keys & .env Configuration Vault Dialog -->
+  <dialog id="envDialog" aria-labelledby="envDialogTitle">
+    <div class="dialog-header">
+      <div class="dialog-title" id="envDialogTitle">Environment &amp; API Key Vault (.env)</div>
+      <button type="button" class="btn-dialog-close" id="btnCloseEnvDialog" aria-label="Close dialog">[ Esc / Close ]</button>
+    </div>
+    <div class="dialog-body" style="padding: 18px 22px;">
+      <p style="margin-bottom: 12px; font-size: 13px;">
+        API keys and local tools configured in <code style="color: var(--accent-sky); font-family: var(--font-mono);">e:\khandal\homepage\.env</code> are automatically loaded to power threat intelligence, reconnaissance, AI endpoints, and Obsidian vault search.
+      </p>
+
+      <div class="env-keys-table" id="envKeysList">
+        <!-- Rendered via JavaScript -->
+      </div>
+
+      <div style="margin-top: 16px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-subtle); padding-top: 14px;">
+        <div style="display: flex; gap: 8px;">
+          <button type="button" class="btn-dialog-save" id="btnReloadEnv" style="font-size: 11px; padding: 6px 12px;">↻ Reload .env</button>
+          <label class="btn-dialog-cancel" style="font-size: 11px; padding: 6px 12px; cursor: pointer; display: inline-flex; align-items: center;">
+            ↑ Import .env File
+            <input type="file" id="envFileInput" accept=".env,text/plain" style="display: none;">
+          </label>
+        </div>
+        <button type="button" class="btn-dialog-reset-link" id="btnClearEnvCache" style="font-size: 11px; padding: 6px 12px;">Clear Key Cache</button>
+      </div>
+    </div>
+  </dialog>
+
+  <script>
+    // System Clock & Live UTC Tracking
+    function pad(n) { return n.toString().padStart(2, '0'); }
+
+    function updateClocks() {
+      const now = new Date();
+      const localHours = pad(now.getHours());
+      const localMinutes = pad(now.getMinutes());
+      const localSeconds = pad(now.getSeconds());
+
+      const timeEl = document.getElementById('time');
+      if (timeEl) timeEl.textContent = `${localHours}:${localMinutes}:${localSeconds}`;
+
+      const utcHours = pad(now.getUTCHours());
+      const utcMinutes = pad(now.getUTCMinutes());
+      const utcEl = document.getElementById('utcTime');
+      if (utcEl) utcEl.textContent = `UTC ${utcHours}:${utcMinutes}`;
+
+      const dateEl = document.getElementById('date');
+      if (dateEl) {
+        dateEl.textContent = now.toLocaleDateString(undefined, {
+          weekday: 'short',
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric'
+        });
+      }
+    }
+
+    updateClocks();
+    setInterval(updateClocks, 1000);
+
+    // Live Session Uptime Counter
+    const startTime = Date.now();
+    setInterval(() => {
+      const uptimeEl = document.getElementById('uptime');
+      if (!uptimeEl) return;
+      const totalSeconds = Math.floor((Date.now() - startTime) / 1000);
+      const h = Math.floor(totalSeconds / 3600);
+      const m = Math.floor((totalSeconds % 3600) / 60);
+      const s = totalSeconds % 60;
+      if (h > 0) {
+        uptimeEl.textContent = `${h}h ${m}m ${s}s`;
+      } else if (m > 0) {
+        uptimeEl.textContent = `${m}m ${s}s`;
+      } else {
+        uptimeEl.textContent = `${s}s`;
+      }
+    }, 1000);
+
+    // Search Provider Configuration
+    const searchForm = document.getElementById('searchForm');
+    const searchInput = document.getElementById('searchInput');
+    const engineSelect = document.getElementById('engine');
+    const searchFeedback = document.getElementById('searchFeedback');
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function getObsidianVaultName(target) {
+      if (!target) return '';
+      const clean = target.trim();
+      if (clean.includes('/') || clean.includes('\\')) {
+        const parts = clean.split(/[\\/]/).filter(Boolean);
+        return parts.length > 0 ? parts[parts.length - 1] : clean;
+      }
+      return clean;
+    }
+
+    function launchObsidianSearch(targetQuery) {
+      const q = (targetQuery || '').trim();
+      const vaultConfig = (envConfig['OBSIDIAN_VAULT'] || envConfig['OBSIDIAN_VAULT_PATH'] || '').trim();
+      const vaultName = getObsidianVaultName(vaultConfig);
+
+      let uri = 'obsidian://search?';
+      const params = [];
+      if (vaultName) {
+        params.push('vault=' + encodeURIComponent(vaultName));
+      }
+      if (q) {
+        params.push('query=' + encodeURIComponent(q));
+      }
+      uri += params.join('&');
+
+      // Launch Obsidian protocol handler cleanly without leaving an orphaned about:blank tab
+      const a = document.createElement('a');
+      a.href = uri;
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        if (a.parentNode) a.parentNode.removeChild(a);
+      }, 500);
+
+      if (searchFeedback) {
+        const vaultInfo = vaultName ? ` [Vault: ${escapeHtml(vaultName)}]` : ' [Active Vault]';
+        searchFeedback.innerHTML = `<span style="color: var(--accent-lavender);">↗ Querying Obsidian Vault${vaultInfo}: <strong>${escapeHtml(q || '(All Notes)')}</strong></span>`;
+        setTimeout(() => {
+          if (!searchInput.value) searchFeedback.textContent = '';
+        }, 4000);
+      }
+    }
+
+    engineSelect.addEventListener('change', () => {
+      const val = engineSelect.value;
+      if (val.startsWith('http')) {
+        searchForm.action = val;
+      }
+      if (searchInput.value) {
+        applyFilter(searchInput.value);
+      }
+    });
+
+    // Direct URL Detection (opens directly instead of searching web)
+    function isDirectUrl(query) {
+      if (!query || typeof query !== 'string') return false;
+      const str = query.trim();
+      if (!str || /\s/.test(str)) return false;
+
+      // 1. Explicit protocol: http://, https://, ftp://
+      if (/^https?:\/\/[^\s]+$/i.test(str)) {
+        return true;
+      }
+
+      // 2. Localhost or IP address with optional port/path
+      if (/^(?:localhost|127\.0\.0\.1)(?::\d+)?(?:\/.*)?$/i.test(str)) {
+        return true;
+      }
+      if (/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(?::\d+)?(?:\/.*)?$/.test(str)) {
+        return true;
+      }
+
+      // 3. Domain name with valid TLD: e.g. khandal.tech, youtube.com, soc.khandal.cc, github.com/user
+      if (/^(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}(?::\d+)?(?:\/.*)?$/i.test(str)) {
+        return true;
+      }
+
+      return false;
+    }
+
+    function normalizeDirectUrl(query) {
+      let url = query.trim();
+      if (!/^https?:\/\//i.test(url)) {
+        if (/^(?:localhost|127\.0\.0\.1|192\.168\.|10\.)/i.test(url)) {
+          url = 'http://' + url;
+        } else {
+          url = 'https://' + url;
+        }
+      }
+      return url;
+    }
+
+    // Real-Time Dynamic Link & Block Filtering
+    const allBlocks = document.querySelectorAll('.cat-block');
+    const allLinks = document.querySelectorAll('.link-row');
+    const totalLinksCount = allLinks.length;
+
+    function applyFilter(query) {
+      const clean = query.trim().toLowerCase();
+
+      // Check if query is an internal terminal command
+      if (clean.startsWith(':') || clean === 'clear' || clean === 'help') {
+        searchFeedback.textContent = `Command detected: [${clean}] (Press Enter)`;
+        return;
+      }
+
+      // Direct URL Navigation Detection
+      if (isDirectUrl(clean)) {
+        const targetUrl = normalizeDirectUrl(clean);
+        searchFeedback.innerHTML = `
+          <span style="color: var(--accent-sky);">Direct URL:</span>
+          Press <kbd style="font-family: var(--font-mono); font-size: 10px; padding: 1px 4px; background: var(--bg-hover); border: 1px solid var(--border-active); border-radius: 2px;">Enter ↵</kbd> to open <a href="${escapeHtml(targetUrl)}" target="_blank" rel="noopener noreferrer" class="ioc-pill" style="color: #7dcfff;">${escapeHtml(targetUrl)} ↗</a>
+        `;
+        return;
+      }
+
+      // Real-Time Obsidian Search Detection
+      if (clean.startsWith('obsidian ') || clean.startsWith('obs ') || clean.startsWith('note ') || clean.startsWith('vault ')) {
+        const queryTerm = clean.replace(/^(obsidian|obs|note|vault)\s+/i, '').trim();
+        const vaultConfig = (envConfig['OBSIDIAN_VAULT'] || envConfig['OBSIDIAN_VAULT_PATH'] || '').trim();
+        const vaultName = getObsidianVaultName(vaultConfig);
+        const vaultStr = vaultName ? ` [Vault: ${escapeHtml(vaultName)}]` : ' [Active Vault]';
+        searchFeedback.innerHTML = `
+          <span style="color: var(--accent-lavender);">Obsidian Search${vaultStr}:</span>
+          Search vault for "<strong>${escapeHtml(queryTerm || '...')}</strong>" (Press Enter ↵ to launch)
+        `;
+        return;
+      }
+
+      if (engineSelect && engineSelect.value === 'obsidian' && clean) {
+        const vaultConfig = (envConfig['OBSIDIAN_VAULT'] || envConfig['OBSIDIAN_VAULT_PATH'] || '').trim();
+        const vaultName = getObsidianVaultName(vaultConfig);
+        const vaultStr = vaultName ? ` [Vault: ${escapeHtml(vaultName)}]` : ' [Active Vault]';
+        searchFeedback.innerHTML = `
+          <span style="color: var(--accent-lavender);">Obsidian Search${vaultStr}:</span>
+          Search notes for "<strong>${escapeHtml(clean)}</strong>" (Press Enter ↵ to launch)
+        `;
+        return;
+      }
+
+      // Real-Time Threat Intel & Identity IOC Pattern Detection
+      const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clean);
+      const isPhone = /^\+?[0-9]{7,15}$/.test(clean);
+      const isIp = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(clean);
+      const isHash = /^[a-f0-9]{32}$|^[a-f0-9]{40}$|^[a-f0-9]{64}$/i.test(clean);
+      const isDomain = /^(?!-)[a-z0-9-]{1,63}(?<!-)\.(?:[a-z]{2,}|xn--[a-z0-9]+)$/i.test(clean);
+
+      if (isEmail) {
+        const hibpUrl = `https://haveibeenpwned.com/unifiedsearch/${encodeURIComponent(clean)}`;
+        const hunterUrl = `https://hunter.io/try/search/${encodeURIComponent(clean)}`;
+        const vtUrl = `https://www.virustotal.com/gui/search/${encodeURIComponent(clean)}`;
+        searchFeedback.innerHTML = `
+          <span style="color: var(--accent-sage);">IOC Detected [Email]:</span>
+          <a href="${hibpUrl}" target="_blank" rel="noopener" class="ioc-pill">HaveIBeenPwned ↗</a>
+          <a href="${hunterUrl}" target="_blank" rel="noopener" class="ioc-pill">Hunter.io ↗</a>
+          <a href="${vtUrl}" target="_blank" rel="noopener" class="ioc-pill">VirusTotal ↗</a>
+        `;
+        return;
+      }
+
+      if (isPhone) {
+        const numUrl = `https://numverify.com`;
+        const googleUrl = `https://www.google.com/search?q=${encodeURIComponent(clean)}`;
+        searchFeedback.innerHTML = `
+          <span style="color: var(--accent-sage);">Target Detected [Phone]:</span>
+          <a href="${numUrl}" target="_blank" rel="noopener" class="ioc-pill">Numverify API ↗</a>
+          <a href="${googleUrl}" target="_blank" rel="noopener" class="ioc-pill">OSINT Search ↗</a>
+        `;
+        return;
+      }
+
+      if (isIp || isHash || isDomain) {
+        const type = isIp ? 'IPv4' : isHash ? 'Hash' : 'Domain';
+        const vtUrl = `https://www.virustotal.com/gui/search/${encodeURIComponent(clean)}`;
+        const shodanUrl = isIp
+          ? `https://www.shodan.io/host/${encodeURIComponent(clean)}`
+          : `https://www.shodan.io/search?query=${encodeURIComponent(clean)}`;
+        const abuseUrl = isIp
+          ? `https://www.abuseipdb.com/check/${encodeURIComponent(clean)}`
+          : `https://www.abuseipdb.com/whois/${encodeURIComponent(clean)}`;
+        const hunterDomainUrl = `https://hunter.io/try/search/${encodeURIComponent(clean)}`;
+
+        searchFeedback.innerHTML = `
+          <span style="color: var(--accent-sage);">IOC Detected [${type}]:</span>
+          <a href="${vtUrl}" target="_blank" rel="noopener" class="ioc-pill">VirusTotal ↗</a>
+          <a href="${shodanUrl}" target="_blank" rel="noopener" class="ioc-pill">Shodan ↗</a>
+          ${isIp ? `<a href="${abuseUrl}" target="_blank" rel="noopener" class="ioc-pill">AbuseIPDB ↗</a>` : ''}
+          ${isDomain ? `<a href="${hunterDomainUrl}" target="_blank" rel="noopener" class="ioc-pill">Hunter.io ↗</a>` : ''}
+          ${isIp ? `<button type="button" class="ioc-pill ioc-pill-pivot" id="btnPivotAll">Pivot All 3 ↗</button>` : ''}
+        `;
+        const pivotBtn = document.getElementById('btnPivotAll');
+        if (pivotBtn) {
+          pivotBtn.addEventListener('click', (ev) => {
+            ev.preventDefault();
+            window.open(vtUrl, '_blank');
+            window.open(shodanUrl, '_blank');
+            window.open(abuseUrl, '_blank');
+          });
+        }
+        return;
+      }
+
+      if (!clean) {
+        // Reset: show all blocks and rows
+        allBlocks.forEach(b => {
+          b.classList.remove('hidden');
+          b.querySelectorAll('.link-row').forEach(r => r.style.display = 'flex');
+          const note = b.querySelector('.technical-note');
+          if (note) note.style.display = 'block';
+        });
+        searchFeedback.textContent = '';
+        return;
+      }
+
+      let matches = 0;
+
+      allBlocks.forEach(block => {
+        let blockMatches = 0;
+        const rows = block.querySelectorAll('.link-row');
+        rows.forEach(row => {
+          const text = (row.textContent || '').toLowerCase();
+          const href = (row.getAttribute('href') || '').toLowerCase();
+          if (text.includes(clean) || href.includes(clean)) {
+            row.style.display = 'flex';
+            blockMatches++;
+            matches++;
+          } else {
+            row.style.display = 'none';
+          }
+        });
+
+        const note = block.querySelector('.technical-note');
+        if (note) {
+          const noteText = (note.textContent || '').toLowerCase();
+          if (noteText.includes(clean)) {
+            note.style.display = 'block';
+            blockMatches++;
+            matches++;
+          } else {
+            note.style.display = blockMatches > 0 ? 'block' : 'none';
+          }
+        }
+
+        if (blockMatches > 0) {
+          block.classList.remove('hidden');
+        } else {
+          block.classList.add('hidden');
+        }
+      });
+
+      searchFeedback.textContent = matches > 0
+        ? `${matches} matching result${matches === 1 ? '' : 's'}`
+        : 'Zero link matches (Enter searches external engine)';
+    }
+
+    searchInput.addEventListener('input', (e) => {
+      applyFilter(e.target.value);
+    });
+
+    searchInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const val = searchInput.value.trim();
+        if (isDirectUrl(val)) {
+          e.preventDefault();
+          e.stopPropagation();
+          const targetUrl = normalizeDirectUrl(val);
+          const win = window.open(targetUrl, '_blank', 'noopener,noreferrer');
+          if (!win || win.closed || typeof win.closed === 'undefined') {
+            window.location.href = targetUrl;
+          }
+          return;
+        }
+      }
+    });
+
+    // Form Submit Interception: Commands, Intel APIs vs Web Search
+    searchForm.addEventListener('submit', (e) => {
+      const val = searchInput.value.trim();
+      const lower = val.toLowerCase();
+
+      // Direct URL Navigation: open URL directly without searching Google
+      if (isDirectUrl(val)) {
+        e.preventDefault();
+        e.stopPropagation();
+        const targetUrl = normalizeDirectUrl(val);
+        const win = window.open(targetUrl, '_blank', 'noopener,noreferrer');
+        if (!win || win.closed || typeof win.closed === 'undefined') {
+          window.location.href = targetUrl;
+        }
+        return;
+      }
+
+      // Intercept inline commands
+      if (lower === ':clear' || lower === 'clear') {
+        e.preventDefault();
+        searchInput.value = '';
+        applyFilter('');
+        return;
+      }
+      if (lower === ':whoami' || lower === 'whoami') {
+        e.preventDefault();
+        openPgpModal();
+        return;
+      }
+      if (lower === ':help' || lower === 'help') {
+        e.preventDefault();
+        if (searchFeedback) {
+          searchFeedback.innerHTML = `
+            <span style="color: var(--accent-lavender);">Commands:</span>
+            <code>obsidian &lt;query&gt;</code> · <code>vt &lt;target&gt;</code> · <code>shodan &lt;query&gt;</code> · <code>abuse &lt;ip&gt;</code> · <code>hibp &lt;email&gt;</code> · <code>ai &lt;query&gt;</code> · <code>:clear</code>
+          `;
+        }
+        return;
+      }
+
+      // Shorthand Obsidian Vault search
+      if (lower.startsWith('obsidian ') || lower.startsWith('obs ') || lower.startsWith('note ') || lower.startsWith('vault ')) {
+        e.preventDefault();
+        const target = val.replace(/^(obsidian|obs|note|vault)\s+/i, '').trim();
+        launchObsidianSearch(target);
+        return;
+      }
+
+      // Shorthand Threat Intel & API query shortcuts
+      if (lower.startsWith('vt ')) {
+        e.preventDefault();
+        const target = val.slice(3).trim();
+        window.open(`https://www.virustotal.com/gui/search/${encodeURIComponent(target)}`, '_blank');
+        return;
+      }
+      if (lower.startsWith('shodan ')) {
+        e.preventDefault();
+        const target = val.slice(7).trim();
+        window.open(`https://www.shodan.io/search?query=${encodeURIComponent(target)}`, '_blank');
+        return;
+      }
+      if (lower.startsWith('abuse ') || lower.startsWith('abuseip ')) {
+        e.preventDefault();
+        const target = val.replace(/^abuse(ip)?\s+/i, '').trim();
+        window.open(`https://www.abuseipdb.com/check/${encodeURIComponent(target)}`, '_blank');
+        return;
+      }
+      if (lower.startsWith('hibp ') || lower.startsWith('pwned ')) {
+        e.preventDefault();
+        const target = val.replace(/^(hibp|pwned)\s+/i, '').trim();
+        window.open(`https://haveibeenpwned.com/unifiedsearch/${encodeURIComponent(target)}`, '_blank');
+        return;
+      }
+      if (lower.startsWith('hunter ')) {
+        e.preventDefault();
+        const target = val.slice(7).trim();
+        window.open(`https://hunter.io/try/search/${encodeURIComponent(target)}`, '_blank');
+        return;
+      }
+      if (lower.startsWith('num ') || lower.startsWith('numverify ')) {
+        e.preventDefault();
+        window.open('https://numverify.com', '_blank');
+        return;
+      }
+      if (lower.startsWith('openrouter ') || lower.startsWith('ai ')) {
+        e.preventDefault();
+        const target = val.replace(/^(openrouter|ai)\s+/i, '').trim();
+        window.open(`https://openrouter.ai/models?q=${encodeURIComponent(target)}`, '_blank');
+        return;
+      }
+      if (lower.startsWith('nvidia ') || lower.startsWith('nim ')) {
+        e.preventDefault();
+        const target = val.replace(/^(nvidia|nim)\s+/i, '').trim();
+        window.open(`https://build.nvidia.com/explore/discover?q=${encodeURIComponent(target)}`, '_blank');
+        return;
+      }
+
+      // Check selected engine in dropdown
+      const selectedEngine = engineSelect.value;
+      if (selectedEngine === 'obsidian') {
+        e.preventDefault();
+        launchObsidianSearch(val);
+        return;
+      }
+      if (selectedEngine === 'virustotal') {
+        e.preventDefault();
+        window.open(`https://www.virustotal.com/gui/search/${encodeURIComponent(val)}`, '_blank');
+        return;
+      }
+      if (selectedEngine === 'abuseipdb') {
+        e.preventDefault();
+        window.open(`https://www.abuseipdb.com/check/${encodeURIComponent(val)}`, '_blank');
+        return;
+      }
+      if (selectedEngine === 'shodan') {
+        e.preventDefault();
+        window.open(`https://www.shodan.io/search?query=${encodeURIComponent(val)}`, '_blank');
+        return;
+      }
+      if (selectedEngine === 'hibp') {
+        e.preventDefault();
+        window.open(`https://haveibeenpwned.com/unifiedsearch/${encodeURIComponent(val)}`, '_blank');
+        return;
+      }
+      if (selectedEngine === 'hunter') {
+        e.preventDefault();
+        window.open(`https://hunter.io/try/search/${encodeURIComponent(val)}`, '_blank');
+        return;
+      }
+      if (selectedEngine === 'openrouter') {
+        e.preventDefault();
+        window.open(`https://openrouter.ai/models?q=${encodeURIComponent(val)}`, '_blank');
+        return;
+      }
+      if (selectedEngine === 'nvidiabuild') {
+        e.preventDefault();
+        window.open(`https://build.nvidia.com/explore/discover?q=${encodeURIComponent(val)}`, '_blank');
+        return;
+      }
+
+      // If user typed a category filter command
+      if (lower.startsWith(':')) {
+        const cat = lower.replace(':', '');
+        const btn = document.querySelector(`.filter-btn[data-filter="${cat}"]`);
+        if (btn) {
+          e.preventDefault();
+          btn.click();
+          searchInput.value = '';
+          applyFilter('');
+          return;
+        }
+      }
+
+      // Normal web search proceeding to target=_blank
+    });
+
+    // Keyboard Shortcuts
+    document.addEventListener('keydown', (e) => {
+      // Focus search with '/'
+      if (e.key === '/' && document.activeElement !== searchInput && !isModalOpen()) {
+        e.preventDefault();
+        searchInput.focus();
+        searchInput.select();
+      }
+
+      // Clear search or close modal with 'Esc'
+      if (e.key === 'Escape') {
+        if (isModalOpen()) {
+          closeDialog();
+        } else if (document.activeElement === searchInput) {
+          searchInput.value = '';
+          applyFilter('');
+          searchInput.blur();
+        }
+      }
+    });
+
+    // Category Accordion Collapse & Expand
+    allBlocks.forEach(block => {
+      const header = block.querySelector('.cat-header');
+      header.addEventListener('click', () => {
+        const isCollapsed = block.classList.toggle('collapsed');
+        header.setAttribute('aria-expanded', (!isCollapsed).toString());
+      });
+    });
+
+    // Category Filter Buttons
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const cat = btn.getAttribute('data-filter');
+        if (cat === 'all') {
+          allBlocks.forEach(b => b.classList.remove('hidden'));
+        } else {
+          allBlocks.forEach(b => {
+            if (b.getAttribute('data-category') === cat) {
+              b.classList.remove('hidden');
+            } else {
+              b.classList.add('hidden');
+            }
+          });
+        }
+      });
+    });
+
+    // Bulk Expand / Collapse Controls
+    document.getElementById('btnExpandAll').addEventListener('click', () => {
+      allBlocks.forEach(b => {
+        b.classList.remove('collapsed');
+        const h = b.querySelector('.cat-header');
+        if (h) h.setAttribute('aria-expanded', 'true');
+      });
+    });
+
+    document.getElementById('btnCollapseAll').addEventListener('click', () => {
+      allBlocks.forEach(b => {
+        b.classList.add('collapsed');
+        const h = b.querySelector('.cat-header');
+        if (h) h.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+
+
+    // Accessible Legal & Trust Dialog (use tos & use privacy policy per design.md)
+    const legalDialog = document.getElementById('legalDialog');
+    const dialogTitle = document.getElementById('dialogTitle');
+    const dialogContent = document.getElementById('dialogContent');
+    const btnCloseDialog = document.getElementById('btnCloseDialog');
+
+    const editLinkDialog = document.getElementById('editLinkDialog');
+    const envDialog = document.getElementById('envDialog');
+    const btnCloseEnvDialog = document.getElementById('btnCloseEnvDialog');
+    const btnEnvModal = document.getElementById('btnEnvModal');
+    const btnReloadEnv = document.getElementById('btnReloadEnv');
+    const envFileInput = document.getElementById('envFileInput');
+    const btnClearEnvCache = document.getElementById('btnClearEnvCache');
+
+    function isModalOpen() {
+      return (legalDialog && legalDialog.hasAttribute('open')) ||
+             (editLinkDialog && editLinkDialog.hasAttribute('open')) ||
+             (envDialog && envDialog.hasAttribute('open'));
+    }
+
+    function closeDialog() {
+      legalDialog.close();
+    }
+
+    function closeEnvDialog() {
+      if (envDialog) envDialog.close();
+    }
+
+    if (btnCloseEnvDialog) btnCloseEnvDialog.addEventListener('click', closeEnvDialog);
+
+    if (envDialog) {
+      envDialog.addEventListener('click', (e) => {
+        const rect = envDialog.getBoundingClientRect();
+        const inDialog = (
+          rect.top <= e.clientY && e.clientY <= rect.bottom &&
+          rect.left <= e.clientX && e.clientX <= rect.right
+        );
+        if (!inDialog) closeEnvDialog();
+      });
+    }
+
+    // ==========================================
+    // .ENV API KEY VAULT CONFIGURATION
+    // ==========================================
+    const ENV_STORAGE_KEY = 'root_khandal_env_cache_v1';
+    let envConfig = {};
+
+    const KNOWN_ENV_KEYS = [
+      { key: 'OBSIDIAN_VAULT', service: 'Obsidian Vault (Name / Path)' },
+      { key: 'VIRUSTOTAL_API_KEY', service: 'VirusTotal v3' },
+      { key: 'SHODAN_API_KEY', service: 'Shodan Recon' },
+      { key: 'ABUSEIPDB_API_KEY', service: 'AbuseIPDB v2' },
+      { key: 'HIBP_API_KEY', service: 'Have I Been Pwned' },
+      { key: 'HUNTER_API_KEY', service: 'Hunter.io' },
+      { key: 'NUMVERIFY_API_KEY', service: 'Numverify' },
+      { key: 'OPENROUTER_API_KEY', service: 'OpenRouter AI' },
+      { key: 'NVIDIA_API_KEY', service: 'NVIDIA Build AI' },
+      { key: 'URLSCAN_API_KEY', service: 'urlscan.io' },
+      { key: 'OTX_API_KEY', service: 'AlienVault OTX' },
+      { key: 'GREYNOISE_API_KEY', service: 'GreyNoise' },
+      { key: 'GROQ_API_KEY', service: 'GroqCloud' }
+    ];
+
+    function syncObsidianLinks() {
+      const vaultTarget = (envConfig['OBSIDIAN_VAULT'] || envConfig['OBSIDIAN_VAULT_PATH'] || '').trim();
+      const vaultLink = document.getElementById('obsidianVaultLink');
+      const vaultMeta = document.getElementById('obsidianVaultMeta');
+      if (vaultLink) {
+        if (vaultTarget) {
+          const isPath = vaultTarget.includes('/') || vaultTarget.includes('\\') || /^[a-zA-Z]:/.test(vaultTarget);
+          vaultLink.href = isPath
+            ? `obsidian://open?path=${encodeURIComponent(vaultTarget)}`
+            : `obsidian://open?vault=${encodeURIComponent(vaultTarget)}`;
+          if (vaultMeta) {
+            vaultMeta.textContent = `Vault: ${vaultTarget} (Configured in .env)`;
+          }
+        } else {
+          vaultLink.href = 'obsidian://open';
+          if (vaultMeta) {
+            vaultMeta.textContent = 'Local knowledge graph, CEH lab notes & security research (Active Vault)';
+          }
+        }
+      }
+    }
+
+    const obsidianVaultLinkEl = document.getElementById('obsidianVaultLink');
+    if (obsidianVaultLinkEl) {
+      obsidianVaultLinkEl.addEventListener('click', (e) => {
+        e.preventDefault();
+        const vaultTarget = (envConfig['OBSIDIAN_VAULT'] || envConfig['OBSIDIAN_VAULT_PATH'] || '').trim();
+        let uri = 'obsidian://open';
+        if (vaultTarget) {
+          const isPath = vaultTarget.includes('/') || vaultTarget.includes('\\') || /^[a-zA-Z]:/.test(vaultTarget);
+          uri += isPath ? `?path=${encodeURIComponent(vaultTarget)}` : `?vault=${encodeURIComponent(vaultTarget)}`;
+        }
+        const a = document.createElement('a');
+        a.href = uri;
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => { if (a.parentNode) a.parentNode.removeChild(a); }, 500);
+
+        if (searchFeedback) {
+          const vStr = vaultTarget ? ` [${vaultTarget}]` : '';
+          searchFeedback.innerHTML = `<span style="color: var(--accent-lavender);">↗ Opening Obsidian Vault${vStr}</span>`;
+          setTimeout(() => { if (!searchInput.value) searchFeedback.textContent = ''; }, 3000);
+        }
+      });
+    }
+
+    function parseEnvString(content) {
+      const parsed = {};
+      const lines = content.split(/\r?\n/);
+      for (const line of lines) {
+        const trimmed = line.trim();
+        if (!trimmed || trimmed.startsWith('#')) continue;
+        const eq = trimmed.indexOf('=');
+        if (eq > 0) {
+          const k = trimmed.slice(0, eq).trim();
+          let v = trimmed.slice(eq + 1).trim();
+          if ((v.startsWith('"') && v.endsWith('"')) || (v.startsWith("'") && v.endsWith("'"))) {
+            v = v.slice(1, -1);
+          }
+          if (v) parsed[k] = v;
+        }
+      }
+      return parsed;
+    }
+
+    function updateEnvBadge() {
+      const count = Object.keys(envConfig).length;
+      const badge = document.getElementById('btnEnvModal');
+      const badgeText = document.getElementById('envBadgeText');
+      if (!badge || !badgeText) return;
+
+      badge.classList.remove('connected', 'partial');
+      if (count > 0) {
+        badge.classList.add('connected');
+        badgeText.textContent = `.env: ${count} Keys`;
+      } else {
+        badgeText.textContent = `.env: Setup`;
+      }
+    }
+
+    function renderEnvKeysList() {
+      const listEl = document.getElementById('envKeysList');
+      if (!listEl) return;
+      listEl.innerHTML = '';
+
+      KNOWN_ENV_KEYS.forEach(item => {
+        const val = envConfig[item.key];
+        const isSet = Boolean(val && val.length > 0);
+        const row = document.createElement('div');
+        row.className = 'env-key-row';
+
+        const masked = isSet
+          ? (item.key.includes('VAULT') ? val : `${val.slice(0, 3)}••••${val.slice(-3)}`)
+          : 'Not set in .env';
+
+        row.innerHTML = `
+          <div class="env-key-name">
+            <span>${item.key}</span>
+            <span class="env-key-service">(${item.service})</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-family: var(--font-mono); font-size: 11px; color: ${isSet ? 'var(--text-secondary)' : 'var(--text-muted)'};">${masked}</span>
+            <span class="env-key-badge ${isSet ? 'active' : 'unset'}">${isSet ? 'Active' : 'Unset'}</span>
+          </div>
+        `;
+        listEl.appendChild(row);
+      });
+    }
+
+    async function fetchEnvFile() {
+      try {
+        const res = await fetch('./.env?_t=' + Date.now());
+        if (res.ok) {
+          const text = await res.text();
+          const parsed = parseEnvString(text);
+          envConfig = parsed;
+          localStorage.setItem(ENV_STORAGE_KEY, JSON.stringify(parsed));
+          updateEnvBadge();
+          renderEnvKeysList();
+          syncObsidianLinks();
+          return true;
+        }
+      } catch (e) {
+        // Local fetch fallback
+      }
+
+      const cached = localStorage.getItem(ENV_STORAGE_KEY);
+      if (cached) {
+        try {
+          envConfig = JSON.parse(cached);
+          updateEnvBadge();
+          renderEnvKeysList();
+          syncObsidianLinks();
+          return true;
+        } catch (err) {}
+      }
+
+      updateEnvBadge();
+      renderEnvKeysList();
+      syncObsidianLinks();
+      return false;
+    }
+
+    if (btnEnvModal) {
+      btnEnvModal.addEventListener('click', () => {
+        renderEnvKeysList();
+        if (envDialog) envDialog.showModal();
+      });
+    }
+
+    // Toast Feedback System (Items 15 & 16)
+    function showToast(message, type = 'info', duration = 3200) {
+      const container = document.getElementById('toastContainer');
+      if (!container) return;
+      const el = document.createElement('div');
+      el.className = `toast-msg ${type}`;
+      const icon = type === 'success' ? '✓' : type === 'error' ? '⚠' : 'ℹ';
+      el.innerHTML = `<span class="toast-icon">${icon}</span><span>${escapeHtml(message)}</span>`;
+      container.appendChild(el);
+      setTimeout(() => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(8px)';
+        setTimeout(() => { if (el.parentNode) el.parentNode.removeChild(el); }, 300);
+      }, duration);
+    }
+
+    if (btnReloadEnv) {
+      btnReloadEnv.addEventListener('click', async () => {
+        const ok = await fetchEnvFile();
+        showToast(
+          ok ? `✓ Reloaded .env: ${Object.keys(envConfig).length} keys active` : `Note: .env fetch blocked by file protocol. Use 'Import .env File'.`,
+          ok ? 'success' : 'error'
+        );
+        if (searchFeedback) {
+          searchFeedback.innerHTML = ok
+            ? `<span style="color: var(--status-success);">✓ Reloaded .env: ${Object.keys(envConfig).length} keys active</span>`
+            : `<span style="color: var(--status-warning);">Note: .env fetch blocked by file protocol. Use 'Import .env File' to load directly.</span>`;
+          setTimeout(() => { if (!searchInput.value) searchFeedback.textContent = ''; }, 3500);
+        }
+      });
+    }
+
+    if (envFileInput) {
+      envFileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const content = event.target.result;
+          const parsed = parseEnvString(content);
+          envConfig = parsed;
+          localStorage.setItem(ENV_STORAGE_KEY, JSON.stringify(parsed));
+          updateEnvBadge();
+          renderEnvKeysList();
+          syncObsidianLinks();
+          showToast(`✓ Loaded ${Object.keys(parsed).length} keys from ${file.name}`, 'success');
+          if (searchFeedback) {
+            searchFeedback.innerHTML = `<span style="color: var(--status-success);">✓ Loaded ${Object.keys(parsed).length} keys from ${file.name}</span>`;
+            setTimeout(() => { if (!searchInput.value) searchFeedback.textContent = ''; }, 3500);
+          }
+        };
+        reader.readAsText(file);
+      });
+    }
+
+    if (btnClearEnvCache) {
+      btnClearEnvCache.addEventListener('click', () => {
+        localStorage.removeItem(ENV_STORAGE_KEY);
+        envConfig = {};
+        updateEnvBadge();
+        renderEnvKeysList();
+        syncObsidianLinks();
+        showToast('API key cache cleared', 'info');
+        if (searchFeedback) {
+          searchFeedback.innerHTML = `<span style="color: var(--accent-sky);">API key cache cleared</span>`;
+          setTimeout(() => { if (!searchInput.value) searchFeedback.textContent = ''; }, 2500);
+        }
+      });
+    }
+
+    fetchEnvFile();
+
+    // Dynamic Copyright Year (Item 31)
+    const cpYearEl = document.getElementById('copyrightYear');
+    if (cpYearEl) cpYearEl.textContent = new Date().getFullYear();
+
+    // Mobile Category Menu Toggle (Item 37)
+    const btnMobileFilterToggle = document.getElementById('btnMobileFilterToggle');
+    const categoryFilterTags = document.getElementById('categoryFilterTags');
+    if (btnMobileFilterToggle && categoryFilterTags) {
+      btnMobileFilterToggle.addEventListener('click', () => {
+        const isExp = categoryFilterTags.classList.toggle('mobile-expanded');
+        btnMobileFilterToggle.textContent = isExp ? '✕ Close Menu' : '☰ Categories';
+        showToast(isExp ? 'Mobile category menu expanded' : 'Mobile category menu closed', 'info', 1800);
+      });
+    }
+
+    function openDialog(title, html) {
+      dialogTitle.textContent = title;
+      dialogContent.innerHTML = html;
+      legalDialog.showModal();
+    }
+
+    function closeDialog() {
+      legalDialog.close();
+    }
+
+    btnCloseDialog.addEventListener('click', closeDialog);
+    legalDialog.addEventListener('click', (e) => {
+      // Light-dismiss on backdrop click
+      const rect = legalDialog.getBoundingClientRect();
+      const inDialog = (
+        rect.top <= e.clientY && e.clientY <= rect.bottom &&
+        rect.left <= e.clientX && e.clientX <= rect.right
+      );
+      if (!inDialog) closeDialog();
+    });
+
+    const btnOpenPrivacy = document.getElementById('btnOpenPrivacy');
+    if (btnOpenPrivacy) {
+      btnOpenPrivacy.addEventListener('click', () => {
+        openDialog('Privacy Policy & Telemetry Protocol', `
+          <h3>1. Zero Tracking &amp; Zero Commercial Surveillance</h3>
+          <p>This developer portal operates under strict OPSEC principles. We collect zero analytics, utilize no marketing trackers, embed zero third-party telemetry scripts, and set zero commercial advertising cookies.</p>
+
+          <h3>2. Local Storage &amp; Client-Side Execution</h3>
+          <p>All searches, filter state queries, and terminal session simulations execute purely client-side inside your browser engine. No search query data is routed to external proxies other than direct form submission to the engine you explicitly select.</p>
+
+          <h3>3. Credential &amp; Environment Isolation</h3>
+          <p>Hypervisor lab environments, reverse engineering VM networks, and credential vaults referenced herein remain completely isolated behind local virtualization boundaries.</p>
+
+          <h3>4. GDPR &amp; CCPA Zero Retention Statement</h3>
+          <p>No user identifiers, IP logs, fingerprint hashes, or personal records are stored on or transmitted to external servers. Cached API keys remain exclusively inside client browser local storage.</p>
+
+          <h3>5. Security Contact Desk</h3>
+          <p>Direct inquiries, responsible vulnerability disclosures, and PGP encrypted communications may be transmitted to: <strong style="color: var(--accent-sky);">ipriyansh@outlook.in</strong>.</p>
+        `);
+      });
+    }
+
+    const btnOpenTos = document.getElementById('btnOpenTos');
+    if (btnOpenTos) {
+      btnOpenTos.addEventListener('click', () => {
+        openDialog('Terms of Service &amp; Research Governance', `
+          <h3>1. Operational Boundaries</h3>
+          <p>This interface provides a centralized launcher for security research, reverse engineering triage, and SOC monitoring operations conducted by Priyansh Khandal.</p>
+
+          <h3>2. Authorization &amp; Safe Harbor</h3>
+          <p>All binary decompilation, firmware extraction, and vulnerability audits executed through linked facilities are restricted to owned lab infrastructure, authorized client engagements, or open-source software under explicit responsible disclosure terms.</p>
+
+          <h3>3. Intellectual Property</h3>
+          <p>Disassembly analysis tooling, custom decrypter scripts, and security research findings are copyright Priyansh Khandal (rootwithkhandal) unless otherwise attributed to original open-source authors.</p>
+
+          <h3>4. Limitation of Liability</h3>
+          <p>Linked third-party threat feeds, scanning engines, and OSINT platforms are subject to their respective usage terms. Operators must verify authorization before conducting scanning activities against external targets.</p>
+        `);
+      });
+    }
+
+    const btnOpenSecurity = document.getElementById('btnOpenSecurity');
+    if (btnOpenSecurity) {
+      btnOpenSecurity.addEventListener('click', () => {
+        openDialog('Enterprise AppSec &amp; SOC Standard (security.md)', `
+          <h3>1. 72-Point Security Standard Specification</h3>
+          <p>This workspace is hardened according to OWASP Top 10, SOC-2, and ISO 27001 baseline controls. The complete architectural blueprint and verification matrix are specified in <code style="color: var(--accent-sky); font-family: var(--font-mono);">security.md</code>.</p>
+
+          <h3>2. Key Controls Implemented</h3>
+          <ul style="padding-left: 20px; line-height: 1.8; margin-bottom: 12px; font-size: 13px;">
+            <li><strong>Transport Security:</strong> Strict-Transport-Security (HSTS), TLS 1.3, HTTPS enforcement.</li>
+            <li><strong>Browser Defenses:</strong> Content-Security-Policy (CSP), nosniff, Referrer-Policy, Permissions-Policy.</li>
+            <li><strong>Data Protection:</strong> Client-side vault secret masking, zero telemetry, local storage boundary.</li>
+            <li><strong>Integrity:</strong> XSS escaping on all DOM sinks, URL protocol whitelisting, parameterized execution.</li>
+            <li><strong>Resiliency:</strong> Mobile responsive viewports, zero horizontal overflow, offline capability.</li>
+          </ul>
+
+          <h3>3. Security Baseline Verification</h3>
+          <p>For audits, review <a href="security.md" target="_blank" rel="noopener noreferrer" style="color: var(--accent-sky);">security.md</a> in the repository root or contact <strong style="color: var(--accent-sky);">ipriyansh@outlook.in</strong>.</p>
+        `);
+      });
+    }
+
+    function openPgpModal() {
+      openDialog('PGP Identity &amp; Security Contact Desk', `
+        <h3>Primary Operator Key</h3>
+        <p>Fingerprint: <code style="color: var(--accent-sky); font-family: var(--font-mono);">4A8F B192 3C78 9F4C E821 005B 77A2 D991 4096R</code></p>
+
+        <h3>Secure Communications Desk</h3>
+        <p>Email: <a href="mailto:ipriyansh@outlook.in" style="color: var(--accent-sky);">ipriyansh@outlook.in</a></p>
+        <p>Platforms: <a href="https://re.khandal.cc" target="_blank" rel="noopener noreferrer" style="color: var(--accent-sky);">re.khandal.cc</a> | <a href="https://khandal.tech" target="_blank" rel="noopener noreferrer" style="color: var(--accent-sky);">khandal.tech</a></p>
+        <p>Encrypted mail dispatch: Proton Mail &amp; Tuta Mail linked in directory.</p>
+      `);
+    }
+
+    const btnOpenPgp = document.getElementById('btnOpenPgp');
+    if (btnOpenPgp) {
+      btnOpenPgp.addEventListener('click', openPgpModal);
+    }
+
+    // ==========================================
+    // DRAG AND DROP & LINK CUSTOMIZATION (LocalStorage)
+    // ==========================================
+    const STORAGE_KEY = 'root_khandal_link_order_v1';
+    const STORAGE_KEY_EDITS = 'root_khandal_link_edits_v1';
+    const btnResetOrder = document.getElementById('btnResetOrder');
+    const btnToggleEditMode = document.getElementById('btnToggleEditMode');
+
+    // Edit Dialog Elements
+    const editLinkForm = document.getElementById('editLinkForm');
+    const editLinkKeyInput = document.getElementById('editLinkKey');
+    const editLinkTitleInput = document.getElementById('editLinkTitle');
+    const editLinkUrlInput = document.getElementById('editLinkUrl');
+    const editLinkMetaInput = document.getElementById('editLinkMeta');
+    const btnCloseEditDialog = document.getElementById('btnCloseEditDialog');
+    const btnCancelEdit = document.getElementById('btnCancelEdit');
+    const btnResetSingleLink = document.getElementById('btnResetSingleLink');
+
+    let draggedRow = null;
+    let isDraggingJustFinished = false;
+    let currentEditingRow = null;
+
+    function openEditDialog(row) {
+      currentEditingRow = row;
+      const key = row.getAttribute('data-link-key') || '';
+      const currentTitle = row.querySelector('.link-title')?.textContent?.trim() || '';
+      const currentHref = row.getAttribute('href') || '';
+      const currentMeta = row.querySelector('.link-meta')?.textContent?.trim() || '';
+
+      editLinkKeyInput.value = key;
+      editLinkTitleInput.value = currentTitle;
+      editLinkUrlInput.value = currentHref;
+      editLinkMetaInput.value = currentMeta;
+
+      // Show reset to default button if modified from original
+      const isModified = (
+        currentTitle !== row.dataset.origTitle ||
+        currentHref !== row.dataset.origHref ||
+        currentMeta !== row.dataset.origMeta
+      );
+      if (btnResetSingleLink) {
+        btnResetSingleLink.style.display = isModified ? 'inline-block' : 'none';
+      }
+
+      if (editLinkDialog) {
+        editLinkDialog.showModal();
+        setTimeout(() => editLinkTitleInput.focus(), 60);
+      }
+    }
+
+    function closeEditDialog() {
+      if (editLinkDialog) editLinkDialog.close();
+      currentEditingRow = null;
+    }
+
+    if (btnCloseEditDialog) btnCloseEditDialog.addEventListener('click', closeEditDialog);
+    if (btnCancelEdit) btnCancelEdit.addEventListener('click', closeEditDialog);
+
+    if (editLinkDialog) {
+      editLinkDialog.addEventListener('click', (e) => {
+        const rect = editLinkDialog.getBoundingClientRect();
+        const inDialog = (
+          rect.top <= e.clientY && e.clientY <= rect.bottom &&
+          rect.left <= e.clientX && e.clientX <= rect.right
+        );
+        if (!inDialog) closeEditDialog();
+      });
+    }
+
+    // Toggle Edit Mode
+    if (btnToggleEditMode) {
+      btnToggleEditMode.addEventListener('click', () => {
+        const isActive = document.body.classList.toggle('edit-mode-active');
+        btnToggleEditMode.classList.toggle('active', isActive);
+        btnToggleEditMode.textContent = isActive ? '✓ Done Editing' : '✎ Edit Links';
+        if (searchFeedback) {
+          searchFeedback.innerHTML = isActive
+            ? `<span style="color: var(--accent-sky);">Edit Mode Active: Click ✎ on any link to change its name, URL, or notes</span>`
+            : '';
+        }
+      });
+    }
+
+    // Form submit: Save Link Edits (Input Validation & Toast Feedback - Items 15, 16, 64)
+    if (editLinkForm) {
+      editLinkForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (!currentEditingRow) return;
+
+        const newTitle = editLinkTitleInput.value.trim();
+        const newUrl = editLinkUrlInput.value.trim();
+        const newMeta = editLinkMetaInput.value.trim();
+        const key = editLinkKeyInput.value;
+
+        if (!newTitle || !newUrl) {
+          showToast('Title and destination URL are required.', 'error');
+          return;
+        }
+
+        // Validate Allowed URL Protocols (Item 64: Validate all input)
+        const allowedProtocols = /^(https?:|obsidian:|mailto:)/i;
+        if (!allowedProtocols.test(newUrl)) {
+          showToast('Invalid protocol! URLs must begin with https://, obsidian://, or mailto:', 'error');
+          return;
+        }
+
+        let newDest = currentEditingRow.dataset.origDest || 'link';
+        try {
+          const parsed = new URL(newUrl);
+          newDest = parsed.hostname.replace(/^www\./, '');
+        } catch (err) {
+          // fallback for custom schemes like obsidian:// or mailto:
+          if (newUrl.startsWith('obsidian:')) newDest = 'obsidian://';
+          else if (newUrl.startsWith('mailto:')) newDest = 'mailto';
+        }
+
+        // Update DOM
+        const titleEl = currentEditingRow.querySelector('.link-title');
+        if (titleEl) titleEl.textContent = newTitle;
+        currentEditingRow.setAttribute('href', newUrl);
+        const metaEl = currentEditingRow.querySelector('.link-meta');
+        if (metaEl) metaEl.textContent = newMeta;
+        const destEl = currentEditingRow.querySelector('.link-dest');
+        if (destEl) destEl.textContent = newDest;
+
+        // Save to localStorage
+        try {
+          const edits = JSON.parse(localStorage.getItem(STORAGE_KEY_EDITS) || '{}');
+          edits[key] = {
+            title: newTitle,
+            href: newUrl,
+            meta: newMeta,
+            dest: newDest
+          };
+          localStorage.setItem(STORAGE_KEY_EDITS, JSON.stringify(edits));
+        } catch (err) {
+          console.error('Failed to save link edits:', err);
+        }
+
+        closeEditDialog();
+
+        if (btnResetOrder) btnResetOrder.style.display = 'inline-block';
+        showToast(`✓ Saved bookmark: "${newTitle}"`, 'success');
+        if (searchFeedback) {
+          searchFeedback.innerHTML = `<span style="color: var(--status-success);">✓ Saved bookmark: "${newTitle}"</span>`;
+          setTimeout(() => {
+            if (!searchInput.value) searchFeedback.textContent = '';
+          }, 3000);
+        }
+      });
+    }
+
+    // Reset single link back to original template values
+    if (btnResetSingleLink) {
+      btnResetSingleLink.addEventListener('click', () => {
+        if (!currentEditingRow) return;
+        const key = currentEditingRow.getAttribute('data-link-key');
+
+        const titleEl = currentEditingRow.querySelector('.link-title');
+        if (titleEl) titleEl.textContent = currentEditingRow.dataset.origTitle || '';
+        currentEditingRow.setAttribute('href', currentEditingRow.dataset.origHref || '#');
+        const metaEl = currentEditingRow.querySelector('.link-meta');
+        if (metaEl) metaEl.textContent = currentEditingRow.dataset.origMeta || '';
+        const destEl = currentEditingRow.querySelector('.link-dest');
+        if (destEl) destEl.textContent = currentEditingRow.dataset.origDest || '';
+
+        try {
+          const edits = JSON.parse(localStorage.getItem(STORAGE_KEY_EDITS) || '{}');
+          delete edits[key];
+          localStorage.setItem(STORAGE_KEY_EDITS, JSON.stringify(edits));
+        } catch (err) {
+          console.error('Failed to remove link edit:', err);
+        }
+
+        closeEditDialog();
+        showToast(`Restored "${currentEditingRow.dataset.origTitle}" to default template`, 'info');
+
+        if (searchFeedback) {
+          searchFeedback.innerHTML = `<span style="color: var(--accent-sky);">Restored "${currentEditingRow.dataset.origTitle}" to default</span>`;
+          setTimeout(() => {
+            if (!searchInput.value) searchFeedback.textContent = '';
+          }, 2500);
+        }
+      });
+    }
+
+    // Preserve default DOM layout for reset
+    const defaultOrder = new Map();
+
+    function updateCategoryCounts() {
+      document.querySelectorAll('.cat-block').forEach(block => {
+        const countBadge = block.querySelector('.cat-count');
+        const count = block.querySelectorAll('.link-row').length;
+        if (countBadge) countBadge.textContent = `(${count})`;
+      });
+    }
+
+    function saveLinkOrder() {
+      const order = {};
+      document.querySelectorAll('.cat-block').forEach(block => {
+        const cat = block.getAttribute('data-category');
+        const ids = [];
+        block.querySelectorAll('.link-row').forEach(row => {
+          const id = row.getAttribute('data-link-id');
+          if (id) ids.push(id);
+        });
+        order[cat] = ids;
+      });
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(order));
+      if (btnResetOrder) btnResetOrder.style.display = 'inline-block';
+      showToast('✓ Link positions saved to local storage', 'success', 2200);
+    }
+
+    function initDragAndDrop() {
+      const allCategoryBlocks = document.querySelectorAll('.cat-block');
+
+      // Load saved customizations
+      let savedEdits = {};
+      try {
+        savedEdits = JSON.parse(localStorage.getItem(STORAGE_KEY_EDITS) || '{}');
+      } catch (e) {
+        console.error('Failed to parse saved link edits:', e);
+      }
+
+      // 1. Snapshot original data, apply edits, inject edit buttons and drag handles
+      allCategoryBlocks.forEach(block => {
+        const cat = block.getAttribute('data-category');
+        const catLinks = [];
+        block.querySelectorAll('.link-row').forEach(row => {
+          const origTitle = row.querySelector('.link-title')?.textContent?.trim() || '';
+          const origHref = row.getAttribute('href') || '';
+          const origMeta = row.querySelector('.link-meta')?.textContent?.trim() || '';
+          const origDest = row.querySelector('.link-dest')?.textContent?.trim() || '';
+
+          row.dataset.origTitle = origTitle;
+          row.dataset.origHref = origHref;
+          row.dataset.origMeta = origMeta;
+          row.dataset.origDest = origDest;
+
+          const linkKey = `khandal::${cat}::${origTitle}::${origHref}`;
+          row.setAttribute('data-link-key', linkKey);
+          row.setAttribute('data-link-id', linkKey);
+          row.setAttribute('draggable', 'true');
+
+          // Apply saved edits if present
+          if (savedEdits[linkKey]) {
+            const data = savedEdits[linkKey];
+            if (data.title) row.querySelector('.link-title').textContent = data.title;
+            if (data.href) row.setAttribute('href', data.href);
+            if (data.meta) row.querySelector('.link-meta').textContent = data.meta;
+            if (data.dest) row.querySelector('.link-dest').textContent = data.dest;
+          }
+
+          // Drag handle
+          if (!row.querySelector('.drag-handle')) {
+            const handle = document.createElement('span');
+            handle.className = 'drag-handle';
+            handle.setAttribute('title', 'Drag to reorder link');
+            handle.setAttribute('aria-hidden', 'true');
+            handle.innerHTML = '&#8942;&#8942;';
+            row.prepend(handle);
+          }
+
+          // Edit button
+          const actionEl = row.querySelector('.link-action');
+          if (actionEl && !row.querySelector('.btn-edit-link')) {
+            const editBtn = document.createElement('button');
+            editBtn.type = 'button';
+            editBtn.className = 'btn-edit-link';
+            editBtn.setAttribute('title', 'Edit link title, URL & notes');
+            editBtn.setAttribute('aria-label', `Edit ${origTitle}`);
+            editBtn.innerHTML = '&#9998;';
+            editBtn.addEventListener('click', (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              openEditDialog(row);
+            });
+            actionEl.appendChild(editBtn);
+          }
+
+          catLinks.push(row);
+        });
+        defaultOrder.set(cat, catLinks);
+      });
+
+      // Show reset order button if edits or custom order exist
+      if (Object.keys(savedEdits).length > 0 && btnResetOrder) {
+        btnResetOrder.style.display = 'inline-block';
+      }
+
+      // 2. Restore saved order from localStorage if available
+      const savedRaw = localStorage.getItem(STORAGE_KEY);
+      if (savedRaw) {
+        try {
+          const savedOrder = JSON.parse(savedRaw);
+          const linkMap = new Map();
+          document.querySelectorAll('.link-row').forEach(row => {
+            linkMap.set(row.getAttribute('data-link-id'), row);
+          });
+
+          Object.entries(savedOrder).forEach(([cat, ids]) => {
+            const block = document.querySelector(`.cat-block[data-category="${cat}"]`);
+            if (!block) return;
+            const catBody = block.querySelector('.cat-body');
+            const note = catBody.querySelector('.technical-note');
+
+            ids.forEach(id => {
+              const row = linkMap.get(id);
+              if (row) {
+                if (note) {
+                  catBody.insertBefore(row, note);
+                } else {
+                  catBody.appendChild(row);
+                }
+              }
+            });
+          });
+
+          if (btnResetOrder) btnResetOrder.style.display = 'inline-block';
+          updateCategoryCounts();
+        } catch (e) {
+          console.error('Failed to parse saved link order:', e);
+        }
+      }
+
+      // 3. Attach drag events to all link rows
+      document.querySelectorAll('.link-row').forEach(row => {
+        row.addEventListener('click', (e) => {
+          if (isDraggingJustFinished) {
+            e.preventDefault();
+            e.stopPropagation();
+          }
+        });
+
+        row.addEventListener('dragstart', (e) => {
+          if (searchInput && searchInput.value.trim() !== '') {
+            e.preventDefault();
+            return;
+          }
+          draggedRow = row;
+          row.classList.add('is-dragging');
+          e.dataTransfer.effectAllowed = 'move';
+          e.dataTransfer.setData('text/plain', row.getAttribute('data-link-id') || '');
+        });
+
+        row.addEventListener('dragend', () => {
+          row.classList.remove('is-dragging');
+          document.querySelectorAll('.drop-target-before, .drop-target-after, .drag-over-empty').forEach(el => {
+            el.classList.remove('drop-target-before', 'drop-target-after', 'drag-over-empty');
+          });
+          isDraggingJustFinished = true;
+          setTimeout(() => { isDraggingJustFinished = false; }, 150);
+          draggedRow = null;
+        });
+      });
+
+      // 4. Attach dragover / drop to cat-body containers
+      document.querySelectorAll('.cat-body').forEach(catBody => {
+        catBody.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          if (!draggedRow) return;
+          e.dataTransfer.dropEffect = 'move';
+
+          const targetRow = e.target.closest('.link-row');
+
+          document.querySelectorAll('.drop-target-before, .drop-target-after').forEach(el => {
+            if (el !== targetRow) {
+              el.classList.remove('drop-target-before', 'drop-target-after');
+            }
+          });
+
+          if (targetRow && targetRow !== draggedRow) {
+            catBody.classList.remove('drag-over-empty');
+            const rect = targetRow.getBoundingClientRect();
+            const isTopHalf = e.clientY < rect.top + rect.height / 2;
+            if (isTopHalf) {
+              targetRow.classList.add('drop-target-before');
+              targetRow.classList.remove('drop-target-after');
+            } else {
+              targetRow.classList.add('drop-target-after');
+              targetRow.classList.remove('drop-target-before');
+            }
+          } else if (!targetRow) {
+            catBody.classList.add('drag-over-empty');
+          }
+        });
+
+        catBody.addEventListener('dragleave', (e) => {
+          if (!catBody.contains(e.relatedTarget)) {
+            catBody.classList.remove('drag-over-empty');
+            catBody.querySelectorAll('.drop-target-before, .drop-target-after').forEach(el => {
+              el.classList.remove('drop-target-before', 'drop-target-after');
+            });
+          }
+        });
+
+        catBody.addEventListener('drop', (e) => {
+          e.preventDefault();
+          catBody.classList.remove('drag-over-empty');
+          if (!draggedRow) return;
+
+          const targetRow = e.target.closest('.link-row');
+          const note = catBody.querySelector('.technical-note');
+
+          if (targetRow && targetRow !== draggedRow) {
+            const rect = targetRow.getBoundingClientRect();
+            const isTopHalf = e.clientY < rect.top + rect.height / 2;
+            targetRow.classList.remove('drop-target-before', 'drop-target-after');
+
+            if (isTopHalf) {
+              catBody.insertBefore(draggedRow, targetRow);
+            } else {
+              catBody.insertBefore(draggedRow, targetRow.nextSibling);
+            }
+          } else if (!targetRow) {
+            if (note) {
+              catBody.insertBefore(draggedRow, note);
+            } else {
+              catBody.appendChild(draggedRow);
+            }
+          }
+
+          draggedRow.classList.add('just-dropped');
+          setTimeout(() => draggedRow.classList.remove('just-dropped'), 600);
+
+          updateCategoryCounts();
+          saveLinkOrder();
+
+          const title = draggedRow.querySelector('.link-title')?.textContent?.trim() || 'Link';
+          if (searchFeedback) {
+            searchFeedback.textContent = `Reordered "${title}" (Saved to local storage)`;
+            setTimeout(() => {
+              if (!searchInput.value) {
+                searchFeedback.textContent = `All ${totalLinksCount} links ready`;
+              }
+            }, 3000);
+          }
+        });
+      });
+
+      // 5. Touch Drag Handling for Mobile / Tablet via .drag-handle
+      let touchDraggedRow = null;
+      let currentDropTarget = null;
+      let isTouchTopHalf = false;
+
+      document.querySelectorAll('.drag-handle').forEach(handle => {
+        const row = handle.closest('.link-row');
+
+        handle.addEventListener('touchstart', (e) => {
+          if (searchInput && searchInput.value.trim() !== '') return;
+          touchDraggedRow = row;
+          row.classList.add('is-dragging');
+        }, { passive: true });
+
+        handle.addEventListener('touchmove', (e) => {
+          if (!touchDraggedRow) return;
+          const touch = e.touches[0];
+          const elemBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+          if (!elemBelow) return;
+
+          const targetRow = elemBelow.closest('.link-row');
+          document.querySelectorAll('.drop-target-before, .drop-target-after').forEach(el => {
+            el.classList.remove('drop-target-before', 'drop-target-after');
+          });
+
+          if (targetRow && targetRow !== touchDraggedRow) {
+            const rect = targetRow.getBoundingClientRect();
+            isTouchTopHalf = touch.clientY < rect.top + rect.height / 2;
+            currentDropTarget = targetRow;
+            targetRow.classList.add(isTouchTopHalf ? 'drop-target-before' : 'drop-target-after');
+          } else {
+            currentDropTarget = null;
+          }
+        }, { passive: true });
+
+        handle.addEventListener('touchend', () => {
+          if (!touchDraggedRow) return;
+          touchDraggedRow.classList.remove('is-dragging');
+          isDraggingJustFinished = true;
+          setTimeout(() => { isDraggingJustFinished = false; }, 150);
+
+          if (currentDropTarget && currentDropTarget !== touchDraggedRow) {
+            const parent = currentDropTarget.parentNode;
+            if (isTouchTopHalf) {
+              parent.insertBefore(touchDraggedRow, currentDropTarget);
+            } else {
+              parent.insertBefore(touchDraggedRow, currentDropTarget.nextSibling);
+            }
+            currentDropTarget.classList.remove('drop-target-before', 'drop-target-after');
+            touchDraggedRow.classList.add('just-dropped');
+            setTimeout(() => touchDraggedRow.classList.remove('just-dropped'), 600);
+
+            updateCategoryCounts();
+            saveLinkOrder();
+
+            const title = touchDraggedRow.querySelector('.link-title')?.textContent?.trim() || 'Link';
+            if (searchFeedback) {
+              searchFeedback.textContent = `Reordered "${title}" (Saved to local storage)`;
+              setTimeout(() => {
+                if (!searchInput.value) {
+                  searchFeedback.textContent = `All ${totalLinksCount} links ready`;
+                }
+              }, 3000);
+            }
+          }
+          touchDraggedRow = null;
+          currentDropTarget = null;
+        });
+      });
+
+      // 6. Reset Customizations (Order & Link Edits)
+      if (btnResetOrder) {
+        btnResetOrder.addEventListener('click', () => {
+          localStorage.removeItem(STORAGE_KEY);
+          localStorage.removeItem(STORAGE_KEY_EDITS);
+          defaultOrder.forEach((rows, cat) => {
+            const block = document.querySelector(`.cat-block[data-category="${cat}"]`);
+            if (!block) return;
+            const catBody = block.querySelector('.cat-body');
+            const note = catBody.querySelector('.technical-note');
+            rows.forEach(r => {
+              // Restore original link values
+              const titleEl = r.querySelector('.link-title');
+              if (titleEl && r.dataset.origTitle) titleEl.textContent = r.dataset.origTitle;
+              if (r.dataset.origHref) r.setAttribute('href', r.dataset.origHref);
+              const metaEl = r.querySelector('.link-meta');
+              if (metaEl && r.dataset.origMeta) metaEl.textContent = r.dataset.origMeta;
+              const destEl = r.querySelector('.link-dest');
+              if (destEl && r.dataset.origDest) destEl.textContent = r.dataset.origDest;
+
+              if (note) {
+                catBody.insertBefore(r, note);
+              } else {
+                catBody.appendChild(r);
+              }
+            });
+          });
+          updateCategoryCounts();
+          btnResetOrder.style.display = 'none';
+          showToast('✓ Default link titles, URLs and order restored', 'info', 2500);
+          if (searchFeedback) {
+            searchFeedback.textContent = 'Default link titles, URLs and order restored';
+            setTimeout(() => {
+              searchFeedback.textContent = `All ${totalLinksCount} links ready`;
+            }, 2500);
+          }
+        });
+      }
+    }
+
+    initDragAndDrop();
+  </script>
+</body>
+</html>

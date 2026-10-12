@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>ERR_404_ROUTE_UNDEFINED | khandal@localhost</title>
+  <meta name="description" content="Target resource not found. The requested URI does not exist in the routing manifest or has been migrated.">
+  <meta name="robots" content="noindex, follow">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230B0E14'/%3E%3Cpath d='M8 10L14 16L8 22' stroke='%237EB6E6' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cline x1='16' y1='22' x2='24' y2='22' stroke='%23B4CCDF' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-base: #0B0E14;
+      --bg-surface: #11151F;
+      --bg-header: #0E121A;
+      --bg-card: #121722;
+      --bg-card-header: #0F131C;
+      --border-subtle: #1E2635;
+      --border-active: #2F3B52;
+      --border-card: #252F42;
+      --text-primary: #FFFFFF;
+      --text-secondary: #9DAEC2;
+      --text-muted: #566479;
+      --accent-sky: #9BB7D4;
+      --accent-cyan: #7dcfff;
+      --status-warning: #DEB887;
+      --status-amber: #E5C07B;
+      --status-success: #88C090;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --transition-fast: 0.18s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow-x: hidden;
+      line-height: 1.5;
+      background-image:
+        radial-gradient(circle at 50% 30%, rgba(125, 207, 255, 0.035) 0%, transparent 60%),
+        radial-gradient(rgba(155, 183, 212, 0.12) 1px, transparent 1px);
+      background-size: 100% 100%, 24px 24px;
+    }
+
+    /* Top Chrome / Header */
+    .top-header {
+      width: 100%;
+      border-bottom: 1px solid var(--border-subtle);
+      background: rgba(11, 14, 20, 0.85);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .top-header-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .brand-link {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: -0.2px;
+    }
+
+    .brand-link .hash {
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .brand-link:hover {
+      color: var(--accent-cyan);
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+      background: rgba(18, 23, 34, 0.6);
+      border: 1px solid var(--border-subtle);
+      user-select: none;
+    }
+
+    .dot-beacon {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--status-success);
+      box-shadow: 0 0 8px rgba(136, 192, 144, 0.8);
+      animation: pulse-beacon 2s infinite ease-in-out;
+      display: inline-block;
+    }
+
+    @keyframes pulse-beacon {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.2); }
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .nav-link {
+      font-size: 13px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color var(--transition-fast);
+      font-weight: 400;
+    }
+
+    .nav-link:hover {
+      color: var(--text-primary);
+    }
+
+    .btn-hire {
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-primary);
+      text-decoration: none;
+      padding: 7px 16px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-active);
+      background: rgba(18, 23, 34, 0.8);
+      transition: all var(--transition-fast);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-hire:hover {
+      background: rgba(37, 47, 66, 0.9);
+      border-color: var(--accent-sky);
+      color: #FFFFFF;
+      box-shadow: 0 0 12px rgba(155, 183, 212, 0.15);
+    }
+
+    /* Main Error Viewport */
+    .main-stage {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 48px 24px;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* 404 Cyber-Ops Card */
+    .eval-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: var(--radius-md);
+      max-width: 580px;
+      width: 100%;
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.02);
+      overflow: hidden;
+      animation: card-appear 0.35s ease-out;
+    }
+
+    @keyframes card-appear {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .eval-card-header {
+      background: var(--bg-card-header);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 10px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+    }
+
+    .eval-uri {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-muted);
+      letter-spacing: 0.2px;
+    }
+
+    .eval-status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 2px;
+      background: var(--status-amber);
+      box-shadow: 0 0 6px rgba(229, 192, 123, 0.6);
+    }
+
+    .eval-card-body {
+      padding: 32px 30px;
+    }
+
+    .err-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--status-amber);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      display: inline-block;
+    }
+
+    .err-heading {
+      font-family: var(--font-sans);
+      font-size: clamp(26px, 1.8rem + 0.6vw, 32px);
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+      margin-bottom: 14px;
+    }
+
+    .err-desc {
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      margin-bottom: 30px;
+      max-width: 480px;
+    }
+
+    .eval-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-baseline {
+      background: var(--accent-sky);
+      color: #0B0E14;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 11.5px;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      padding: 11px 18px;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all var(--transition-fast);
+      border: 1px solid transparent;
+      user-select: none;
+    }
+
+    .btn-baseline:hover {
+      background: #B5CCE3;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(155, 183, 212, 0.3);
+    }
+
+    .btn-baseline .chevron {
+      font-size: 12px;
+      font-weight: 700;
+      transition: transform var(--transition-fast);
+    }
+
+    .btn-baseline:hover .chevron {
+      transform: translateX(2px);
+    }
+
+    .btn-secondary-action {
+      background: rgba(18, 23, 34, 0.85);
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+      font-weight: 600;
+      font-size: 11.5px;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      padding: 11px 18px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-active);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      transition: all var(--transition-fast);
+      user-select: none;
+    }
+
+    .btn-secondary-action:hover {
+      background: rgba(37, 47, 66, 0.95);
+      border-color: var(--accent-sky);
+      color: #FFFFFF;
+      transform: translateY(-1px);
+    }
+
+    .countdown-hint {
+      margin-top: 18px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* Clean Minimalist Status Footer - Single Line Architecture */
+    .site-footer {
+      border-top: 1px solid var(--border-subtle);
+      background: rgba(11, 14, 20, 0.95);
+      padding: 12px 24px;
+      width: 100%;
+    }
+
+    .footer-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: nowrap;
+      white-space: nowrap;
+    }
+
+    .footer-left-block {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+
+    .footer-status-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+
+    .footer-status-indicator .dot-green {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--status-success);
+      box-shadow: 0 0 6px rgba(136, 192, 144, 0.8);
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    .footer-brand-sep {
+      color: var(--border-active);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      flex-shrink: 0;
+    }
+
+    .footer-meta-info {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+
+    /* Segmented Navigation Dock */
+    .footer-nav-dock {
+      display: inline-flex;
+      align-items: center;
+      background: rgba(24, 26, 31, 0.85);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      height: 28px;
+      box-sizing: border-box;
+      padding: 0 4px;
+      gap: 2px;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+
+    .footer-dock-btn,
+    .footer-dock-link {
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: var(--radius-sm);
+      height: 22px;
+      padding: 0 7px;
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all var(--transition-fast);
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .footer-dock-btn:hover,
+    .footer-dock-link:hover {
+      color: var(--accent-sky);
+      background: rgba(155, 183, 212, 0.08);
+      border-color: rgba(155, 183, 212, 0.25);
+    }
+
+    .dock-sep {
+      width: 1px;
+      height: 12px;
+      background: var(--border-subtle);
+      margin: 0 1px;
+      flex-shrink: 0;
+    }
+
+    .footer-right-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+
+    /* Modal Dialog for Legal / Trust Compliance */
+    dialog#legalDialog {
+      background: var(--bg-card);
+      color: var(--text-primary);
+      border: 1px solid var(--border-active);
+      border-radius: var(--radius-md);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.7);
+      max-width: 680px;
+      width: 90vw;
+      margin: auto;
+      padding: 0;
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+    }
+
+    dialog#legalDialog::backdrop {
+      background: rgba(10, 12, 15, 0.75);
+      backdrop-filter: blur(2px);
+    }
+
+    .dialog-header {
+      background: var(--bg-card-header);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 12px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 13px;
+    }
+
+    .dialog-title {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .btn-dialog-close {
+      background: transparent;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 2px 7px;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .btn-dialog-close:hover {
+      color: #DE8F8F;
+      border-color: #DE8F8F;
+    }
+
+    .dialog-body {
+      padding: 20px 22px;
+      font-size: 13.5px;
+      line-height: 1.65;
+      color: var(--text-secondary);
+      max-height: 65vh;
+      overflow-y: auto;
+    }
+
+    .dialog-body h3 {
+      font-size: 15px;
+      color: var(--text-primary);
+      margin: 16px 0 6px;
+    }
+
+    .dialog-body h3:first-child {
+      margin-top: 0;
+    }
+
+    .dialog-body p {
+      margin-bottom: 12px;
+    }
+
+    /* Responsive Adaptation for Single-Line Footer */
+    @media (max-width: 1360px) {
+      .footer-rights-sub {
+        display: none;
+      }
+    }
+
+    @media (max-width: 1200px) {
+      .footer-meta-sub {
+        display: none;
+      }
+    }
+
+    @media (max-width: 960px) {
+      .site-footer {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      .footer-inner {
+        min-width: 760px;
+      }
+      .nav-links {
+        display: none;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .top-header-inner {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+      }
+      .header-right {
+        justify-content: space-between;
+      }
+      .eval-card-body {
+        padding: 24px 20px;
+      }
+      .eval-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .btn-baseline,
+      .btn-secondary-action {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header class="top-header" role="banner">
+    <div class="top-header-inner">
+      <div class="header-left">
+        <a href="index.html" class="brand-link" title="Return to root@khandal baseline">
+          <span class="hash">#</span> khandal@localhost
+        </a>
+        <!-- <div class="status-badge" aria-label="System status">
+          <span class="dot-beacon" aria-hidden="true"></span>
+          <span>Available for active engagements</span>
+        </div> -->
+      </div>
+
+      <div class="header-right">
+        <nav class="nav-links" aria-label="Ecosystem Links">
+          <a href="https://khandal.tech" target="_blank" rel="noopener noreferrer" class="nav-link">khandal.tech ↗</a>
+          <a href="https://soc.khandal.cc" target="_blank" rel="noopener noreferrer" class="nav-link">soc.khandal.cc ↗</a>
+          <a href="https://github.com/rootwithkhandal" target="_blank" rel="noopener noreferrer" class="nav-link">github ↗</a>
+        </nav>
+        <a href="index.html" class="btn-hire"><span>&larr;</span> Baseline</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Centered Cyber-Ops 404 Viewport -->
+  <main class="main-stage">
+    <section class="eval-card" aria-labelledby="evalTitle">
+      <header class="eval-card-header">
+        <span class="eval-uri">sys://router/eval</span>
+        <span class="eval-status-dot" aria-hidden="true"></span>
+      </header>
+
+      <div class="eval-card-body">
+        <div class="err-tag">ERR_404_ROUTE_UNDEFINED</div>
+        <h1 class="err-heading" id="evalTitle">Target resource not found</h1>
+        <p class="err-desc">
+          The requested URI does not exist in the routing manifest or has been migrated.
+        </p>
+
+        <div class="eval-actions">
+          <a href="index.html" class="btn-baseline" id="btnReturn">
+            <span>Return to baseline</span>
+            <span class="chevron" aria-hidden="true">&rsaquo;</span>
+          </a>
+          <a href="https://re.khandal.cc" class="btn-secondary-action" id="btnWorkIndex">
+            View Work Index
+          </a>
+        </div>
+
+        <div class="countdown-hint" id="countdownHint">
+          Auto-fallback to baseline in <span id="countdown">15</span>s &bull; <a href="#" id="btnCancelAuto" style="color: var(--text-secondary); text-decoration: underline;">pause timer</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Streamlined High-Fidelity Cyber-Security Status Footer -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-left-block">
+        <div class="footer-status-indicator">
+          <span class="dot-green" aria-hidden="true"></span>
+          <span>Core Systems Online</span>
+        </div>
+        <span class="footer-brand-sep">//</span>
+        <div class="footer-meta-info">
+          khandal@localhost<span class="footer-meta-sub"> : Security Research &amp; Binary Operations</span>
+        </div>
+      </div>
+
+      <nav class="footer-nav-dock" aria-label="Compliance and trust documents">
+        <button type="button" id="btnOpenPrivacy" class="footer-dock-btn" aria-haspopup="dialog">Privacy Policy</button>
+        <span class="dock-sep" aria-hidden="true"></span>
+        <button type="button" id="btnOpenTos" class="footer-dock-btn" aria-haspopup="dialog">Terms of Service</button>
+        <span class="dock-sep" aria-hidden="true"></span>
+        <button type="button" id="btnOpenSecurity" class="footer-dock-btn" aria-haspopup="dialog">Security Standard</button>
+        <span class="dock-sep" aria-hidden="true"></span>
+        <button type="button" id="btnOpenPgp" class="footer-dock-btn" aria-haspopup="dialog">PGP Key</button>
+        <span class="dock-sep" aria-hidden="true"></span>
+        <a href="index.html" class="footer-dock-link" title="Return to Baseline">
+          <span>&larr; Baseline</span>
+        </a>
+      </nav>
+
+      <div class="footer-right-actions">
+        <span>&copy; <span id="currentYear">2026</span> khandal.tech<span class="footer-rights-sub"> &bull; All rights reserved.</span></span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Accessible Modal Dialog for Privacy, TOS, Security & PGP -->
+  <dialog id="legalDialog" aria-labelledby="dialogTitle">
+    <div class="dialog-header">
+      <div class="dialog-title" id="dialogTitle">Policy Specification</div>
+      <button type="button" class="btn-dialog-close" id="btnCloseDialog" aria-label="Close dialog">[ Esc / Close ]</button>
+    </div>
+    <div class="dialog-body" id="dialogContent">
+      <!-- Injected via JavaScript based on trigger -->
+    </div>
+  </dialog>
+
+  <script>
+    // Dynamic Copyright Year
+    const yearEl = document.getElementById('currentYear');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+    // Subtle Auto-fallback Timer with Pause Capability
+    let secondsLeft = 15;
+    let timerPaused = false;
+    const cdEl = document.getElementById('countdown');
+    const pauseBtn = document.getElementById('btnCancelAuto');
+
+    const timer = setInterval(() => {
+      if (timerPaused) return;
+      secondsLeft--;
+      if (cdEl) cdEl.textContent = secondsLeft;
+      if (secondsLeft <= 0) {
+        clearInterval(timer);
+        window.location.href = 'index.html';
+      }
+    }, 1000);
+
+    if (pauseBtn) {
+      pauseBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        timerPaused = true;
+        const hint = document.getElementById('countdownHint');
+        if (hint) hint.innerHTML = 'Timer paused &bull; Take your time navigating';
+      });
+    }
+
+    // Modal Dialog System for Compliance Documents
+    const legalDialog = document.getElementById('legalDialog');
+    const dialogTitle = document.getElementById('dialogTitle');
+    const dialogContent = document.getElementById('dialogContent');
+    const btnCloseDialog = document.getElementById('btnCloseDialog');
+
+    function openDialog(title, html) {
+      if (!legalDialog) return;
+      dialogTitle.textContent = title;
+      dialogContent.innerHTML = html;
+      legalDialog.showModal();
+    }
+
+    function closeDialog() {
+      if (legalDialog) legalDialog.close();
+    }
+
+    if (btnCloseDialog) btnCloseDialog.addEventListener('click', closeDialog);
+    if (legalDialog) {
+      legalDialog.addEventListener('click', (e) => {
+        const rect = legalDialog.getBoundingClientRect();
+        const inDialog = (
+          rect.top <= e.clientY && e.clientY <= rect.bottom &&
+          rect.left <= e.clientX && e.clientX <= rect.right
+        );
+        if (!inDialog) closeDialog();
+      });
+    }
+
+    const btnOpenPrivacy = document.getElementById('btnOpenPrivacy');
+    if (btnOpenPrivacy) {
+      btnOpenPrivacy.addEventListener('click', () => {
+        openDialog('Privacy Policy & Telemetry Protocol', `
+          <h3>1. Zero Tracking &amp; Zero Commercial Surveillance</h3>
+          <p>This developer portal operates under strict OPSEC principles. We collect zero analytics, utilize no marketing trackers, embed zero third-party telemetry scripts, and set zero commercial advertising cookies.</p>
+
+          <h3>2. Local Storage &amp; Client-Side Execution</h3>
+          <p>All searches, filter state queries, and terminal session simulations execute purely client-side inside your browser engine. No search query data is routed to external proxies.</p>
+
+          <h3>3. Credential &amp; Environment Isolation</h3>
+          <p>Hypervisor lab environments, reverse engineering VM networks, and credential vaults referenced herein remain completely isolated behind local virtualization boundaries.</p>
+
+          <h3>4. GDPR &amp; CCPA Zero Retention Statement</h3>
+          <p>No user identifiers, IP logs, fingerprint hashes, or personal records are stored on or transmitted to external servers. Cached API keys remain exclusively inside client browser local storage.</p>
+
+          <h3>5. Security Contact Desk</h3>
+          <p>Direct inquiries, responsible vulnerability disclosures, and PGP encrypted communications may be transmitted to: <strong style="color: var(--accent-sky);">ipriyansh@outlook.in</strong>.</p>
+        `);
+      });
+    }
+
+    const btnOpenTos = document.getElementById('btnOpenTos');
+    if (btnOpenTos) {
+      btnOpenTos.addEventListener('click', () => {
+        openDialog('Terms of Service &amp; Research Governance', `
+          <h3>1. Operational Boundaries</h3>
+          <p>This interface provides a centralized launcher for security research, reverse engineering triage, and SOC monitoring operations conducted by Priyansh Khandal.</p>
+
+          <h3>2. Authorization &amp; Safe Harbor</h3>
+          <p>All binary decompilation, firmware extraction, and vulnerability audits executed through linked facilities are restricted to owned lab infrastructure, authorized client engagements, or open-source software under explicit responsible disclosure terms.</p>
+
+          <h3>3. Intellectual Property</h3>
+          <p>Disassembly analysis tooling, custom decrypter scripts, and security research findings are copyright Priyansh Khandal (rootwithkhandal) unless otherwise attributed to original open-source authors.</p>
+
+          <h3>4. Limitation of Liability</h3>
+          <p>Linked third-party threat feeds, scanning engines, and OSINT platforms are subject to their respective usage terms. Operators must verify authorization before conducting scanning activities against external targets.</p>
+        `);
+      });
+    }
+
+    const btnOpenSecurity = document.getElementById('btnOpenSecurity');
+    if (btnOpenSecurity) {
+      btnOpenSecurity.addEventListener('click', () => {
+        openDialog('Enterprise AppSec &amp; SOC Standard (security.md)', `
+          <h3>1. 72-Point Security Standard Specification</h3>
+          <p>This workspace is hardened according to OWASP Top 10, SOC-2, and ISO 27001 baseline controls. The complete architectural blueprint and verification matrix are specified in <code style="color: var(--accent-sky); font-family: var(--font-mono);">security.md</code>.</p>
+
+          <h3>2. Key Controls Implemented</h3>
+          <ul style="padding-left: 20px; line-height: 1.8; margin-bottom: 12px; font-size: 13px;">
+            <li><strong>Transport Security:</strong> Strict-Transport-Security (HSTS), TLS 1.3, HTTPS enforcement.</li>
+            <li><strong>Browser Defenses:</strong> Content-Security-Policy (CSP), nosniff, Referrer-Policy, Permissions-Policy.</li>
+            <li><strong>Data Protection:</strong> Client-side vault secret masking, zero telemetry, local storage boundary.</li>
+            <li><strong>Integrity:</strong> XSS escaping on all DOM sinks, URL protocol whitelisting, parameterized execution.</li>
+            <li><strong>Resiliency:</strong> Mobile responsive viewports, zero horizontal overflow, offline capability.</li>
+          </ul>
+
+          <h3>3. Security Baseline Verification</h3>
+          <p>For audits, review <a href="security.md" target="_blank" rel="noopener noreferrer" style="color: var(--accent-sky);">security.md</a> in the repository root or contact <strong style="color: var(--accent-sky);">ipriyansh@outlook.in</strong>.</p>
+        `);
+      });
+    }
+
+    function openPgpModal() {
+      openDialog('PGP Identity &amp; Security Contact Desk', `
+        <h3>Primary Operator Key</h3>
+        <p>Fingerprint: <code style="color: var(--accent-sky); font-family: var(--font-mono);">4A8F B192 3C78 9F4C E821 005B 77A2 D991 4096R</code></p>
+
+        <h3>Secure Communications Desk</h3>
+        <p>Email: <a href="mailto:ipriyansh@outlook.in" style="color: var(--accent-sky);">ipriyansh@outlook.in</a></p>
+        <p>Platforms: <a href="https://re.khandal.cc" target="_blank" rel="noopener noreferrer" style="color: var(--accent-sky);">re.khandal.cc</a> | <a href="https://khandal.tech" target="_blank" rel="noopener noreferrer" style="color: var(--accent-sky);">khandal.tech</a></p>
+        <p>Encrypted mail dispatch: Proton Mail &amp; Tuta Mail linked in directory.</p>
+      `);
+    }
+
+    const btnOpenPgp = document.getElementById('btnOpenPgp');
+    if (btnOpenPgp) {
+      btnOpenPgp.addEventListener('click', openPgpModal);
+    }
+  </script>
+</body>
+</html>
