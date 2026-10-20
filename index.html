@@ -2156,7 +2156,7 @@
 
     <!-- Minimal Command / Search Bar -->
     <section class="command-surface" aria-label="Command search">
-      <form class="command-box" id="searchForm" action="https://www.google.com/search" method="GET" target="_blank">
+      <form class="command-box" id="searchForm" action="https://search.brave.com/search" method="GET" target="_self">
         <div class="command-prefix">&gt;</div>
         <input
           type="text"
@@ -2170,6 +2170,7 @@
           aria-label="Filter links or search the web"
         >
         <select id="engine" class="command-engine-select" aria-label="Select search provider">
+          <option value="https://search.brave.com/search" selected>Brave Search</option>
           <option value="https://www.google.com/search">Google</option>
           <option value="https://html.duckduckgo.com/html/">DuckDuckGo</option>
           <option value="obsidian">Obsidian (Vault Search)</option>
@@ -2573,11 +2574,12 @@
     // ==========================================
     // YAML DIRECTORY ENGINE (links.yaml)
     // ==========================================
-    const YAML_STORAGE_KEY = 'root_khandal_yaml_cache_v4';
+    const YAML_STORAGE_KEY = 'root_khandal_yaml_cache_v1792521410';
     try {
       localStorage.removeItem('root_khandal_yaml_cache_v1');
       localStorage.removeItem('root_khandal_yaml_cache_v2');
       localStorage.removeItem('root_khandal_yaml_cache_v3');
+      localStorage.removeItem('root_khandal_yaml_cache_v4');
     } catch (e) {}
     let currentYamlText = '';
     let currentSectionsData = null;
@@ -2612,6 +2614,18 @@ sections:
         url: "https://mail.tutanota.com"
         description: "Quantum-resistant encrypted inbox"
         dest: "tutanota.com"
+      - title: "Discord"
+        url: "https://discord.com/app"
+        description: "Community channels, servers & voice chats"
+        dest: "discord.com"
+      - title: "Slack"
+        url: "https://app.slack.com"
+        description: "Team collaboration & project workspaces"
+        dest: "slack.com"
+      - title: "WhatsApp Web"
+        url: "https://web.whatsapp.com"
+        description: "Desktop instant messaging & conversations"
+        dest: "whatsapp.com"
 
   # ------------------------------------------------------
   # COLUMN 2: CENTER PANEL (Operations, Intel, AI & Training)
@@ -2624,14 +2638,18 @@ sections:
         url: "https://app.datadoghq.com"
         description: "APM, telemetry & live SIEM monitoring"
         dest: "datadog.com"
-      - title: "Discord (Alerts)"
-        url: "https://discord.com/app"
-        description: "Operational webhook streams & telemetry"
-        dest: "discord.com"
       - title: "NextDNS"
         url: "https://my.nextdns.io"
         description: "Encrypted DNS query logs & threat mitigation"
         dest: "nextdns.io"
+      - title: "Speedtest"
+        url: "https://www.speedtest.net"
+        description: "Internet bandwidth latency & throughput test"
+        dest: "speedtest.net"
+      - title: "CyberChef"
+        url: "https://gchq.github.io/CyberChef"
+        description: "Swiss Army Knife for data decoding & parsing"
+        dest: "github.io"
       - title: "System Hardening Status"
         url: "https://app.notion.com/p/3f359826d93d80b09abcc8bc23132684"
         description: "Host baselines, audit policies & compliance"
@@ -2641,51 +2659,43 @@ sections:
         description: "Network containment matrix & host airgaps"
         dest: "notion.com"
 
-  - tag: intel
-    title: "Threat Intel & Recon APIs"
+  - tag: media
+    title: "Media & Streaming"
     column: 2
     links:
-      - title: "VirusTotal API v3"
-        url: "https://www.virustotal.com/gui/home/upload"
-        description: "Multi-engine malware, file hash, IP, URL & domain triage"
-        dest: "virustotal.com"
-      - title: "Shodan Host & API"
-        url: "https://www.shodan.io"
-        description: "Internet-wide device scanner, banner queries & open ports"
-        dest: "shodan.io"
-      - title: "AbuseIPDB API"
-        url: "https://www.abuseipdb.com"
-        description: "IP blacklist check, brute-force reports & confidence scores"
-        dest: "abuseipdb.com"
-      - title: "Have I Been Pwned API"
-        url: "https://haveibeenpwned.com"
-        description: "Compromised credentials, pwned passwords & breach dumps"
-        dest: "haveibeenpwned.com"
-      - title: "Hunter.io API"
-        url: "https://hunter.io"
-        description: "Domain email finder, pattern verification & deliverability score"
-        dest: "hunter.io"
-      - title: "Numverify API"
-        url: "https://numverify.com"
-        description: "Global phone validation, line-type & carrier identification"
-        dest: "numverify.com"
-      - title: "urlscan.io API"
-        url: "https://urlscan.io"
-        description: "Automated URL sandbox, DOM inspection & HTTP telemetry"
-        dest: "urlscan.io"
-      - title: "AlienVault OTX"
-        url: "https://otx.alienvault.com"
-        description: "Open threat exchange pulses, IOC feeds & API integration"
-        dest: "alienvault.com"
-      - title: "GreyNoise Intelligence"
-        url: "https://viz.greynoise.io"
-        description: "Internet-wide scanner classification & benign noise filter"
-        dest: "greynoise.io"
+      - title: "YouTube"
+        url: "https://www.youtube.com"
+        description: "Video streaming, tutorials, music & podcasts"
+        dest: "youtube.com"
+      - title: "Spotify"
+        url: "https://open.spotify.com"
+        description: "Music playlists, focus audio & creator podcasts"
+        dest: "spotify.com"
+      - title: "Netflix"
+        url: "https://www.netflix.com"
+        description: "Movies, documentaries & entertainment series"
+        dest: "netflix.com"
+      - title: "Twitch"
+        url: "https://www.twitch.tv"
+        description: "Live creative streams, gaming & tech broadcasts"
+        dest: "twitch.tv"
 
   - tag: ai
     title: "AI & Inference APIs"
     column: 2
     links:
+      - title: "ChatGPT"
+        url: "https://chatgpt.com"
+        description: "OpenAI conversational intelligence & analysis"
+        dest: "chatgpt.com"
+      - title: "Claude"
+        url: "https://claude.ai"
+        description: "Anthropic reasoning, writing & code assistance"
+        dest: "claude.ai"
+      - title: "Grok"
+        url: "https://console.groq.com"
+        description: "Ultra-fast LPU inference engine for open-weights models"
+        dest: "groq.com"
       - title: "OpenRouter API"
         url: "https://openrouter.ai"
         description: "Unified AI gateway, model routing & low-latency endpoints"
@@ -2694,10 +2704,6 @@ sections:
         url: "https://build.nvidia.com"
         description: "Enterprise generative AI microservices, Nemotron & Llama"
         dest: "build.nvidia.com"
-      - title: "GroqCloud API"
-        url: "https://console.groq.com"
-        description: "Ultra-fast LPU inference engine for open-weights models"
-        dest: "groq.com"
       - title: "Hugging Face Inference API"
         url: "https://huggingface.co/inference-api"
         description: "Serverless model hubs, embeddings & transformer endpoints"
@@ -2735,6 +2741,28 @@ sections:
   # ------------------------------------------------------
   # COLUMN 3: RIGHT PANEL (Research, Dev, Notion, Tasks & Presence)
   # ------------------------------------------------------
+
+  - tag: social
+    title: "Social & Community"
+    column: 2
+    links:
+      - title: "Reddit"
+        url: "https://www.reddit.com"
+        description: "Interest communities, discussions & trending news"
+        dest: "reddit.com"
+      - title: "X / Twitter"
+        url: "https://x.com"
+        description: "Real-time global feeds, ideas & industry news"
+        dest: "x.com"
+      - title: "LinkedIn"
+        url: "https://www.linkedin.com"
+        description: "Professional network, careers & industry updates"
+        dest: "linkedin.com"
+      - title: "Hacker News"
+        url: "https://news.ycombinator.com"
+        description: "Technology news, startup ideas & intellectual discourse"
+        dest: "ycombinator.com"
+
   - tag: re
     title: "Reverse Engineering & Lab"
     column: 3
@@ -2759,6 +2787,14 @@ sections:
         url: "https://app.notion.com/p/c0cddbcf59254bc7aca3d12ab158c346"
         description: "Active sprints, milestones & technical debt"
         dest: "notion.com"
+      - title: "GitLab"
+        url: "https://gitlab.com"
+        description: "DevOps lifecycle, private repositories & pipelines"
+        dest: "gitlab.com"
+      - title: "Stack Overflow"
+        url: "https://stackoverflow.com"
+        description: "Community programming questions & debug solutions"
+        dest: "stackoverflow.com"
     note:
       tag: "DEV ENVIRONMENTS:"
       description: "Google Antigravity (dev) · Kiro CLI (security fixes): desktop CLI, local execution"
@@ -2806,6 +2842,10 @@ sections:
         url: "https://keep.google.com"
         description: "Rapid scratchpad & transient memory capture"
         dest: "keep.google.com"
+      - title: "Google Calendar"
+        url: "https://calendar.google.com"
+        description: "Meeting schedules, time blocks & appointment agenda"
+        dest: "google.com"
     note:
       tag: "SECURE MESSENGER:"
       description: "Signal: desktop client, end-to-end encrypted protocol"
@@ -2838,6 +2878,47 @@ sections:
     note:
       tag: "CERT IN PROGRESS:"
       description: "CEHv13: active study, hands-on labs and notes archived in local Obsidian vault"
+
+  - tag: intel
+    title: "Threat Intel & Recon APIs"
+    column: 3
+    links:
+      - title: "VirusTotal API v3"
+        url: "https://www.virustotal.com/gui/home/upload"
+        description: "Multi-engine malware, file hash, IP, URL & domain triage"
+        dest: "virustotal.com"
+      - title: "Shodan Host & API"
+        url: "https://www.shodan.io"
+        description: "Internet-wide device scanner, banner queries & open ports"
+        dest: "shodan.io"
+      - title: "AbuseIPDB API"
+        url: "https://www.abuseipdb.com"
+        description: "IP blacklist check, brute-force reports & confidence scores"
+        dest: "abuseipdb.com"
+      - title: "Have I Been Pwned API"
+        url: "https://haveibeenpwned.com"
+        description: "Compromised credentials, pwned passwords & breach dumps"
+        dest: "haveibeenpwned.com"
+      - title: "Hunter.io API"
+        url: "https://hunter.io"
+        description: "Domain email finder, pattern verification & deliverability score"
+        dest: "hunter.io"
+      - title: "Numverify API"
+        url: "https://numverify.com"
+        description: "Global phone validation, line-type & carrier identification"
+        dest: "numverify.com"
+      - title: "urlscan.io API"
+        url: "https://urlscan.io"
+        description: "Automated URL sandbox, DOM inspection & HTTP telemetry"
+        dest: "urlscan.io"
+      - title: "AlienVault OTX"
+        url: "https://otx.alienvault.com"
+        description: "Open threat exchange pulses, IOC feeds & API integration"
+        dest: "alienvault.com"
+      - title: "GreyNoise Intelligence"
+        url: "https://viz.greynoise.io"
+        description: "Internet-wide scanner classification & benign noise filter"
+        dest: "greynoise.io"
 `;
 
     // Pure JS offline fallback parser for links.yaml schema
@@ -3132,18 +3213,30 @@ sections:
       let loadedText = null;
 
       try {
-        const res = await fetch('./links.yaml?_t=' + Date.now());
+        let res = await fetch('./links.yaml?_t=' + Date.now());
+        if (!res.ok) {
+          res = await fetch('./links.yml?_t=' + Date.now());
+        }
         if (res.ok) {
           loadedText = await res.text();
         }
-      } catch (err) {}
-
-      if (!loadedText) {
-        loadedText = localStorage.getItem(YAML_STORAGE_KEY);
+      } catch (err) {
+        try {
+          const res2 = await fetch('./links.yml?_t=' + Date.now());
+          if (res2.ok) {
+            loadedText = await res2.text();
+          }
+        } catch (err2) {}
       }
 
-      if (!loadedText) {
+      // 2. Fall back to embedded DEFAULT_LINKS_YAML (works offline & under file:///)
+      if (!loadedText && typeof DEFAULT_LINKS_YAML !== 'undefined' && DEFAULT_LINKS_YAML) {
         loadedText = DEFAULT_LINKS_YAML;
+      }
+
+      // 3. Fall back to localStorage if user imported a custom YAML
+      if (!loadedText) {
+        loadedText = localStorage.getItem(YAML_STORAGE_KEY);
       }
 
       try {
@@ -3230,20 +3323,20 @@ sections:
         const vtUrl = `https://www.virustotal.com/gui/search/${encodeURIComponent(clean)}`;
         searchFeedback.innerHTML = `
           <span style="color: var(--accent-sage);">IOC Detected [Email]:</span>
-          <a href="${hibpUrl}" target="_blank" rel="noopener" class="ioc-pill">HaveIBeenPwned ↗</a>
-          <a href="${hunterUrl}" target="_blank" rel="noopener" class="ioc-pill">Hunter.io ↗</a>
-          <a href="${vtUrl}" target="_blank" rel="noopener" class="ioc-pill">VirusTotal ↗</a>
+          <a href="${hibpUrl}" target="_self" rel="noopener" class="ioc-pill">HaveIBeenPwned ↗</a>
+          <a href="${hunterUrl}" target="_self" rel="noopener" class="ioc-pill">Hunter.io ↗</a>
+          <a href="${vtUrl}" target="_self" rel="noopener" class="ioc-pill">VirusTotal ↗</a>
         `;
         return;
       }
 
       if (isPhone) {
         const numUrl = `https://numverify.com`;
-        const googleUrl = `https://www.google.com/search?q=${encodeURIComponent(clean)}`;
+        const bravePhoneUrl = `https://search.brave.com/search?q=${encodeURIComponent(clean)}`;
         searchFeedback.innerHTML = `
           <span style="color: var(--accent-sage);">Target Detected [Phone]:</span>
-          <a href="${numUrl}" target="_blank" rel="noopener" class="ioc-pill">Numverify API ↗</a>
-          <a href="${googleUrl}" target="_blank" rel="noopener" class="ioc-pill">OSINT Search ↗</a>
+          <a href="${numUrl}" target="_self" rel="noopener" class="ioc-pill">Numverify API ↗</a>
+          <a href="${bravePhoneUrl}" target="_self" rel="noopener" class="ioc-pill">OSINT Search ↗</a>
         `;
         return;
       }
@@ -3261,10 +3354,10 @@ sections:
 
         searchFeedback.innerHTML = `
           <span style="color: var(--accent-sage);">IOC Detected [${type}]:</span>
-          <a href="${vtUrl}" target="_blank" rel="noopener" class="ioc-pill">VirusTotal ↗</a>
-          <a href="${shodanUrl}" target="_blank" rel="noopener" class="ioc-pill">Shodan ↗</a>
-          ${isIp ? `<a href="${abuseUrl}" target="_blank" rel="noopener" class="ioc-pill">AbuseIPDB ↗</a>` : ''}
-          ${isDomain ? `<a href="${hunterDomainUrl}" target="_blank" rel="noopener" class="ioc-pill">Hunter.io ↗</a>` : ''}
+          <a href="${vtUrl}" target="_self" rel="noopener" class="ioc-pill">VirusTotal ↗</a>
+          <a href="${shodanUrl}" target="_self" rel="noopener" class="ioc-pill">Shodan ↗</a>
+          ${isIp ? `<a href="${abuseUrl}" target="_self" rel="noopener" class="ioc-pill">AbuseIPDB ↗</a>` : ''}
+          ${isDomain ? `<a href="${hunterDomainUrl}" target="_self" rel="noopener" class="ioc-pill">Hunter.io ↗</a>` : ''}
           ${isIp ? `<button type="button" class="ioc-pill ioc-pill-pivot" id="btnPivotAll">Pivot All 3 ↗</button>` : ''}
         `;
         const pivotBtn = document.getElementById('btnPivotAll');
@@ -3354,10 +3447,7 @@ sections:
           e.preventDefault();
           e.stopPropagation();
           const targetUrl = normalizeDirectUrl(val);
-          const win = window.open(targetUrl, '_blank', 'noopener,noreferrer');
-          if (!win || win.closed || typeof win.closed === 'undefined') {
-            window.location.href = targetUrl;
-          }
+          window.location.href = targetUrl;
           return;
         }
       }
@@ -3373,10 +3463,7 @@ sections:
         e.preventDefault();
         e.stopPropagation();
         const targetUrl = normalizeDirectUrl(val);
-        const win = window.open(targetUrl, '_blank', 'noopener,noreferrer');
-        if (!win || win.closed || typeof win.closed === 'undefined') {
-          window.location.href = targetUrl;
-        }
+        window.location.href = targetUrl;
         return;
       }
 
@@ -3397,9 +3484,29 @@ sections:
         if (searchFeedback) {
           searchFeedback.innerHTML = `
             <span style="color: var(--accent-lavender);">Commands:</span>
-            <code>obsidian &lt;query&gt;</code> · <code>vt &lt;target&gt;</code> · <code>shodan &lt;query&gt;</code> · <code>abuse &lt;ip&gt;</code> · <code>hibp &lt;email&gt;</code> · <code>ai &lt;query&gt;</code> · <code>:clear</code>
+            <code>brave &lt;query&gt;</code> · <code>obsidian &lt;query&gt;</code> · <code>vt &lt;target&gt;</code> · <code>shodan &lt;query&gt;</code> · <code>abuse &lt;ip&gt;</code> · <code>hibp &lt;email&gt;</code> · <code>ai &lt;query&gt;</code> · <code>:clear</code>
           `;
         }
+        return;
+      }
+
+      // Shorthand Search Engine query shortcuts
+      if (lower.startsWith('brave ') || lower.startsWith('b ')) {
+        e.preventDefault();
+        const target = val.replace(/^(brave|b)\s+/i, '').trim();
+        window.location.href = `https://search.brave.com/search?q=${encodeURIComponent(target)}`;
+        return;
+      }
+      if (lower.startsWith('google ') || lower.startsWith('g ')) {
+        e.preventDefault();
+        const target = val.replace(/^(google|g)\s+/i, '').trim();
+        window.location.href = `https://www.google.com/search?q=${encodeURIComponent(target)}`;
+        return;
+      }
+      if (lower.startsWith('ddg ')) {
+        e.preventDefault();
+        const target = val.slice(4).trim();
+        window.location.href = `https://html.duckduckgo.com/html/?q=${encodeURIComponent(target)}`;
         return;
       }
 
@@ -3415,48 +3522,48 @@ sections:
       if (lower.startsWith('vt ')) {
         e.preventDefault();
         const target = val.slice(3).trim();
-        window.open(`https://www.virustotal.com/gui/search/${encodeURIComponent(target)}`, '_blank');
+        window.location.href = `https://www.virustotal.com/gui/search/${encodeURIComponent(target)}`;
         return;
       }
       if (lower.startsWith('shodan ')) {
         e.preventDefault();
         const target = val.slice(7).trim();
-        window.open(`https://www.shodan.io/search?query=${encodeURIComponent(target)}`, '_blank');
+        window.location.href = `https://www.shodan.io/search?query=${encodeURIComponent(target)}`;
         return;
       }
       if (lower.startsWith('abuse ') || lower.startsWith('abuseip ')) {
         e.preventDefault();
         const target = val.replace(/^abuse(ip)?\s+/i, '').trim();
-        window.open(`https://www.abuseipdb.com/check/${encodeURIComponent(target)}`, '_blank');
+        window.location.href = `https://www.abuseipdb.com/check/${encodeURIComponent(target)}`;
         return;
       }
       if (lower.startsWith('hibp ') || lower.startsWith('pwned ')) {
         e.preventDefault();
         const target = val.replace(/^(hibp|pwned)\s+/i, '').trim();
-        window.open(`https://haveibeenpwned.com/unifiedsearch/${encodeURIComponent(target)}`, '_blank');
+        window.location.href = `https://haveibeenpwned.com/unifiedsearch/${encodeURIComponent(target)}`;
         return;
       }
       if (lower.startsWith('hunter ')) {
         e.preventDefault();
         const target = val.slice(7).trim();
-        window.open(`https://hunter.io/try/search/${encodeURIComponent(target)}`, '_blank');
+        window.location.href = `https://hunter.io/try/search/${encodeURIComponent(target)}`;
         return;
       }
       if (lower.startsWith('num ') || lower.startsWith('numverify ')) {
         e.preventDefault();
-        window.open('https://numverify.com', '_blank');
+        window.location.href = 'https://numverify.com';
         return;
       }
       if (lower.startsWith('openrouter ') || lower.startsWith('ai ')) {
         e.preventDefault();
         const target = val.replace(/^(openrouter|ai)\s+/i, '').trim();
-        window.open(`https://openrouter.ai/models?q=${encodeURIComponent(target)}`, '_blank');
+        window.location.href = `https://openrouter.ai/models?q=${encodeURIComponent(target)}`;
         return;
       }
       if (lower.startsWith('nvidia ') || lower.startsWith('nim ')) {
         e.preventDefault();
         const target = val.replace(/^(nvidia|nim)\s+/i, '').trim();
-        window.open(`https://build.nvidia.com/explore/discover?q=${encodeURIComponent(target)}`, '_blank');
+        window.location.href = `https://build.nvidia.com/explore/discover?q=${encodeURIComponent(target)}`;
         return;
       }
 
@@ -3469,37 +3576,37 @@ sections:
       }
       if (selectedEngine === 'virustotal') {
         e.preventDefault();
-        window.open(`https://www.virustotal.com/gui/search/${encodeURIComponent(val)}`, '_blank');
+        window.location.href = `https://www.virustotal.com/gui/search/${encodeURIComponent(val)}`;
         return;
       }
       if (selectedEngine === 'abuseipdb') {
         e.preventDefault();
-        window.open(`https://www.abuseipdb.com/check/${encodeURIComponent(val)}`, '_blank');
+        window.location.href = `https://www.abuseipdb.com/check/${encodeURIComponent(val)}`;
         return;
       }
       if (selectedEngine === 'shodan') {
         e.preventDefault();
-        window.open(`https://www.shodan.io/search?query=${encodeURIComponent(val)}`, '_blank');
+        window.location.href = `https://www.shodan.io/search?query=${encodeURIComponent(val)}`;
         return;
       }
       if (selectedEngine === 'hibp') {
         e.preventDefault();
-        window.open(`https://haveibeenpwned.com/unifiedsearch/${encodeURIComponent(val)}`, '_blank');
+        window.location.href = `https://haveibeenpwned.com/unifiedsearch/${encodeURIComponent(val)}`;
         return;
       }
       if (selectedEngine === 'hunter') {
         e.preventDefault();
-        window.open(`https://hunter.io/try/search/${encodeURIComponent(val)}`, '_blank');
+        window.location.href = `https://hunter.io/try/search/${encodeURIComponent(val)}`;
         return;
       }
       if (selectedEngine === 'openrouter') {
         e.preventDefault();
-        window.open(`https://openrouter.ai/models?q=${encodeURIComponent(val)}`, '_blank');
+        window.location.href = `https://openrouter.ai/models?q=${encodeURIComponent(val)}`;
         return;
       }
       if (selectedEngine === 'nvidiabuild') {
         e.preventDefault();
-        window.open(`https://build.nvidia.com/explore/discover?q=${encodeURIComponent(val)}`, '_blank');
+        window.location.href = `https://build.nvidia.com/explore/discover?q=${encodeURIComponent(val)}`;
         return;
       }
 
@@ -3516,7 +3623,7 @@ sections:
         }
       }
 
-      // Normal web search proceeding to target=_blank
+      // Normal web search proceeding in same tab (target=_self)
     });
 
     // Keyboard Shortcuts
@@ -3565,9 +3672,39 @@ sections:
         const ok = await loadLinksYaml(true);
         btnReloadYaml.textContent = '↻ YAML';
         if (!ok) {
-          showToast('Could not fetch links.yaml directly via file://. Open .env dialog to import or use a local web server.', 'error', 4000);
+          if (window.location.protocol === 'file:' && yamlFileInput) {
+            yamlFileInput.click();
+          } else {
+            showToast('Could not fetch links.yml / links.yaml. Drag & drop links.yml onto this window or use Import.', 'error', 4000);
+          }
         }
       });
+    }
+
+    function handleYamlImportText(text, sourceName = 'YAML file') {
+      try {
+        const parsed = (window.jsyaml && typeof window.jsyaml.load === 'function')
+          ? window.jsyaml.load(text)
+          : parseSimpleYaml(text);
+        if (parsed && Array.isArray(parsed.sections)) {
+          localStorage.setItem(YAML_STORAGE_KEY, text);
+          currentYamlText = text;
+          currentSectionsData = parsed;
+          renderDirectoryGrid(parsed);
+          updateYamlStatus(parsed.sections.length);
+          showToast(`✓ Loaded ${parsed.sections.length} sections from ${sourceName}`, 'success');
+          if (searchFeedback) {
+            searchFeedback.innerHTML = `<span style="color: var(--status-success);">✓ Loaded ${parsed.sections.length} sections from ${sourceName}</span>`;
+            setTimeout(() => { if (!searchInput.value) searchFeedback.textContent = ''; }, 3500);
+          }
+          return true;
+        } else {
+          showToast('⚠ Invalid YAML structure: missing "sections:" array', 'error');
+        }
+      } catch (err) {
+        showToast('⚠ Failed to parse YAML file: ' + err.message, 'error');
+      }
+      return false;
     }
 
     const btnReloadYamlDialog = document.getElementById('btnReloadYamlDialog');
@@ -3575,9 +3712,9 @@ sections:
       btnReloadYamlDialog.addEventListener('click', async () => {
         btnReloadYamlDialog.textContent = '↻ Syncing...';
         const ok = await loadLinksYaml(true);
-        btnReloadYamlDialog.textContent = '↻ Reload links.yaml';
-        if (!ok) {
-          showToast('Could not fetch links.yaml directly. Use "Import YAML File" to select it directly from your disk.', 'error', 4000);
+        btnReloadYamlDialog.textContent = '↻ Reload links.yml';
+        if (!ok && yamlFileInput) {
+          yamlFileInput.click();
         }
       });
     }
@@ -3589,32 +3726,29 @@ sections:
         if (!file) return;
         const reader = new FileReader();
         reader.onload = (event) => {
-          const text = event.target.result;
-          try {
-            const parsed = (window.jsyaml && typeof window.jsyaml.load === 'function')
-              ? window.jsyaml.load(text)
-              : parseSimpleYaml(text);
-            if (parsed && Array.isArray(parsed.sections)) {
-              localStorage.setItem(YAML_STORAGE_KEY, text);
-              currentYamlText = text;
-              currentSectionsData = parsed;
-              renderDirectoryGrid(parsed);
-              updateYamlStatus(parsed.sections.length);
-              showToast(`✓ Loaded ${parsed.sections.length} sections from ${file.name}`, 'success');
-              if (searchFeedback) {
-                searchFeedback.innerHTML = `<span style="color: var(--status-success);">✓ Loaded ${parsed.sections.length} sections from ${file.name}</span>`;
-                setTimeout(() => { if (!searchInput.value) searchFeedback.textContent = ''; }, 3500);
-              }
-            } else {
-              showToast('⚠ Invalid YAML structure: missing "sections:" array', 'error');
-            }
-          } catch (err) {
-            showToast('⚠ Failed to parse YAML file: ' + err.message, 'error');
-          }
+          handleYamlImportText(event.target.result, file.name);
         };
         reader.readAsText(file);
       });
     }
+
+    // Drag & Drop YAML file directly onto browser window
+    window.addEventListener('dragover', (e) => {
+      e.preventDefault();
+    });
+    window.addEventListener('drop', (e) => {
+      if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+        const file = e.dataTransfer.files[0];
+        if (file.name.endsWith('.yml') || file.name.endsWith('.yaml') || file.type.includes('yaml')) {
+          e.preventDefault();
+          const reader = new FileReader();
+          reader.onload = (evt) => {
+            handleYamlImportText(evt.target.result, file.name);
+          };
+          reader.readAsText(file);
+        }
+      }
+    });
 
     const btnClearYamlCache = document.getElementById('btnClearYamlCache');
     if (btnClearYamlCache) {
