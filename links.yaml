@@ -119,17 +119,34 @@ sections:
         description: "Serverless model hubs, embeddings & transformer endpoints"
         dest: "huggingface.co"
 
-  - tag: learn
-    title: "Training & Certs"
+  - tag: net
+    title: "Portfolio & Presence"
     column: 2
     links:
-      - title: "TryHackMe"
-        url: "https://tryhackme.com"
-        description: "Hands-on offensive security labs & CTF rooms"
-        dest: "tryhackme.com"
-    note:
-      tag: "CERT IN PROGRESS:"
-      description: "CEHv13: active study, hands-on labs and notes archived in local Obsidian vault"
+      - title: "khandal.tech"
+        url: "https://khandal.tech"
+        description: "Primary engineering platform & identity hub"
+        dest: "khandal.tech"
+      - title: "re.khandal.cc"
+        url: "https://re.khandal.cc"
+        description: "Reverse engineering & malware analysis platform"
+        dest: "re.khandal.cc"
+      - title: "soc.khandal.cc"
+        url: "https://soc.khandal.cc"
+        description: "SOC telemetry & security operations portal"
+        dest: "soc.khandal.cc"
+      - title: "LinkedIn"
+        url: "https://linkedin.com/in/priyanshkhandal"
+        description: "Professional network & verified background"
+        dest: "linkedin.com"
+      - title: "GitHub"
+        url: "https://github.com/rootwithkhandal"
+        description: "Open source security tooling & research"
+        dest: "github.com"
+      - title: "ipriyansh@outlook.in"
+        url: "mailto:ipriyansh@outlook.in"
+        description: "Direct operator dispatch email"
+        dest: "mailto"
 
   # ------------------------------------------------------
   # COLUMN 3: RIGHT PANEL (Research, Dev, Notion, Tasks & Presence)
@@ -226,31 +243,14 @@ sections:
         description: "Edge WAF, DNS records & DDoS shielding"
         dest: "cloudflare.com"
 
-  - tag: net
-    title: "Portfolio & Presence"
+  - tag: learn
+    title: "Training & Certs"
     column: 3
     links:
-      - title: "khandal.tech"
-        url: "https://khandal.tech"
-        description: "Primary engineering platform & identity hub"
-        dest: "khandal.tech"
-      - title: "re.khandal.cc"
-        url: "https://re.khandal.cc"
-        description: "Reverse engineering & malware analysis platform"
-        dest: "re.khandal.cc"
-      - title: "soc.khandal.cc"
-        url: "https://soc.khandal.cc"
-        description: "SOC telemetry & security operations portal"
-        dest: "soc.khandal.cc"
-      - title: "LinkedIn"
-        url: "https://linkedin.com/in/priyanshkhandal"
-        description: "Professional network & verified background"
-        dest: "linkedin.com"
-      - title: "GitHub"
-        url: "https://github.com/rootwithkhandal"
-        description: "Open source security tooling & research"
-        dest: "github.com"
-      - title: "ipriyansh@outlook.in"
-        url: "mailto:ipriyansh@outlook.in"
-        description: "Direct operator dispatch email"
-        dest: "mailto"
+      - title: "TryHackMe"
+        url: "https://tryhackme.com"
+        description: "Hands-on offensive security labs & CTF rooms"
+        dest: "tryhackme.com"
+    note:
+      tag: "CERT IN PROGRESS:"
+      description: "CEHv13: active study, hands-on labs and notes archived in local Obsidian vault"
