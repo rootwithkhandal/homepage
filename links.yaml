@@ -1,0 +1,256 @@
+# ========================================================
+# khandal@localhost // Operations Directory & Links Configuration
+# Edit this file to add, remove, or modify links, titles,
+# descriptions, and sections across the 3-column operational layout.
+# ========================================================
+
+sections:
+  # ------------------------------------------------------
+  # COLUMN 1: LEFT FIXED PANEL (Mail & Comms, Crypto, Tasks)
+  # ------------------------------------------------------
+  - tag: comms
+    title: "Mail & Comms"
+    column: 1
+    links:
+      - title: "Gmail"
+        url: "https://mail.google.com"
+        description: "Standard communication channel"
+        dest: "mail.google.com"
+      - title: "Proton Mail"
+        url: "https://mail.proton.me"
+        description: "Encrypted security dispatch & vulnerability triage"
+        dest: "proton.me"
+      - title: "Outlook"
+        url: "https://outlook.live.com/mail/"
+        description: "Corporate correspondence desk"
+        dest: "outlook.live.com"
+      - title: "Tuta Mail"
+        url: "https://mail.tutanota.com"
+        description: "Quantum-resistant encrypted inbox"
+        dest: "tutanota.com"
+
+  # ------------------------------------------------------
+  # COLUMN 2: CENTER PANEL (Operations, Intel, AI & Training)
+  # ------------------------------------------------------
+  - tag: ops
+    title: "SOC & Monitoring"
+    column: 2
+    links:
+      - title: "Datadog"
+        url: "https://app.datadoghq.com"
+        description: "APM, telemetry & live SIEM monitoring"
+        dest: "datadog.com"
+      - title: "Discord (Alerts)"
+        url: "https://discord.com/app"
+        description: "Operational webhook streams & telemetry"
+        dest: "discord.com"
+      - title: "NextDNS"
+        url: "https://my.nextdns.io"
+        description: "Encrypted DNS query logs & threat mitigation"
+        dest: "nextdns.io"
+      - title: "System Hardening Status"
+        url: "https://app.notion.com/p/3f359826d93d80b09abcc8bc23132684"
+        description: "Host baselines, audit policies & compliance"
+        dest: "notion.com"
+      - title: "IsolateMe"
+        url: "https://app.notion.com/p/3f259826d93d803ab195dd1fb856a8d4"
+        description: "Network containment matrix & host airgaps"
+        dest: "notion.com"
+
+  - tag: intel
+    title: "Threat Intel & Recon APIs"
+    column: 2
+    links:
+      - title: "VirusTotal API v3"
+        url: "https://www.virustotal.com/gui/home/upload"
+        description: "Multi-engine malware, file hash, IP, URL & domain triage"
+        dest: "virustotal.com"
+      - title: "Shodan Host & API"
+        url: "https://www.shodan.io"
+        description: "Internet-wide device scanner, banner queries & open ports"
+        dest: "shodan.io"
+      - title: "AbuseIPDB API"
+        url: "https://www.abuseipdb.com"
+        description: "IP blacklist check, brute-force reports & confidence scores"
+        dest: "abuseipdb.com"
+      - title: "Have I Been Pwned API"
+        url: "https://haveibeenpwned.com"
+        description: "Compromised credentials, pwned passwords & breach dumps"
+        dest: "haveibeenpwned.com"
+      - title: "Hunter.io API"
+        url: "https://hunter.io"
+        description: "Domain email finder, pattern verification & deliverability score"
+        dest: "hunter.io"
+      - title: "Numverify API"
+        url: "https://numverify.com"
+        description: "Global phone validation, line-type & carrier identification"
+        dest: "numverify.com"
+      - title: "urlscan.io API"
+        url: "https://urlscan.io"
+        description: "Automated URL sandbox, DOM inspection & HTTP telemetry"
+        dest: "urlscan.io"
+      - title: "AlienVault OTX"
+        url: "https://otx.alienvault.com"
+        description: "Open threat exchange pulses, IOC feeds & API integration"
+        dest: "alienvault.com"
+      - title: "GreyNoise Intelligence"
+        url: "https://viz.greynoise.io"
+        description: "Internet-wide scanner classification & benign noise filter"
+        dest: "greynoise.io"
+
+  - tag: ai
+    title: "AI & Inference APIs"
+    column: 2
+    links:
+      - title: "OpenRouter API"
+        url: "https://openrouter.ai"
+        description: "Unified AI gateway, model routing & low-latency endpoints"
+        dest: "openrouter.ai"
+      - title: "NVIDIA Build AI (NIM)"
+        url: "https://build.nvidia.com"
+        description: "Enterprise generative AI microservices, Nemotron & Llama"
+        dest: "build.nvidia.com"
+      - title: "GroqCloud API"
+        url: "https://console.groq.com"
+        description: "Ultra-fast LPU inference engine for open-weights models"
+        dest: "groq.com"
+      - title: "Hugging Face Inference API"
+        url: "https://huggingface.co/inference-api"
+        description: "Serverless model hubs, embeddings & transformer endpoints"
+        dest: "huggingface.co"
+
+  - tag: learn
+    title: "Training & Certs"
+    column: 2
+    links:
+      - title: "TryHackMe"
+        url: "https://tryhackme.com"
+        description: "Hands-on offensive security labs & CTF rooms"
+        dest: "tryhackme.com"
+    note:
+      tag: "CERT IN PROGRESS:"
+      description: "CEHv13: active study, hands-on labs and notes archived in local Obsidian vault"
+
+  # ------------------------------------------------------
+  # COLUMN 3: RIGHT PANEL (Research, Dev, Notion, Tasks & Presence)
+  # ------------------------------------------------------
+  - tag: re
+    title: "Reverse Engineering & Lab"
+    column: 3
+    links:
+      - title: "RE Portfolio"
+        url: "https://re.khandal.cc"
+        description: "re.khandal.cc: Binary disassembly, firmware & exploits"
+        dest: "re.khandal.cc"
+    note:
+      tag: "LAB HYPERVISOR:"
+      description: "Kali (bspwm) · Parrot OS · Win10 · Win7 · malware sandboxes: local VMs, boot from hypervisor"
+
+  - tag: dev
+    title: "Dev & Projects"
+    column: 3
+    links:
+      - title: "GitHub Profile"
+        url: "https://github.com/rootwithkhandal"
+        description: "rootwithkhandal: Repositories, tooling & patches"
+        dest: "github.com"
+      - title: "Projects Tracker"
+        url: "https://app.notion.com/p/c0cddbcf59254bc7aca3d12ab158c346"
+        description: "Active sprints, milestones & technical debt"
+        dest: "notion.com"
+    note:
+      tag: "DEV ENVIRONMENTS:"
+      description: "Google Antigravity (dev) · Kiro CLI (security fixes): desktop CLI, local execution"
+
+  - tag: notion
+    title: "Notion Workspace"
+    column: 3
+    links:
+      - title: "Control Center"
+        url: "https://app.notion.com/p/3f359826d93d8000b094e9f783307e5e"
+        description: "Master dashboard & unified operations index"
+        dest: "notion.com"
+      - title: "Skills Matrix"
+        url: "https://app.notion.com/p/3f359826d93d8032a10df7a6b7eec974"
+        description: "Competency catalog & testing proficiency"
+        dest: "notion.com"
+      - title: "Knowledge Base"
+        url: "https://app.notion.com/p/3f359826d93d806a86fcd20d2c67676e"
+        description: "Reverse engineering playbooks & vulnerability writeups"
+        dest: "notion.com"
+      - title: "Blogs Tracker"
+        url: "https://app.notion.com/p/3f359826d93d808ebc19fa08150bc1a7"
+        description: "Research drafts, publishing queue & outlines"
+        dest: "notion.com"
+      - title: "Notion Calendar"
+        url: "https://calendar.notion.so"
+        description: "Scheduled audits, deadlines & triage shifts"
+        dest: "calendar.notion.so"
+
+  - tag: flow
+    title: "Tasks & Capture"
+    column: 3
+    links:
+      - title: "Obsidian Vault"
+        url: "obsidian://open"
+        description: "Local knowledge graph, CEH lab notes & security research"
+        dest: "obsidian://"
+        id: "obsidianVaultLink"
+        meta_id: "obsidianVaultMeta"
+      - title: "Todoist"
+        url: "https://todoist.com/app"
+        description: "Daily triage queue & structured task execution"
+        dest: "todoist.com"
+      - title: "Google Keep"
+        url: "https://keep.google.com"
+        description: "Rapid scratchpad & transient memory capture"
+        dest: "keep.google.com"
+    note:
+      tag: "SECURE MESSENGER:"
+      description: "Signal: desktop client, end-to-end encrypted protocol"
+
+  - tag: sec
+    title: "Security & Identity"
+    column: 3
+    links:
+      - title: "Proton Pass"
+        url: "https://pass.proton.me"
+        description: "Encrypted credentials & identity vault"
+        dest: "pass.proton.me"
+      - title: "Ente Auth"
+        url: "https://auth.ente.io"
+        description: "Zero-knowledge 2FA hardware sync"
+        dest: "ente.io"
+      - title: "Cloudflare Dashboard"
+        url: "https://dash.cloudflare.com"
+        description: "Edge WAF, DNS records & DDoS shielding"
+        dest: "cloudflare.com"
+
+  - tag: net
+    title: "Portfolio & Presence"
+    column: 3
+    links:
+      - title: "khandal.tech"
+        url: "https://khandal.tech"
+        description: "Primary engineering platform & identity hub"
+        dest: "khandal.tech"
+      - title: "re.khandal.cc"
+        url: "https://re.khandal.cc"
+        description: "Reverse engineering & malware analysis platform"
+        dest: "re.khandal.cc"
+      - title: "soc.khandal.cc"
+        url: "https://soc.khandal.cc"
+        description: "SOC telemetry & security operations portal"
+        dest: "soc.khandal.cc"
+      - title: "LinkedIn"
+        url: "https://linkedin.com/in/priyanshkhandal"
+        description: "Professional network & verified background"
+        dest: "linkedin.com"
+      - title: "GitHub"
+        url: "https://github.com/rootwithkhandal"
+        description: "Open source security tooling & research"
+        dest: "github.com"
+      - title: "ipriyansh@outlook.in"
+        url: "mailto:ipriyansh@outlook.in"
+        description: "Direct operator dispatch email"
+        dest: "mailto"

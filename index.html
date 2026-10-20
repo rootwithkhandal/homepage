@@ -586,27 +586,42 @@
       background: rgba(222, 192, 139, 0.15);
     }
 
-    /* Structured Directory Grid - Fluid Masonry Layout */
+    /* Structured Directory Grid - 3 Dedicated Columns with Fixed Left Operations Panel */
     .directory-grid {
-      columns: 2;
-      column-gap: 16px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      align-items: start;
     }
 
-    @media (min-width: 1400px) {
+    .directory-col {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .directory-col.col-fixed-left {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      min-width: 0;
+    }
+
+    @media (max-width: 1024px) {
       .directory-grid {
-        columns: 3;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .directory-col.col-right {
+        grid-column: span 2;
       }
     }
 
-    @media (min-width: 2000px) {
+    @media (max-width: 768px) {
       .directory-grid {
-        columns: 4;
+        grid-template-columns: 1fr;
       }
-    }
-
-    @media (max-width: 860px) {
-      .directory-grid {
-        columns: 1;
+      .directory-col.col-right {
+        grid-column: 1;
       }
     }
 
@@ -1576,6 +1591,396 @@
       box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35) !important;
     }
 
+    /* Live Data Widget Panels */
+    .live-widget {
+      display: inline-block;
+      width: 100%;
+      margin-bottom: 16px;
+      break-inside: avoid-column;
+      -webkit-column-break-inside: avoid;
+      page-break-inside: avoid;
+      vertical-align: top;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: border-color var(--transition-fast), transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .live-widget:hover {
+      border-color: var(--border-active);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+    }
+
+    .widget-header {
+      width: 100%;
+      background: var(--bg-elevated);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .widget-header .widget-tag {
+      font-size: 10px;
+      color: var(--status-warning);
+      border: 1px solid rgba(222, 192, 139, 0.3);
+      padding: 1px 6px;
+      border-radius: var(--radius-xs);
+      font-weight: 500;
+      background: rgba(222, 192, 139, 0.05);
+      margin-right: 8px;
+    }
+
+    .widget-header .widget-status {
+      font-size: 10px;
+      color: var(--text-muted);
+      font-weight: 400;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .widget-header .widget-status .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--text-muted);
+      display: inline-block;
+    }
+
+    .widget-header .widget-status .status-dot.live {
+      background: var(--status-success);
+      box-shadow: 0 0 6px rgba(143, 185, 150, 0.5);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    .widget-header .widget-status .status-dot.error {
+      background: var(--status-error);
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .widget-body {
+      padding: 12px 14px;
+    }
+
+    /* Crypto Ticker Styles */
+    .crypto-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .crypto-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 10px;
+      border-radius: var(--radius-xs);
+      border: 1px solid transparent;
+      transition: all var(--transition-fast);
+    }
+
+    .crypto-row:hover {
+      background-color: var(--bg-hover);
+      border-color: var(--border-subtle);
+    }
+
+    .crypto-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .crypto-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      font-family: var(--font-mono);
+      color: var(--bg-canvas);
+      flex-shrink: 0;
+    }
+
+    .crypto-icon.btc { background: #F7931A; }
+    .crypto-icon.eth { background: #627EEA; }
+    .crypto-icon.sol { background: linear-gradient(135deg, #9945FF, #14F195); }
+    .crypto-icon.usdt { background: #26A17B; }
+    .crypto-icon.usdc { background: #2775CA; }
+
+    .crypto-name {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .crypto-name .symbol {
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .crypto-name .full-name {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .crypto-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 1px;
+    }
+
+    .crypto-price {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .crypto-change {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    .crypto-change.up {
+      color: var(--status-success);
+    }
+
+    .crypto-change.down {
+      color: var(--status-error);
+    }
+
+    .crypto-change.neutral {
+      color: var(--text-muted);
+    }
+
+    .widget-loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 16px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      gap: 8px;
+    }
+
+    .widget-loading .spinner {
+      width: 14px;
+      height: 14px;
+      border: 2px solid var(--border-subtle);
+      border-top-color: var(--accent-sky);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .widget-error {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      text-align: center;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .widget-error .error-icon {
+      font-size: 18px;
+      opacity: 0.5;
+    }
+
+    .widget-error button {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      color: var(--accent-sky);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 4px 12px;
+      border-radius: var(--radius-xs);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      margin-top: 4px;
+    }
+
+    .widget-error button:hover {
+      background: var(--bg-hover);
+      border-color: var(--border-active);
+    }
+
+    /* Todoist Task Styles */
+    .todoist-tasks {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .todoist-task {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 10px;
+      border-radius: var(--radius-xs);
+      border: 1px solid transparent;
+      transition: all var(--transition-fast);
+    }
+
+    .todoist-task:hover {
+      background-color: var(--bg-hover);
+      border-color: var(--border-subtle);
+    }
+
+    .todoist-check {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 2px solid var(--border-active);
+      flex-shrink: 0;
+      margin-top: 2px;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .todoist-check.p1 { border-color: var(--status-error); }
+    .todoist-check.p2 { border-color: var(--status-warning); }
+    .todoist-check.p3 { border-color: var(--accent-sky); }
+    .todoist-check.p4 { border-color: var(--border-active); }
+
+    .todoist-task:hover .todoist-check {
+      border-color: var(--status-success);
+    }
+
+    .todoist-check:hover {
+      background: rgba(143, 191, 158, 0.2);
+    }
+
+    .todoist-task-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .todoist-task-title {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 1.35;
+    }
+
+    .todoist-task-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    .todoist-priority {
+      font-size: 10px;
+      padding: 1px 5px;
+      border-radius: var(--radius-xs);
+      font-weight: 600;
+      font-family: var(--font-mono);
+    }
+
+    .todoist-priority.p1 {
+      color: var(--status-error);
+      border: 1px solid rgba(222, 143, 143, 0.3);
+      background: rgba(222, 143, 143, 0.08);
+    }
+
+    .todoist-priority.p2 {
+      color: var(--status-warning);
+      border: 1px solid rgba(222, 192, 139, 0.3);
+      background: rgba(222, 192, 139, 0.08);
+    }
+
+    .todoist-priority.p3 {
+      color: var(--accent-sky);
+      border: 1px solid rgba(155, 183, 212, 0.3);
+      background: rgba(155, 183, 212, 0.08);
+    }
+
+    .todoist-priority.p4 {
+      color: var(--text-muted);
+      border: 1px solid var(--border-subtle);
+      background: transparent;
+    }
+
+    .todoist-empty {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      text-align: center;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .todoist-empty .empty-icon {
+      font-size: 22px;
+      opacity: 0.4;
+    }
+
+    .widget-refresh-btn {
+      background: transparent;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      font-size: 11px;
+      line-height: 1;
+      width: 20px;
+      height: 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-xs);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      user-select: none;
+    }
+
+    .widget-refresh-btn:hover {
+      color: var(--accent-sky);
+      border-color: var(--border-active);
+      background: rgba(155, 183, 212, 0.08);
+      transform: rotate(90deg);
+    }
+
+    .widget-refresh-btn.spinning {
+      animation: spin 0.8s linear infinite;
+    }
+
     .filter-btn {
       transition: all var(--transition-fast) !important;
     }
@@ -1805,9 +2210,11 @@
         <button class="filter-btn" data-filter="sec">sec</button>
         <button class="filter-btn" data-filter="learn">learn</button>
         <button class="filter-btn" data-filter="net">net</button>
+        <button class="filter-btn" data-filter="crypto">crypto</button>
       </div>
 
       <div class="view-toggles">
+        <button id="btnReloadYaml" title="Reload links, sections & descriptions from links.yaml">↻ YAML</button>
         <button id="btnToggleEditMode" title="Toggle edit mode for bookmarks">✎ Edit Links</button>
         <button id="btnResetOrder" title="Reset custom link ordering to default" style="display: none;">Reset Order</button>
         <button id="btnExpandAll" title="Expand all categories">Expand All</button>
@@ -1815,606 +2222,690 @@
       </div>
     </nav>
 
-    <!-- Structured Directory Grid (2-Column Technical Layout) -->
+    <!-- Structured Directory Grid (3-Column Technical Layout: Locked Left Panel + Center + Right) -->
     <main class="directory-grid" id="directoryGrid">
 
-      <!-- 1. SOC & Monitoring (ops) -->
-      <section class="cat-block" data-category="ops">
-        <button class="cat-header" aria-expanded="true">
-          <div class="cat-title-wrap">
-            <span class="cat-tag">ops</span>
-            <span>SOC &amp; Monitoring</span>
-            <span class="cat-count">(5)</span>
-          </div>
-          <span class="cat-chev">▼</span>
-        </button>
-        <div class="cat-body">
-          <a href="https://app.datadoghq.com" target="_blank" rel="noopener" class="link-row">
-            <div class="link-info">
-              <span class="link-title">Datadog</span>
-              <span class="link-meta">APM, telemetry &amp; live SIEM monitoring</span>
-            </div>
-            <div class="link-action">
-              <span class="link-dest">datadog.com</span>
-              <span class="link-glyph">↗</span>
-            </div>
-          </a>
-          <a href="https://discord.com/app" target="_blank" rel="noopener" class="link-row">
-            <div class="link-info">
-              <span class="link-title">Discord (Alerts)</span>
-              <span class="link-meta">Operational webhook streams &amp; telemetry</span>
-            </div>
-            <div class="link-action">
-              <span class="link-dest">discord.com</span>
-              <span class="link-glyph">↗</span>
-            </div>
-          </a>
-          <a href="https://my.nextdns.io" target="_blank" rel="noopener" class="link-row">
-            <div class="link-info">
-              <span class="link-title">NextDNS</span>
-              <span class="link-meta">Encrypted DNS query logs &amp; threat mitigation</span>
-            </div>
-            <div class="link-action">
-              <span class="link-dest">nextdns.io</span>
-              <span class="link-glyph">↗</span>
-            </div>
-          </a>
-          <a href="https://app.notion.com/p/3f359826d93d80b09abcc8bc23132684" target="_blank" rel="noopener" class="link-row">
-            <div class="link-info">
-              <span class="link-title">System Hardening Status</span>
-              <span class="link-meta">Host baselines, audit policies &amp; compliance</span>
-            </div>
-            <div class="link-action">
-              <span class="link-dest">notion.com</span>
-              <span class="link-glyph">↗</span>
-            </div>
-          </a>
-          <a href="https://app.notion.com/p/3f259826d93d803ab195dd1fb856a8d4" target="_blank" rel="noopener" class="link-row">
-            <div class="link-info">
-              <span class="link-title">IsolateMe</span>
-              <span class="link-meta">Network containment matrix &amp; host airgaps</span>
-            </div>
-            <div class="link-action">
-              <span class="link-dest">notion.com</span>
-              <span class="link-glyph">↗</span>
-            </div>
-          </a>
-        </div>
-      </section>
+      <!-- ==================================================== -->
+      <!-- COLUMN 1: LEFT FIXED PANEL (Comms, Crypto & Today Tasks) -->
+      <!-- ==================================================== -->
+      <div class="directory-col col-fixed-left" id="dirCol1">
 
-      <!-- 2. Threat Intel & Recon APIs (intel) -->
-      <section class="cat-block" data-category="intel">
-        <button class="cat-header" aria-expanded="true">
-          <div class="cat-title-wrap">
-            <span class="cat-tag">intel</span>
-            <span>Threat Intel &amp; Recon APIs</span>
-            <span class="cat-count">(9)</span>
+        <!-- 1. Mail & Communications (comms) -->
+        <section class="cat-block" data-category="comms">
+          <button class="cat-header" aria-expanded="true">
+            <div class="cat-title-wrap">
+              <span class="cat-tag">comms</span>
+              <span>Mail &amp; Comms</span>
+              <span class="cat-count">(4)</span>
+            </div>
+            <span class="cat-chev">▼</span>
+          </button>
+          <div class="cat-body">
+            <a href="https://mail.google.com" target="_blank" rel="noopener" class="link-row">
+              <div class="link-info">
+                <span class="link-title">Gmail</span>
+                <span class="link-meta">Standard communication channel</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">mail.google.com</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
+            <a href="https://mail.proton.me" target="_blank" rel="noopener" class="link-row">
+              <div class="link-info">
+                <span class="link-title">Proton Mail</span>
+                <span class="link-meta">Encrypted security dispatch &amp; vulnerability triage</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">proton.me</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
+            <a href="https://outlook.live.com/mail/" target="_blank" rel="noopener" class="link-row">
+              <div class="link-info">
+                <span class="link-title">Outlook</span>
+                <span class="link-meta">Corporate correspondence desk</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">outlook.live.com</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
+            <a href="https://mail.tutanota.com" target="_blank" rel="noopener" class="link-row">
+              <div class="link-info">
+                <span class="link-title">Tuta Mail</span>
+                <span class="link-meta">Quantum-resistant encrypted inbox</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">tutanota.com</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
           </div>
-          <span class="cat-chev">▼</span>
-        </button>
-        <div class="cat-body">
-          <a href="https://www.virustotal.com/gui/home/upload" target="_blank" rel="noopener" class="link-row">
-            <div class="link-info">
-              <span class="link-title">VirusTotal API v3</span>
-              <span class="link-meta">Multi-engine malware, file hash, IP, URL &amp; domain scans</span>
-            </div>
-            <div class="link-action">
-              <span class="link-dest">virustotal.com</span>
-              <span class="link-glyph">↗</span>
-            </div>
-          </a>
-          <a href="https://www.shodan.io" target="_blank" rel="noopener" class="link-row">
-            <div class="link-info">
-              <span class="link-title">Shodan Host &amp; API</span>
-              <span class="link-meta">Internet-wide device scanner, banner queries &amp; open ports</span>
-            </div>
-            <div class="link-action">
-              <span class="link-dest">shodan.io</span>
-              <span class="link-glyph">↗</span>
-            </div>
-          </a>
-          <a href="https://www.abuseipdb.com" target="_blank" rel="noopener" class="link-row">
-            <div class="link-info">
-              <span class="link-title">AbuseIPDB API</span>
-              <span class="link-meta">IP blacklist check, brute-force reports &amp; confidence scores</span>
-            </div>
-            <div class="link-action">
-              <span class="link-dest">abuseipdb.com</span>
-              <span class="link-glyph">↗</span>
-            </div>
-          </a>
-          <a href="https://haveibeenpwned.com" target="_blank" rel="noopener" class="link-row">
-            <div class="link-info">
-              <span class="link-title">Have I Been Pwned API</span>
-              <span class="link-meta">Compromised credentials, pwned passwords &amp; breach database</span>
-            </div>
-            <div class="link-action">
-              <span class="link-dest">haveibeenpwned.com</span>
-              <span class="link-glyph">↗</span>
-            </div>
-          </a>
-          <a href="https://hunter.io" target="_blank" rel="noopener" class="link-row">
-            <div class="link-info">
-              <span class="link-title">Hunter.io API</span>
-              <span class="link-meta">Domain email finder, pattern verification &amp; deliverability scoring</span>
-            </div>
-            <div class="link-action">
-              <span class="link-dest">hunter.io</span>
-              <span class="link-glyph">↗</span>
-            </div>
-          </a>
-          <a href="https://numverify.com" target="_blank" rel="noopener" class="link-row">
-            <div class="link-info">
-              <span class="link-title">Numverify API</span>
-              <span class="link-meta">Global phone validation, line-type &amp; carrier identification</span>
-            </div>
-            <div class="link-action">
-              <span class="link-dest">numverify.com</span>
-              <span class="link-glyph">↗</span>
-            </div>
-          </a>
-          <a href="https://urlscan.io" target="_blank" rel="noopener" class="link-row">
-            <div class="link-info">
-              <span class="link-title">urlscan.io API</span>
-              <span class="link-meta">Automated URL sandbox, DOM inspection &amp; HTTP telemetry</span>
-            </div>
-            <div class="link-action">
-              <span class="link-dest">urlscan.io</span>
-              <span class="link-glyph">↗</span>
-            </div>
-          </a>
-          <a href="https://otx.alienvault.com" target="_blank" rel="noopener" class="link-row">
-            <div class="link-info">
-              <span class="link-title">AlienVault OTX</span>
-              <span class="link-meta">Open threat exchange pulses, IOC feeds &amp; API indicators</span>
-            </div>
-            <div class="link-action">
-              <span class="link-dest">alienvault.com</span>
-              <span class="link-glyph">↗</span>
-            </div>
-          </a>
-          <a href="https://viz.greynoise.io" target="_blank" rel="noopener" class="link-row">
-            <div class="link-info">
-              <span class="link-title">GreyNoise Intelligence</span>
-              <span class="link-meta">Internet-wide scanner classification &amp; benign noise filtering</span>
-            </div>
-            <div class="link-action">
-              <span class="link-dest">greynoise.io</span>
-              <span class="link-glyph">↗</span>
-            </div>
-          </a>
-        </div>
-      </section>
+        </section>
 
-      <!-- 3. AI & LLM Inference APIs (ai) -->
-      <section class="cat-block" data-category="ai">
-        <button class="cat-header" aria-expanded="true">
-          <div class="cat-title-wrap">
-            <span class="cat-tag">ai</span>
-            <span>AI &amp; Inference APIs</span>
-            <span class="cat-count">(4)</span>
+        <!-- 2. Real-Time Crypto Prices (crypto) -->
+        <section class="cat-block live-widget" id="cryptoWidget" data-category="crypto">
+          <button class="cat-header" aria-expanded="true" type="button">
+            <div class="cat-title-wrap">
+              <span class="cat-tag" style="color: #F7931A; border-color: rgba(247, 147, 26, 0.3); background: rgba(247, 147, 26, 0.08);">crypto</span>
+              <span>Real-Time Crypto Ticker</span>
+              <span class="cat-count" id="cryptoHeaderCount">(5)</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div class="widget-status" id="cryptoStatus">
+                <span class="status-dot live" id="cryptoStatusDot"></span>
+                <span id="cryptoStatusText" style="font-size: 10.5px; font-family: var(--font-mono); color: var(--status-success);">Live</span>
+              </div>
+              <span id="btnRefreshCrypto" class="widget-refresh-btn" title="Refresh crypto prices" role="button" tabindex="0">↻</span>
+              <span class="cat-chev">▼</span>
+            </div>
+          </button>
+          <div class="cat-body" style="padding: 10px 12px 12px;">
+            <div id="cryptoBody" class="crypto-grid">
+              <div class="widget-loading">
+                <div class="spinner"></div>
+                <span>Fetching real-time prices...</span>
+              </div>
+            </div>
+            <div class="technical-note" style="margin-top: 8px; display: flex; justify-content: space-between; align-items: center;">
+              <div><span class="tag">SOURCE:</span> CoinGecko API · Auto-refresh: 60s</div>
+              <span id="cryptoLastUpdated" style="font-family: var(--font-mono); font-size: 10px; color: var(--text-muted);">Syncing...</span>
+            </div>
           </div>
-          <span class="cat-chev">▼</span>
-        </button>
-        <div class="cat-body">
-          <a href="https://openrouter.ai" target="_blank" rel="noopener" class="link-row">
-            <div class="link-info">
-              <span class="link-title">OpenRouter API</span>
-              <span class="link-meta">Unified AI gateway, model routing &amp; low-latency LLM endpoints</span>
-            </div>
-            <div class="link-action">
-              <span class="link-dest">openrouter.ai</span>
-              <span class="link-glyph">↗</span>
-            </div>
-          </a>
-          <a href="https://build.nvidia.com" target="_blank" rel="noopener" class="link-row">
-            <div class="link-info">
-              <span class="link-title">NVIDIA Build AI (NIM)</span>
-              <span class="link-meta">Enterprise generative AI microservices, Nemotron &amp; GPU inference APIs</span>
-            </div>
-            <div class="link-action">
-              <span class="link-dest">build.nvidia.com</span>
-              <span class="link-glyph">↗</span>
-            </div>
-          </a>
-          <a href="https://console.groq.com" target="_blank" rel="noopener" class="link-row">
-            <div class="link-info">
-              <span class="link-title">GroqCloud API</span>
-              <span class="link-meta">Ultra-fast LPU inference engine for open-weights models</span>
-            </div>
-            <div class="link-action">
-              <span class="link-dest">groq.com</span>
-              <span class="link-glyph">↗</span>
-            </div>
-          </a>
-          <a href="https://huggingface.co/inference-api" target="_blank" rel="noopener" class="link-row">
-            <div class="link-info">
-              <span class="link-title">Hugging Face Inference API</span>
-              <span class="link-meta">Serverless model hubs, embeddings &amp; transformer endpoints</span>
-            </div>
-            <div class="link-action">
-              <span class="link-dest">huggingface.co</span>
-              <span class="link-glyph">↗</span>
-            </div>
-          </a>
-        </div>
-      </section>
+        </section>
 
-      <!-- 4. Reverse Engineering & Lab (re) -->
-      <section class="cat-block" data-category="re">
-        <button class="cat-header" aria-expanded="true">
-          <div class="cat-title-wrap">
-            <span class="cat-tag">re</span>
-            <span>Reverse Engineering &amp; Lab</span>
-            <span class="cat-count">(2)</span>
-          </div>
-          <span class="cat-chev">▼</span>
-        </button>
-        <div class="cat-body">
-          <a href="https://re.khandal.cc" target="_blank" rel="noopener" class="link-row">
-            <div class="link-info">
-              <span class="link-title">RE Portfolio</span>
-              <span class="link-meta">re.khandal.cc: Binary disassembly, firmware &amp; exploits</span>
+        <!-- 3. Today's Tasks from Todoist (todo) -->
+        <section class="cat-block live-widget" id="todoistWidget" data-category="todo">
+          <button class="cat-header" aria-expanded="true" type="button">
+            <div class="cat-title-wrap">
+              <span class="cat-tag" style="color: #DE8F8F; border-color: rgba(222, 143, 143, 0.3); background: rgba(222, 143, 143, 0.08);">todo</span>
+              <span>Today's Tasks (Todoist)</span>
+              <span class="cat-count" id="todoistHeaderCount">(0)</span>
             </div>
-            <div class="link-action">
-              <span class="link-dest">re.khandal.cc</span>
-              <span class="link-glyph">↗</span>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div class="widget-status" id="todoistStatus">
+                <span class="status-dot" id="todoistStatusDot"></span>
+                <span id="todoistStatusText" style="font-size: 10.5px; font-family: var(--font-mono);">Connecting...</span>
+              </div>
+              <span id="btnRefreshTodoist" class="widget-refresh-btn" title="Sync Todoist tasks" role="button" tabindex="0">↻</span>
+              <span class="cat-chev">▼</span>
             </div>
-          </a>
-          <div class="technical-note">
-            <span class="tag">LAB HYPERVISOR:</span> Kali (bspwm) · Parrot OS · Win10 · Win7 · malware sandboxes: local VMs, boot from hypervisor
+          </button>
+          <div class="cat-body" style="padding: 10px 12px 12px;">
+            <div id="todoistBody" class="todoist-tasks">
+              <div class="widget-loading">
+                <div class="spinner"></div>
+                <span>Loading tasks from Todoist...</span>
+              </div>
+            </div>
+            <div class="technical-note" style="margin-top: 8px; display: flex; justify-content: space-between; align-items: center;">
+              <div><span class="tag">SYNC:</span> Todoist API v1</div>
+              <a href="https://app.todoist.com/app/today" target="_blank" rel="noopener" style="color: var(--accent-sky); text-decoration: none; font-size: 10.5px; font-family: var(--font-mono);">Open Todoist ↗</a>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- 3. Dev & Projects (dev) -->
-      <section class="cat-block" data-category="dev">
-        <button class="cat-header" aria-expanded="true">
-          <div class="cat-title-wrap">
-            <span class="cat-tag">dev</span>
-            <span>Dev &amp; Projects</span>
-            <span class="cat-count">(3)</span>
-          </div>
-          <span class="cat-chev">▼</span>
-        </button>
-        <div class="cat-body">
-          <a href="https://github.com/rootwithkhandal" target="_blank" rel="noopener" class="link-row">
-            <div class="link-info">
-              <span class="link-title">GitHub Profile</span>
-              <span class="link-meta">rootwithkhandal: Repositories, tooling &amp; patches</span>
-            </div>
-            <div class="link-action">
-              <span class="link-dest">github.com</span>
-              <span class="link-glyph">↗</span>
-            </div>
-          </a>
-          <a href="https://app.notion.com/p/c0cddbcf59254bc7aca3d12ab158c346" target="_blank" rel="noopener" class="link-row">
-            <div class="link-info">
-              <span class="link-title">Projects Tracker</span>
-              <span class="link-meta">Active sprints, milestones &amp; technical debt</span>
-            </div>
-            <div class="link-action">
-              <span class="link-dest">notion.com</span>
-              <span class="link-glyph">↗</span>
-            </div>
-          </a>
-          <div class="technical-note">
-            <span class="tag">DEV ENVIRONMENTS:</span> Google Antigravity (dev) · Kiro CLI (security fixes): desktop CLI, local execution
-          </div>
-        </div>
-      </section>
+      </div>
 
-      <!-- 4. Notion Workspace (notion) -->
-      <section class="cat-block" data-category="notion">
-        <button class="cat-header" aria-expanded="true">
-          <div class="cat-title-wrap">
-            <span class="cat-tag">notion</span>
-            <span>Notion Workspace</span>
-            <span class="cat-count">(5)</span>
-          </div>
-          <span class="cat-chev">▼</span>
-        </button>
-        <div class="cat-body">
-          <a href="https://app.notion.com/p/3ee59826d93d80d29293e82c850fd63e" target="_blank" rel="noopener" class="link-row">
-            <div class="link-info">
-              <span class="link-title">Control Center</span>
-              <span class="link-meta">Master dashboard &amp; unified operations index</span>
-            </div>
-            <div class="link-action">
-              <span class="link-dest">notion.com</span>
-              <span class="link-glyph">↗</span>
-            </div>
-          </a>
-          <a href="https://app.notion.com/p/3ee59826d93d8087a089d827cb22953b" target="_blank" rel="noopener" class="link-row">
-            <div class="link-info">
-              <span class="link-title">Skills Matrix</span>
-              <span class="link-meta">Competency catalog &amp; tooling proficiency</span>
-            </div>
-            <div class="link-action">
-              <span class="link-dest">notion.com</span>
-              <span class="link-glyph">↗</span>
-            </div>
-          </a>
-          <a href="https://app.notion.com/p/3ee59826d93d8038a85bd6b36e82c41a" target="_blank" rel="noopener" class="link-row">
-            <div class="link-info">
-              <span class="link-title">Knowledge Base</span>
-              <span class="link-meta">Reverse engineering playbooks &amp; vulnerability writeups</span>
-            </div>
-            <div class="link-action">
-              <span class="link-dest">notion.com</span>
-              <span class="link-glyph">↗</span>
-            </div>
-          </a>
-          <a href="https://app.notion.com/p/3f359826d93d808ebc19fa08150bc1a7" target="_blank" rel="noopener" class="link-row">
-            <div class="link-info">
-              <span class="link-title">Blogs Tracker</span>
-              <span class="link-meta">Research drafts, publishing queue &amp; outlines</span>
-            </div>
-            <div class="link-action">
-              <span class="link-dest">notion.com</span>
-              <span class="link-glyph">↗</span>
-            </div>
-          </a>
-          <a href="https://calendar.notion.so" target="_blank" rel="noopener" class="link-row">
-            <div class="link-info">
-              <span class="link-title">Notion Calendar</span>
-              <span class="link-meta">Scheduled audits, deadlines &amp; triage shifts</span>
-            </div>
-            <div class="link-action">
-              <span class="link-dest">calendar.notion.so</span>
-              <span class="link-glyph">↗</span>
-            </div>
-          </a>
-        </div>
-      </section>
+      <!-- ==================================================== -->
+      <!-- COLUMN 2: CENTER PANEL (Operations, Intel, AI & Training) -->
+      <!-- ==================================================== -->
+      <div class="directory-col col-center" id="dirCol2">
 
-      <!-- 5. Tasks & Capture (flow) -->
-      <section class="cat-block" data-category="flow">
-        <button class="cat-header" aria-expanded="true">
-          <div class="cat-title-wrap">
-            <span class="cat-tag">flow</span>
-            <span>Tasks &amp; Capture</span>
-            <span class="cat-count">(4)</span>
+        <!-- 1. SOC & Monitoring (ops) -->
+        <section class="cat-block" data-category="ops">
+          <button class="cat-header" aria-expanded="true">
+            <div class="cat-title-wrap">
+              <span class="cat-tag">ops</span>
+              <span>SOC &amp; Monitoring</span>
+              <span class="cat-count">(5)</span>
+            </div>
+            <span class="cat-chev">▼</span>
+          </button>
+          <div class="cat-body">
+            <a href="https://app.datadoghq.com" target="_blank" rel="noopener" class="link-row">
+              <div class="link-info">
+                <span class="link-title">Datadog</span>
+                <span class="link-meta">APM, telemetry &amp; live SIEM monitoring</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">datadog.com</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
+            <a href="https://discord.com/app" target="_blank" rel="noopener" class="link-row">
+              <div class="link-info">
+                <span class="link-title">Discord (Alerts)</span>
+                <span class="link-meta">Operational webhook streams &amp; telemetry</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">discord.com</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
+            <a href="https://my.nextdns.io" target="_blank" rel="noopener" class="link-row">
+              <div class="link-info">
+                <span class="link-title">NextDNS</span>
+                <span class="link-meta">Encrypted DNS query logs &amp; threat mitigation</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">nextdns.io</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
+            <a href="https://app.notion.com/p/3f359826d93d80b09abcc8bc23132684" target="_blank" rel="noopener" class="link-row">
+              <div class="link-info">
+                <span class="link-title">System Hardening Status</span>
+                <span class="link-meta">Host baselines, audit policies &amp; compliance</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">notion.com</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
+            <a href="https://app.notion.com/p/3f259826d93d803ab195dd1fb856a8d4" target="_blank" rel="noopener" class="link-row">
+              <div class="link-info">
+                <span class="link-title">IsolateMe</span>
+                <span class="link-meta">Network containment matrix &amp; host airgaps</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">notion.com</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
           </div>
-          <span class="cat-chev">▼</span>
-        </button>
-        <div class="cat-body">
-          <a href="obsidian://open" id="obsidianVaultLink" class="link-row" title="Open local Obsidian knowledge vault">
-            <div class="link-info">
-              <span class="link-title">Obsidian Vault</span>
-              <span class="link-meta" id="obsidianVaultMeta">Local knowledge graph, CEH lab notes &amp; security research</span>
-            </div>
-            <div class="link-action">
-              <span class="link-dest">obsidian://</span>
-              <span class="link-glyph">↗</span>
-            </div>
-          </a>
-          <a href="https://todoist.com/app" target="_blank" rel="noopener" class="link-row">
-            <div class="link-info">
-              <span class="link-title">Todoist</span>
-              <span class="link-meta">Daily triage queue &amp; structured task execution</span>
-            </div>
-            <div class="link-action">
-              <span class="link-dest">todoist.com</span>
-              <span class="link-glyph">↗</span>
-            </div>
-          </a>
-          <a href="https://keep.google.com" target="_blank" rel="noopener" class="link-row">
-            <div class="link-info">
-              <span class="link-title">Google Keep</span>
-              <span class="link-meta">Rapid scratchpad &amp; transient memory capture</span>
-            </div>
-            <div class="link-action">
-              <span class="link-dest">keep.google.com</span>
-              <span class="link-glyph">↗</span>
-            </div>
-          </a>
-          <div class="technical-note">
-            <span class="tag">SECURE MESSENGER:</span> Signal: desktop client, end-to-end encrypted protocol
-          </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- 6. Mail & Communications (comms) -->
-      <section class="cat-block" data-category="comms">
-        <button class="cat-header" aria-expanded="true">
-          <div class="cat-title-wrap">
-            <span class="cat-tag">comms</span>
-            <span>Mail &amp; Comms</span>
-            <span class="cat-count">(4)</span>
+        <!-- 2. Threat Intel & Recon APIs (intel) -->
+        <section class="cat-block" data-category="intel">
+          <button class="cat-header" aria-expanded="true">
+            <div class="cat-title-wrap">
+              <span class="cat-tag">intel</span>
+              <span>Threat Intel &amp; Recon APIs</span>
+              <span class="cat-count">(9)</span>
+            </div>
+            <span class="cat-chev">▼</span>
+          </button>
+          <div class="cat-body">
+            <a href="https://www.virustotal.com/gui/home/upload" target="_blank" rel="noopener" class="link-row">
+              <div class="link-info">
+                <span class="link-title">VirusTotal API v3</span>
+                <span class="link-meta">Multi-engine malware, file hash, IP, URL &amp; domain scans</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">virustotal.com</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
+            <a href="https://www.shodan.io" target="_blank" rel="noopener" class="link-row">
+              <div class="link-info">
+                <span class="link-title">Shodan Host &amp; API</span>
+                <span class="link-meta">Internet-wide device scanner, banner queries &amp; open ports</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">shodan.io</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
+            <a href="https://www.abuseipdb.com" target="_blank" rel="noopener" class="link-row">
+              <div class="link-info">
+                <span class="link-title">AbuseIPDB API</span>
+                <span class="link-meta">IP blacklist check, brute-force reports &amp; confidence scores</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">abuseipdb.com</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
+            <a href="https://haveibeenpwned.com" target="_blank" rel="noopener" class="link-row">
+              <div class="link-info">
+                <span class="link-title">Have I Been Pwned API</span>
+                <span class="link-meta">Compromised credentials, pwned passwords &amp; breach database</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">haveibeenpwned.com</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
+            <a href="https://hunter.io" target="_blank" rel="noopener" class="link-row">
+              <div class="link-info">
+                <span class="link-title">Hunter.io API</span>
+                <span class="link-meta">Domain email finder, pattern verification &amp; deliverability scoring</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">hunter.io</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
+            <a href="https://numverify.com" target="_blank" rel="noopener" class="link-row">
+              <div class="link-info">
+                <span class="link-title">Numverify API</span>
+                <span class="link-meta">Global phone validation, line-type &amp; carrier identification</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">numverify.com</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
+            <a href="https://urlscan.io" target="_blank" rel="noopener" class="link-row">
+              <div class="link-info">
+                <span class="link-title">urlscan.io API</span>
+                <span class="link-meta">Automated URL sandbox, DOM inspection &amp; HTTP telemetry</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">urlscan.io</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
+            <a href="https://otx.alienvault.com" target="_blank" rel="noopener" class="link-row">
+              <div class="link-info">
+                <span class="link-title">AlienVault OTX</span>
+                <span class="link-meta">Open threat exchange pulses, IOC feeds &amp; API indicators</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">alienvault.com</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
+            <a href="https://viz.greynoise.io" target="_blank" rel="noopener" class="link-row">
+              <div class="link-info">
+                <span class="link-title">GreyNoise Intelligence</span>
+                <span class="link-meta">Internet-wide scanner classification &amp; benign noise filtering</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">greynoise.io</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
           </div>
-          <span class="cat-chev">▼</span>
-        </button>
-        <div class="cat-body">
-          <a href="https://mail.google.com" target="_blank" rel="noopener" class="link-row">
-            <div class="link-info">
-              <span class="link-title">Gmail</span>
-              <span class="link-meta">Standard communication channel</span>
-            </div>
-            <div class="link-action">
-              <span class="link-dest">mail.google.com</span>
-              <span class="link-glyph">↗</span>
-            </div>
-          </a>
-          <a href="https://mail.proton.me" target="_blank" rel="noopener" class="link-row">
-            <div class="link-info">
-              <span class="link-title">Proton Mail</span>
-              <span class="link-meta">Encrypted security dispatch &amp; vulnerability triage</span>
-            </div>
-            <div class="link-action">
-              <span class="link-dest">proton.me</span>
-              <span class="link-glyph">↗</span>
-            </div>
-          </a>
-          <a href="https://outlook.live.com/mail/" target="_blank" rel="noopener" class="link-row">
-            <div class="link-info">
-              <span class="link-title">Outlook</span>
-              <span class="link-meta">Corporate correspondence desk</span>
-            </div>
-            <div class="link-action">
-              <span class="link-dest">outlook.live.com</span>
-              <span class="link-glyph">↗</span>
-            </div>
-          </a>
-          <a href="https://mail.tutanota.com" target="_blank" rel="noopener" class="link-row">
-            <div class="link-info">
-              <span class="link-title">Tuta Mail</span>
-              <span class="link-meta">Quantum-resistant encrypted inbox</span>
-            </div>
-            <div class="link-action">
-              <span class="link-dest">tutanota.com</span>
-              <span class="link-glyph">↗</span>
-            </div>
-          </a>
-        </div>
-      </section>
+        </section>
 
-      <!-- 7. Security & Identity (sec) -->
-      <section class="cat-block" data-category="sec">
-        <button class="cat-header" aria-expanded="true">
-          <div class="cat-title-wrap">
-            <span class="cat-tag">sec</span>
-            <span>Security &amp; Identity</span>
-            <span class="cat-count">(3)</span>
+        <!-- 3. AI & Inference APIs (ai) -->
+        <section class="cat-block" data-category="ai">
+          <button class="cat-header" aria-expanded="true">
+            <div class="cat-title-wrap">
+              <span class="cat-tag">ai</span>
+              <span>AI &amp; Inference APIs</span>
+              <span class="cat-count">(4)</span>
+            </div>
+            <span class="cat-chev">▼</span>
+          </button>
+          <div class="cat-body">
+            <a href="https://openrouter.ai" target="_blank" rel="noopener" class="link-row">
+              <div class="link-info">
+                <span class="link-title">OpenRouter API</span>
+                <span class="link-meta">Unified AI gateway, model routing &amp; low-latency LLM endpoints</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">openrouter.ai</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
+            <a href="https://build.nvidia.com" target="_blank" rel="noopener" class="link-row">
+              <div class="link-info">
+                <span class="link-title">NVIDIA Build AI (NIM)</span>
+                <span class="link-meta">Enterprise generative AI microservices, Nemotron &amp; GPU inference APIs</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">build.nvidia.com</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
+            <a href="https://console.groq.com" target="_blank" rel="noopener" class="link-row">
+              <div class="link-info">
+                <span class="link-title">GroqCloud API</span>
+                <span class="link-meta">Ultra-fast LPU inference engine for open-weights models</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">groq.com</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
+            <a href="https://huggingface.co/inference-api" target="_blank" rel="noopener" class="link-row">
+              <div class="link-info">
+                <span class="link-title">Hugging Face Inference API</span>
+                <span class="link-meta">Serverless model hubs, embeddings &amp; transformer endpoints</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">huggingface.co</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
           </div>
-          <span class="cat-chev">▼</span>
-        </button>
-        <div class="cat-body">
-          <a href="https://pass.proton.me" target="_blank" rel="noopener" class="link-row">
-            <div class="link-info">
-              <span class="link-title">Proton Pass</span>
-              <span class="link-meta">Encrypted credentials &amp; identity vault</span>
-            </div>
-            <div class="link-action">
-              <span class="link-dest">pass.proton.me</span>
-              <span class="link-glyph">↗</span>
-            </div>
-          </a>
-          <a href="https://auth.ente.io" target="_blank" rel="noopener" class="link-row">
-            <div class="link-info">
-              <span class="link-title">Ente Auth</span>
-              <span class="link-meta">Zero-knowledge 2FA hardware sync</span>
-            </div>
-            <div class="link-action">
-              <span class="link-dest">ente.io</span>
-              <span class="link-glyph">↗</span>
-            </div>
-          </a>
-          <a href="https://dash.cloudflare.com" target="_blank" rel="noopener" class="link-row">
-            <div class="link-info">
-              <span class="link-title">Cloudflare Dashboard</span>
-              <span class="link-meta">Edge WAF, DNS records &amp; DDoS shielding</span>
-            </div>
-            <div class="link-action">
-              <span class="link-dest">cloudflare.com</span>
-              <span class="link-glyph">↗</span>
-            </div>
-          </a>
-        </div>
-      </section>
+        </section>
 
-      <!-- 8. Training & Certs (learn) -->
-      <section class="cat-block" data-category="learn">
-        <button class="cat-header" aria-expanded="true">
-          <div class="cat-title-wrap">
-            <span class="cat-tag">learn</span>
-            <span>Training &amp; Certs</span>
-            <span class="cat-count">(2)</span>
-          </div>
-          <span class="cat-chev">▼</span>
-        </button>
-        <div class="cat-body">
-          <a href="https://tryhackme.com" target="_blank" rel="noopener" class="link-row">
-            <div class="link-info">
-              <span class="link-title">TryHackMe</span>
-              <span class="link-meta">Hands-on offensive security labs &amp; CTF rooms</span>
+        <!-- 4. Training & Certs (learn) -->
+        <section class="cat-block" data-category="learn">
+          <button class="cat-header" aria-expanded="true">
+            <div class="cat-title-wrap">
+              <span class="cat-tag">learn</span>
+              <span>Training &amp; Certs</span>
+              <span class="cat-count">(1)</span>
             </div>
-            <div class="link-action">
-              <span class="link-dest">tryhackme.com</span>
-              <span class="link-glyph">↗</span>
+            <span class="cat-chev">▼</span>
+          </button>
+          <div class="cat-body">
+            <a href="https://tryhackme.com" target="_blank" rel="noopener" class="link-row">
+              <div class="link-info">
+                <span class="link-title">TryHackMe</span>
+                <span class="link-meta">Hands-on offensive security labs &amp; CTF rooms</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">tryhackme.com</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
+            <div class="technical-note">
+              <span class="tag">CERT IN PROGRESS:</span> CEHv13: active study, hands-on labs and notes archived in local Obsidian vault
             </div>
-          </a>
-          <div class="technical-note">
-            <span class="tag">CERT IN PROGRESS:</span> CEHv13: active study, hands-on labs and notes archived in local Obsidian vault
           </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- 9. Portfolio & Presence (net) -->
-      <section class="cat-block" data-category="net">
-        <button class="cat-header" aria-expanded="true">
-          <div class="cat-title-wrap">
-            <span class="cat-tag">net</span>
-            <span>Portfolio &amp; Presence</span>
-            <span class="cat-count">(6)</span>
+      </div>
+
+      <!-- ==================================================== -->
+      <!-- COLUMN 3: RIGHT PANEL (Research, Dev, Notion, Tasks & Presence) -->
+      <!-- ==================================================== -->
+      <div class="directory-col col-right" id="dirCol3">
+
+        <!-- 1. Reverse Engineering & Lab (re) -->
+        <section class="cat-block" data-category="re">
+          <button class="cat-header" aria-expanded="true">
+            <div class="cat-title-wrap">
+              <span class="cat-tag">re</span>
+              <span>Reverse Engineering &amp; Lab</span>
+              <span class="cat-count">(2)</span>
+            </div>
+            <span class="cat-chev">▼</span>
+          </button>
+          <div class="cat-body">
+            <a href="https://re.khandal.cc" target="_blank" rel="noopener" class="link-row">
+              <div class="link-info">
+                <span class="link-title">RE Portfolio</span>
+                <span class="link-meta">re.khandal.cc: Binary disassembly, firmware &amp; exploits</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">re.khandal.cc</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
+            <div class="technical-note">
+              <span class="tag">LAB HYPERVISOR:</span> Kali (bspwm) · Parrot OS · Win10 · Win7 · malware sandboxes: local VMs, boot from hypervisor
+            </div>
           </div>
-          <span class="cat-chev">▼</span>
-        </button>
-        <div class="cat-body">
-          <a href="https://khandal.tech" target="_blank" rel="noopener" class="link-row">
-            <div class="link-info">
-              <span class="link-title">khandal.tech</span>
-              <span class="link-meta">Primary engineering platform &amp; identity hub</span>
+        </section>
+
+        <!-- 2. Dev & Projects (dev) -->
+        <section class="cat-block" data-category="dev">
+          <button class="cat-header" aria-expanded="true">
+            <div class="cat-title-wrap">
+              <span class="cat-tag">dev</span>
+              <span>Dev &amp; Projects</span>
+              <span class="cat-count">(3)</span>
             </div>
-            <div class="link-action">
-              <span class="link-dest">khandal.tech</span>
-              <span class="link-glyph">↗</span>
+            <span class="cat-chev">▼</span>
+          </button>
+          <div class="cat-body">
+            <a href="https://github.com/rootwithkhandal" target="_blank" rel="noopener" class="link-row">
+              <div class="link-info">
+                <span class="link-title">GitHub Profile</span>
+                <span class="link-meta">rootwithkhandal: Repositories, tooling &amp; patches</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">github.com</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
+            <a href="https://app.notion.com/p/c0cddbcf59254bc7aca3d12ab158c346" target="_blank" rel="noopener" class="link-row">
+              <div class="link-info">
+                <span class="link-title">Projects Tracker</span>
+                <span class="link-meta">Active sprints, milestones &amp; technical debt</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">notion.com</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
+            <div class="technical-note">
+              <span class="tag">DEV ENVIRONMENTS:</span> Google Antigravity (dev) · Kiro CLI (security fixes): desktop CLI, local execution
             </div>
-          </a>
-          <a href="https://re.khandal.cc" target="_blank" rel="noopener" class="link-row">
-            <div class="link-info">
-              <span class="link-title">re.khandal.cc</span>
-              <span class="link-meta">Reverse engineering &amp; malware analysis platform</span>
+          </div>
+        </section>
+
+        <!-- 3. Notion Workspace (notion) -->
+        <section class="cat-block" data-category="notion">
+          <button class="cat-header" aria-expanded="true">
+            <div class="cat-title-wrap">
+              <span class="cat-tag">notion</span>
+              <span>Notion Workspace</span>
+              <span class="cat-count">(5)</span>
             </div>
-            <div class="link-action">
-              <span class="link-dest">re.khandal.cc</span>
-              <span class="link-glyph">↗</span>
+            <span class="cat-chev">▼</span>
+          </button>
+          <div class="cat-body">
+            <a href="https://app.notion.com/p/3f359826d93d8000b094e9f783307e5e" target="_blank" rel="noopener" class="link-row">
+              <div class="link-info">
+                <span class="link-title">Control Center</span>
+                <span class="link-meta">Master dashboard &amp; unified operations index</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">notion.com</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
+            <a href="https://app.notion.com/p/3f359826d93d8032a10df7a6b7eec974" target="_blank" rel="noopener" class="link-row">
+              <div class="link-info">
+                <span class="link-title">Skills Matrix</span>
+                <span class="link-meta">Competency catalog &amp; testing proficiency</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">notion.com</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
+            <a href="https://app.notion.com/p/3f359826d93d806a86fcd20d2c67676e" target="_blank" rel="noopener" class="link-row">
+              <div class="link-info">
+                <span class="link-title">Knowledge Base</span>
+                <span class="link-meta">Reverse engineering playbooks &amp; vulnerability writeups</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">notion.com</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
+            <a href="https://app.notion.com/p/3f359826d93d808ebc19fa08150bc1a7" target="_blank" rel="noopener" class="link-row">
+              <div class="link-info">
+                <span class="link-title">Blogs Tracker</span>
+                <span class="link-meta">Research drafts, publishing queue &amp; outlines</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">notion.com</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
+            <a href="https://calendar.notion.so" target="_blank" rel="noopener" class="link-row">
+              <div class="link-info">
+                <span class="link-title">Notion Calendar</span>
+                <span class="link-meta">Scheduled audits, deadlines &amp; triage shifts</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">calendar.notion.so</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
+          </div>
+        </section>
+
+        <!-- 4. Tasks & Capture (flow) -->
+        <section class="cat-block" data-category="flow">
+          <button class="cat-header" aria-expanded="true">
+            <div class="cat-title-wrap">
+              <span class="cat-tag">flow</span>
+              <span>Tasks &amp; Capture</span>
+              <span class="cat-count">(4)</span>
             </div>
-          </a>
-          <a href="https://soc.khandal.cc" target="_blank" rel="noopener" class="link-row">
-            <div class="link-info">
-              <span class="link-title">soc.khandal.cc</span>
-              <span class="link-meta">SOC telemetry &amp; security operations portal</span>
+            <span class="cat-chev">▼</span>
+          </button>
+          <div class="cat-body">
+            <a href="obsidian://open" id="obsidianVaultLink" class="link-row" title="Open local Obsidian knowledge vault">
+              <div class="link-info">
+                <span class="link-title">Obsidian Vault</span>
+                <span class="link-meta" id="obsidianVaultMeta">Local knowledge graph, CEH lab notes &amp; security research</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">obsidian://</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
+            <a href="https://todoist.com/app" target="_blank" rel="noopener" class="link-row">
+              <div class="link-info">
+                <span class="link-title">Todoist</span>
+                <span class="link-meta">Daily triage queue &amp; structured task execution</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">todoist.com</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
+            <a href="https://keep.google.com" target="_blank" rel="noopener" class="link-row">
+              <div class="link-info">
+                <span class="link-title">Google Keep</span>
+                <span class="link-meta">Rapid scratchpad &amp; transient memory capture</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">keep.google.com</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
+            <div class="technical-note">
+              <span class="tag">SECURE MESSENGER:</span> Signal: desktop client, end-to-end encrypted protocol
             </div>
-            <div class="link-action">
-              <span class="link-dest">soc.khandal.cc</span>
-              <span class="link-glyph">↗</span>
+          </div>
+        </section>
+
+        <!-- 5. Security & Identity (sec) -->
+        <section class="cat-block" data-category="sec">
+          <button class="cat-header" aria-expanded="true">
+            <div class="cat-title-wrap">
+              <span class="cat-tag">sec</span>
+              <span>Security &amp; Identity</span>
+              <span class="cat-count">(3)</span>
             </div>
-          </a>
-          <a href="https://linkedin.com/in/priyanshkhandal" target="_blank" rel="noopener" class="link-row">
-            <div class="link-info">
-              <span class="link-title">LinkedIn</span>
-              <span class="link-meta">Professional network &amp; verified background</span>
+            <span class="cat-chev">▼</span>
+          </button>
+          <div class="cat-body">
+            <a href="https://pass.proton.me" target="_blank" rel="noopener" class="link-row">
+              <div class="link-info">
+                <span class="link-title">Proton Pass</span>
+                <span class="link-meta">Encrypted credentials &amp; identity vault</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">pass.proton.me</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
+            <a href="https://auth.ente.io" target="_blank" rel="noopener" class="link-row">
+              <div class="link-info">
+                <span class="link-title">Ente Auth</span>
+                <span class="link-meta">Zero-knowledge 2FA hardware sync</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">ente.io</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
+            <a href="https://dash.cloudflare.com" target="_blank" rel="noopener" class="link-row">
+              <div class="link-info">
+                <span class="link-title">Cloudflare Dashboard</span>
+                <span class="link-meta">Edge WAF, DNS records &amp; DDoS shielding</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">cloudflare.com</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
+          </div>
+        </section>
+
+        <!-- 6. Portfolio & Presence (net) -->
+        <section class="cat-block" data-category="net">
+          <button class="cat-header" aria-expanded="true">
+            <div class="cat-title-wrap">
+              <span class="cat-tag">net</span>
+              <span>Portfolio &amp; Presence</span>
+              <span class="cat-count">(6)</span>
             </div>
-            <div class="link-action">
-              <span class="link-dest">linkedin.com</span>
-              <span class="link-glyph">↗</span>
-            </div>
-          </a>
-          <a href="https://github.com/rootwithkhandal" target="_blank" rel="noopener" class="link-row">
-            <div class="link-info">
-              <span class="link-title">GitHub</span>
-              <span class="link-meta">Open source security tooling &amp; research</span>
-            </div>
-            <div class="link-action">
-              <span class="link-dest">github.com</span>
-              <span class="link-glyph">↗</span>
-            </div>
-          </a>
-          <a href="mailto:ipriyansh@outlook.in" class="link-row">
-            <div class="link-info">
-              <span class="link-title">ipriyansh@outlook.in</span>
-              <span class="link-meta">Direct operator dispatch email</span>
-            </div>
-            <div class="link-action">
-              <span class="link-dest">mailto</span>
-              <span class="link-glyph">↗</span>
-            </div>
-          </a>
-        </div>
-      </section>
+            <span class="cat-chev">▼</span>
+          </button>
+          <div class="cat-body">
+            <a href="https://khandal.tech" target="_blank" rel="noopener" class="link-row">
+              <div class="link-info">
+                <span class="link-title">khandal.tech</span>
+                <span class="link-meta">Primary engineering platform &amp; identity hub</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">khandal.tech</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
+            <a href="https://re.khandal.cc" target="_blank" rel="noopener" class="link-row">
+              <div class="link-info">
+                <span class="link-title">re.khandal.cc</span>
+                <span class="link-meta">Reverse engineering &amp; malware analysis platform</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">re.khandal.cc</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
+            <a href="https://soc.khandal.cc" target="_blank" rel="noopener" class="link-row">
+              <div class="link-info">
+                <span class="link-title">soc.khandal.cc</span>
+                <span class="link-meta">SOC telemetry &amp; security operations portal</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">soc.khandal.cc</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
+            <a href="https://linkedin.com/in/priyanshkhandal" target="_blank" rel="noopener" class="link-row">
+              <div class="link-info">
+                <span class="link-title">LinkedIn</span>
+                <span class="link-meta">Professional network &amp; verified background</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">linkedin.com</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
+            <a href="https://github.com/rootwithkhandal" target="_blank" rel="noopener" class="link-row">
+              <div class="link-info">
+                <span class="link-title">GitHub</span>
+                <span class="link-meta">Open source security tooling &amp; research</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">github.com</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
+            <a href="mailto:ipriyansh@outlook.in" class="link-row">
+              <div class="link-info">
+                <span class="link-title">ipriyansh@outlook.in</span>
+                <span class="link-meta">Direct operator dispatch email</span>
+              </div>
+              <div class="link-action">
+                <span class="link-dest">mailto</span>
+                <span class="link-glyph">↗</span>
+              </div>
+            </a>
+          </div>
+        </section>
+
+      </div>
 
     </main>
+
 
 
 
@@ -2491,9 +2982,30 @@
         </div>
         <button type="button" class="btn-dialog-reset-link" id="btnClearEnvCache" style="font-size: 11px; padding: 6px 12px;">Clear Key Cache</button>
       </div>
+
+      <div style="margin-top: 18px; border-top: 1px solid var(--border-subtle); padding-top: 14px;">
+        <div style="font-family: var(--font-mono); font-size: 12.5px; font-weight: 600; color: var(--text-primary); margin-bottom: 6px; display: flex; align-items: center; justify-content: space-between;">
+          <span>Directory Links &amp; Sections (links.yaml)</span>
+          <span id="yamlStatusBadge" class="env-key-badge active" style="font-size: 10px;">YAML: Ready</span>
+        </div>
+        <p style="font-size: 12px; color: var(--text-secondary); margin-bottom: 10px; line-height: 1.5;">
+          All categories, bookmarks, titles, URLs, descriptions, and technical notes are driven by <code style="color: var(--accent-sky); font-family: var(--font-mono);">links.yaml</code>. Modify the file or import below:
+        </p>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center;">
+          <div style="display: flex; gap: 8px;">
+            <button type="button" class="btn-dialog-save" id="btnReloadYamlDialog" style="font-size: 11px; padding: 6px 12px;">↻ Reload links.yaml</button>
+            <label class="btn-dialog-cancel" style="font-size: 11px; padding: 6px 12px; cursor: pointer; display: inline-flex; align-items: center;">
+              ↑ Import YAML File
+              <input type="file" id="yamlFileInput" accept=".yaml,.yml,text/yaml,text/plain" style="display: none;">
+            </label>
+          </div>
+          <button type="button" class="btn-dialog-reset-link" id="btnClearYamlCache" style="font-size: 11px; padding: 6px 12px;">Reset to Default YAML</button>
+        </div>
+      </div>
     </div>
   </dialog>
 
+  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
   <script>
     // System Clock & Live UTC Tracking
     function pad(n) { return n.toString().padStart(2, '0'); }
@@ -2653,10 +3165,610 @@
       return url;
     }
 
-    // Real-Time Dynamic Link & Block Filtering
-    const allBlocks = document.querySelectorAll('.cat-block');
-    const allLinks = document.querySelectorAll('.link-row');
-    const totalLinksCount = allLinks.length;
+    // Real-Time Dynamic Link & Block References
+    let allBlocks = document.querySelectorAll('.cat-block');
+    let allLinks = document.querySelectorAll('.link-row');
+    let totalLinksCount = allLinks.length;
+
+    // ==========================================
+    // YAML DIRECTORY ENGINE (links.yaml)
+    // ==========================================
+    const YAML_STORAGE_KEY = 'root_khandal_yaml_cache_v3';
+    try {
+      localStorage.removeItem('root_khandal_yaml_cache_v1');
+      localStorage.removeItem('root_khandal_yaml_cache_v2');
+    } catch (e) {}
+    let currentYamlText = '';
+    let currentSectionsData = null;
+
+    const DEFAULT_LINKS_YAML = `# ========================================================
+# khandal@localhost // Operations Directory & Links Configuration
+# Edit this file to add, remove, or modify links, titles,
+# descriptions, and sections across the 3-column operational layout.
+# ========================================================
+
+sections:
+  # ------------------------------------------------------
+  # COLUMN 1: LEFT FIXED PANEL (Mail & Comms, Crypto, Tasks)
+  # ------------------------------------------------------
+  - tag: comms
+    title: "Mail & Comms"
+    column: 1
+    links:
+      - title: "Gmail"
+        url: "https://mail.google.com"
+        description: "Standard communication channel"
+        dest: "mail.google.com"
+      - title: "Proton Mail"
+        url: "https://mail.proton.me"
+        description: "Encrypted security dispatch & vulnerability triage"
+        dest: "proton.me"
+      - title: "Outlook"
+        url: "https://outlook.live.com/mail/"
+        description: "Corporate correspondence desk"
+        dest: "outlook.live.com"
+      - title: "Tuta Mail"
+        url: "https://mail.tutanota.com"
+        description: "Quantum-resistant encrypted inbox"
+        dest: "tutanota.com"
+
+  # ------------------------------------------------------
+  # COLUMN 2: CENTER PANEL (Operations, Intel, AI & Training)
+  # ------------------------------------------------------
+  - tag: ops
+    title: "SOC & Monitoring"
+    column: 2
+    links:
+      - title: "Datadog"
+        url: "https://app.datadoghq.com"
+        description: "APM, telemetry & live SIEM monitoring"
+        dest: "datadog.com"
+      - title: "Discord (Alerts)"
+        url: "https://discord.com/app"
+        description: "Operational webhook streams & telemetry"
+        dest: "discord.com"
+      - title: "NextDNS"
+        url: "https://my.nextdns.io"
+        description: "Encrypted DNS query logs & threat mitigation"
+        dest: "nextdns.io"
+      - title: "System Hardening Status"
+        url: "https://app.notion.com/p/3f359826d93d80b09abcc8bc23132684"
+        description: "Host baselines, audit policies & compliance"
+        dest: "notion.com"
+      - title: "IsolateMe"
+        url: "https://app.notion.com/p/3f259826d93d803ab195dd1fb856a8d4"
+        description: "Network containment matrix & host airgaps"
+        dest: "notion.com"
+
+  - tag: intel
+    title: "Threat Intel & Recon APIs"
+    column: 2
+    links:
+      - title: "VirusTotal API v3"
+        url: "https://www.virustotal.com/gui/home/upload"
+        description: "Multi-engine malware, file hash, IP, URL & domain triage"
+        dest: "virustotal.com"
+      - title: "Shodan Host & API"
+        url: "https://www.shodan.io"
+        description: "Internet-wide device scanner, banner queries & open ports"
+        dest: "shodan.io"
+      - title: "AbuseIPDB API"
+        url: "https://www.abuseipdb.com"
+        description: "IP blacklist check, brute-force reports & confidence scores"
+        dest: "abuseipdb.com"
+      - title: "Have I Been Pwned API"
+        url: "https://haveibeenpwned.com"
+        description: "Compromised credentials, pwned passwords & breach dumps"
+        dest: "haveibeenpwned.com"
+      - title: "Hunter.io API"
+        url: "https://hunter.io"
+        description: "Domain email finder, pattern verification & deliverability score"
+        dest: "hunter.io"
+      - title: "Numverify API"
+        url: "https://numverify.com"
+        description: "Global phone validation, line-type & carrier identification"
+        dest: "numverify.com"
+      - title: "urlscan.io API"
+        url: "https://urlscan.io"
+        description: "Automated URL sandbox, DOM inspection & HTTP telemetry"
+        dest: "urlscan.io"
+      - title: "AlienVault OTX"
+        url: "https://otx.alienvault.com"
+        description: "Open threat exchange pulses, IOC feeds & API integration"
+        dest: "alienvault.com"
+      - title: "GreyNoise Intelligence"
+        url: "https://viz.greynoise.io"
+        description: "Internet-wide scanner classification & benign noise filter"
+        dest: "greynoise.io"
+
+  - tag: ai
+    title: "AI & Inference APIs"
+    column: 2
+    links:
+      - title: "OpenRouter API"
+        url: "https://openrouter.ai"
+        description: "Unified AI gateway, model routing & low-latency endpoints"
+        dest: "openrouter.ai"
+      - title: "NVIDIA Build AI (NIM)"
+        url: "https://build.nvidia.com"
+        description: "Enterprise generative AI microservices, Nemotron & Llama"
+        dest: "build.nvidia.com"
+      - title: "GroqCloud API"
+        url: "https://console.groq.com"
+        description: "Ultra-fast LPU inference engine for open-weights models"
+        dest: "groq.com"
+      - title: "Hugging Face Inference API"
+        url: "https://huggingface.co/inference-api"
+        description: "Serverless model hubs, embeddings & transformer endpoints"
+        dest: "huggingface.co"
+
+  - tag: learn
+    title: "Training & Certs"
+    column: 2
+    links:
+      - title: "TryHackMe"
+        url: "https://tryhackme.com"
+        description: "Hands-on offensive security labs & CTF rooms"
+        dest: "tryhackme.com"
+    note:
+      tag: "CERT IN PROGRESS:"
+      description: "CEHv13: active study, hands-on labs and notes archived in local Obsidian vault"
+
+  # ------------------------------------------------------
+  # COLUMN 3: RIGHT PANEL (Research, Dev, Notion, Tasks & Presence)
+  # ------------------------------------------------------
+  - tag: re
+    title: "Reverse Engineering & Lab"
+    column: 3
+    links:
+      - title: "RE Portfolio"
+        url: "https://re.khandal.cc"
+        description: "re.khandal.cc: Binary disassembly, firmware & exploits"
+        dest: "re.khandal.cc"
+    note:
+      tag: "LAB HYPERVISOR:"
+      description: "Kali (bspwm) · Parrot OS · Win10 · Win7 · malware sandboxes: local VMs, boot from hypervisor"
+
+  - tag: dev
+    title: "Dev & Projects"
+    column: 3
+    links:
+      - title: "GitHub Profile"
+        url: "https://github.com/rootwithkhandal"
+        description: "rootwithkhandal: Repositories, tooling & patches"
+        dest: "github.com"
+      - title: "Projects Tracker"
+        url: "https://app.notion.com/p/c0cddbcf59254bc7aca3d12ab158c346"
+        description: "Active sprints, milestones & technical debt"
+        dest: "notion.com"
+    note:
+      tag: "DEV ENVIRONMENTS:"
+      description: "Google Antigravity (dev) · Kiro CLI (security fixes): desktop CLI, local execution"
+
+  - tag: notion
+    title: "Notion Workspace"
+    column: 3
+    links:
+      - title: "Control Center"
+        url: "https://app.notion.com/p/3f359826d93d8000b094e9f783307e5e"
+        description: "Master dashboard & unified operations index"
+        dest: "notion.com"
+      - title: "Skills Matrix"
+        url: "https://app.notion.com/p/3f359826d93d8032a10df7a6b7eec974"
+        description: "Competency catalog & testing proficiency"
+        dest: "notion.com"
+      - title: "Knowledge Base"
+        url: "https://app.notion.com/p/3f359826d93d806a86fcd20d2c67676e"
+        description: "Reverse engineering playbooks & vulnerability writeups"
+        dest: "notion.com"
+      - title: "Blogs Tracker"
+        url: "https://app.notion.com/p/3f359826d93d808ebc19fa08150bc1a7"
+        description: "Research drafts, publishing queue & outlines"
+        dest: "notion.com"
+      - title: "Notion Calendar"
+        url: "https://calendar.notion.so"
+        description: "Scheduled audits, deadlines & triage shifts"
+        dest: "calendar.notion.so"
+
+  - tag: flow
+    title: "Tasks & Capture"
+    column: 3
+    links:
+      - title: "Obsidian Vault"
+        url: "obsidian://open"
+        description: "Local knowledge graph, CEH lab notes & security research"
+        dest: "obsidian://"
+        id: "obsidianVaultLink"
+        meta_id: "obsidianVaultMeta"
+      - title: "Todoist"
+        url: "https://todoist.com/app"
+        description: "Daily triage queue & structured task execution"
+        dest: "todoist.com"
+      - title: "Google Keep"
+        url: "https://keep.google.com"
+        description: "Rapid scratchpad & transient memory capture"
+        dest: "keep.google.com"
+    note:
+      tag: "SECURE MESSENGER:"
+      description: "Signal: desktop client, end-to-end encrypted protocol"
+
+  - tag: sec
+    title: "Security & Identity"
+    column: 3
+    links:
+      - title: "Proton Pass"
+        url: "https://pass.proton.me"
+        description: "Encrypted credentials & identity vault"
+        dest: "pass.proton.me"
+      - title: "Ente Auth"
+        url: "https://auth.ente.io"
+        description: "Zero-knowledge 2FA hardware sync"
+        dest: "ente.io"
+      - title: "Cloudflare Dashboard"
+        url: "https://dash.cloudflare.com"
+        description: "Edge WAF, DNS records & DDoS shielding"
+        dest: "cloudflare.com"
+
+  - tag: net
+    title: "Portfolio & Presence"
+    column: 3
+    links:
+      - title: "khandal.tech"
+        url: "https://khandal.tech"
+        description: "Primary engineering platform & identity hub"
+        dest: "khandal.tech"
+      - title: "re.khandal.cc"
+        url: "https://re.khandal.cc"
+        description: "Reverse engineering & malware analysis platform"
+        dest: "re.khandal.cc"
+      - title: "soc.khandal.cc"
+        url: "https://soc.khandal.cc"
+        description: "SOC telemetry & security operations portal"
+        dest: "soc.khandal.cc"
+      - title: "LinkedIn"
+        url: "https://linkedin.com/in/priyanshkhandal"
+        description: "Professional network & verified background"
+        dest: "linkedin.com"
+      - title: "GitHub"
+        url: "https://github.com/rootwithkhandal"
+        description: "Open source security tooling & research"
+        dest: "github.com"
+      - title: "ipriyansh@outlook.in"
+        url: "mailto:ipriyansh@outlook.in"
+        description: "Direct operator dispatch email"
+        dest: "mailto"
+`;
+
+    // Pure JS offline fallback parser for links.yaml schema
+    function parseSimpleYaml(yamlText) {
+      const result = { sections: [] };
+      if (!yamlText || typeof yamlText !== 'string') return result;
+
+      const lines = yamlText.split(/\r?\n/);
+      let currentSection = null;
+      let currentLink = null;
+      let inLinks = false;
+      let inNote = false;
+
+      for (let rawLine of lines) {
+        const line = rawLine.replace(/#.*$/, '');
+        if (!line.trim()) continue;
+
+        const trimmed = line.trim();
+        const indent = rawLine.search(/\S/);
+
+        if (trimmed.startsWith('- tag:') || (!inNote && trimmed.startsWith('tag:') && indent <= 4)) {
+          inLinks = false;
+          inNote = false;
+          currentLink = null;
+          const tagVal = trimmed.replace(/^-\s*tag:\s*|^tag:\s*/, '').trim().replace(/^["']|["']$/g, '');
+          const defaultCol = tagVal === 'comms' ? 1 : (['ops', 'intel', 'ai', 'learn'].includes(tagVal) ? 2 : 3);
+          currentSection = { tag: tagVal, title: '', column: defaultCol, links: [] };
+          result.sections.push(currentSection);
+          continue;
+        }
+
+        if (!currentSection) continue;
+
+        if (trimmed.startsWith('title:') && !inLinks && !inNote) {
+          currentSection.title = trimmed.slice(6).trim().replace(/^["']|["']$/g, '');
+        } else if (trimmed.startsWith('column:') && !inLinks && !inNote) {
+          currentSection.column = parseInt(trimmed.slice(7).trim(), 10) || 1;
+        } else if (trimmed.startsWith('links:')) {
+          inLinks = true;
+          inNote = false;
+          currentLink = null;
+        } else if (trimmed.startsWith('note:')) {
+          inNote = true;
+          inLinks = false;
+          currentLink = null;
+          currentSection.note = { tag: '', description: '' };
+        } else if (inNote && currentSection.note) {
+          if (trimmed.startsWith('tag:')) {
+            currentSection.note.tag = trimmed.slice(4).trim().replace(/^["']|["']$/g, '');
+          } else if (trimmed.startsWith('description:')) {
+            currentSection.note.description = trimmed.slice(12).trim().replace(/^["']|["']$/g, '');
+          }
+        } else if (inLinks) {
+          if (trimmed.startsWith('- title:') || (trimmed.startsWith('- ') && trimmed.includes('title:'))) {
+            const titleVal = trimmed.replace(/^-\s*title:\s*/, '').trim().replace(/^["']|["']$/g, '');
+            currentLink = { title: titleVal, url: '', description: '', dest: '' };
+            currentSection.links.push(currentLink);
+          } else if (currentLink) {
+            if (trimmed.startsWith('title:')) {
+              currentLink.title = trimmed.slice(6).trim().replace(/^["']|["']$/g, '');
+            } else if (trimmed.startsWith('url:')) {
+              currentLink.url = trimmed.slice(4).trim().replace(/^["']|["']$/g, '');
+            } else if (trimmed.startsWith('description:')) {
+              currentLink.description = trimmed.slice(12).trim().replace(/^["']|["']$/g, '');
+            } else if (trimmed.startsWith('dest:')) {
+              currentLink.dest = trimmed.slice(5).trim().replace(/^["']|["']$/g, '');
+            } else if (trimmed.startsWith('id:')) {
+              currentLink.id = trimmed.slice(3).trim().replace(/^["']|["']$/g, '');
+            } else if (trimmed.startsWith('meta_id:')) {
+              currentLink.meta_id = trimmed.slice(8).trim().replace(/^["']|["']$/g, '');
+            }
+          }
+        }
+      }
+      return result;
+    }
+
+    function updateYamlStatus(count) {
+      const badge = document.getElementById('yamlStatusBadge');
+      if (badge) {
+        badge.textContent = `${count} Sections Active`;
+      }
+    }
+
+    function bindAccordionListeners() {
+      document.querySelectorAll('.cat-block').forEach(block => {
+        const header = block.querySelector('.cat-header');
+        if (header && !header.dataset.hasAccordionListener) {
+          header.dataset.hasAccordionListener = 'true';
+          header.addEventListener('click', () => {
+            const isCollapsed = block.classList.toggle('collapsed');
+            header.setAttribute('aria-expanded', (!isCollapsed).toString());
+          });
+        }
+      });
+    }
+
+    function bindFilterButtonEvents() {
+      const filterButtons = document.querySelectorAll('.filter-btn');
+      filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filterButtons.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+
+          const cat = btn.getAttribute('data-filter');
+          const currentBlocks = document.querySelectorAll('.cat-block');
+          if (cat === 'all') {
+            currentBlocks.forEach(b => b.classList.remove('hidden'));
+          } else {
+            currentBlocks.forEach(b => {
+              if (b.getAttribute('data-category') === cat) {
+                b.classList.remove('hidden');
+              } else {
+                b.classList.add('hidden');
+              }
+            });
+          }
+        });
+      });
+    }
+
+    function syncCategoryFilterTags(sections) {
+      const container = document.getElementById('categoryFilterTags');
+      if (!container) return;
+
+      const currentActive = container.querySelector('.filter-btn.active')?.getAttribute('data-filter') || 'all';
+
+      let html = `<button class="filter-btn ${currentActive === 'all' ? 'active' : ''}" data-filter="all">ALL</button>`;
+      sections.forEach(sec => {
+        const isActive = currentActive === sec.tag ? 'active' : '';
+        html += `<button class="filter-btn ${isActive}" data-filter="${escapeHtml(sec.tag)}">${escapeHtml(sec.tag)}</button>`;
+      });
+      html += `<button class="filter-btn ${currentActive === 'crypto' ? 'active' : ''}" data-filter="crypto">crypto</button>`;
+
+      container.innerHTML = html;
+      bindFilterButtonEvents();
+    }
+
+    function renderDirectoryGrid(data) {
+      if (!data || !Array.isArray(data.sections)) return;
+
+      const grid = document.getElementById('directoryGrid');
+      if (!grid) return;
+
+      let col1 = document.getElementById('dirCol1');
+      let col2 = document.getElementById('dirCol2');
+      let col3 = document.getElementById('dirCol3');
+
+      if (!col1) {
+        col1 = document.createElement('div');
+        col1.className = 'directory-col col-fixed-left';
+        col1.id = 'dirCol1';
+        grid.appendChild(col1);
+      }
+      if (!col2) {
+        col2 = document.createElement('div');
+        col2.className = 'directory-col col-center';
+        col2.id = 'dirCol2';
+        grid.appendChild(col2);
+      }
+      if (!col3) {
+        col3 = document.createElement('div');
+        col3.className = 'directory-col col-right';
+        col3.id = 'dirCol3';
+        grid.appendChild(col3);
+      }
+
+      const cryptoWidget = document.getElementById('cryptoWidget');
+      const todoistWidget = document.getElementById('todoistWidget');
+
+      // Clear existing non-widget blocks from all columns
+      col1.querySelectorAll('.cat-block:not(.live-widget)').forEach(b => b.remove());
+      col2.querySelectorAll('.cat-block:not(.live-widget)').forEach(b => b.remove());
+      col3.querySelectorAll('.cat-block:not(.live-widget)').forEach(b => b.remove());
+
+      data.sections.forEach(sec => {
+        const secEl = document.createElement('section');
+        secEl.className = 'cat-block';
+        secEl.setAttribute('data-category', sec.tag);
+
+        const links = sec.links || [];
+
+        // Header
+        const headerBtn = document.createElement('button');
+        headerBtn.className = 'cat-header';
+        headerBtn.setAttribute('aria-expanded', 'true');
+        headerBtn.type = 'button';
+        headerBtn.innerHTML = `
+          <div class="cat-title-wrap">
+            <span class="cat-tag">${escapeHtml(sec.tag)}</span>
+            <span>${escapeHtml(sec.title)}</span>
+            <span class="cat-count">(${links.length})</span>
+          </div>
+          <span class="cat-chev">▼</span>
+        `;
+        secEl.appendChild(headerBtn);
+
+        // Body
+        const bodyEl = document.createElement('div');
+        bodyEl.className = 'cat-body';
+
+        links.forEach(link => {
+          const a = document.createElement('a');
+          a.className = 'link-row';
+          const href = link.url || '#';
+          a.href = href;
+          if (!href.startsWith('mailto:') && !href.startsWith('obsidian:')) {
+            a.target = '_blank';
+            a.rel = 'noopener';
+          }
+
+          if (link.id) {
+            a.id = link.id;
+          } else if (href.startsWith('obsidian:') || link.title.toLowerCase().includes('obsidian')) {
+            a.id = 'obsidianVaultLink';
+          }
+
+          let dest = link.dest;
+          if (!dest && href) {
+            try {
+              const parsed = new URL(href);
+              dest = parsed.hostname.replace(/^www\./, '');
+            } catch(e) {
+              dest = href.startsWith('obsidian:') ? 'obsidian://' : (href.startsWith('mailto:') ? 'mailto' : 'link');
+            }
+          }
+
+          const metaIdAttr = link.meta_id ? ` id="${escapeHtml(link.meta_id)}"` : (a.id === 'obsidianVaultLink' ? ' id="obsidianVaultMeta"' : '');
+
+          a.innerHTML = `
+            <div class="link-info">
+              <span class="link-title">${escapeHtml(link.title)}</span>
+              <span class="link-meta"${metaIdAttr}>${escapeHtml(link.description || '')}</span>
+            </div>
+            <div class="link-action">
+              <span class="link-dest">${escapeHtml(dest || '')}</span>
+              <span class="link-glyph">↗</span>
+            </div>
+          `;
+          bodyEl.appendChild(a);
+        });
+
+        if (sec.note && (sec.note.tag || sec.note.description)) {
+          const noteEl = document.createElement('div');
+          noteEl.className = 'technical-note';
+          const noteTag = sec.note.tag ? `<span class="tag">${escapeHtml(sec.note.tag)}</span> ` : '';
+          noteEl.innerHTML = `${noteTag}${escapeHtml(sec.note.description || '')}`;
+          bodyEl.appendChild(noteEl);
+        }
+
+        secEl.appendChild(bodyEl);
+
+        // Column placement:
+        // Left Column (col1) is strictly and exclusively reserved for "Mail & Comms" (comms),
+        // cryptoWidget, and todoistWidget.
+        // No other section is ever permitted in Column 1.
+        if (sec.tag === 'comms') {
+          if (cryptoWidget && cryptoWidget.parentNode === col1) {
+            col1.insertBefore(secEl, cryptoWidget);
+          } else {
+            col1.appendChild(secEl);
+          }
+        } else if (sec.column === 2 || ['ops', 'intel', 'ai', 'learn'].includes(sec.tag)) {
+          col2.appendChild(secEl);
+        } else {
+          // Column 3: re, dev, notion, flow, sec, net (and any other sections)
+          col3.appendChild(secEl);
+        }
+      });
+
+      // Ensure crypto and todoist widgets reside firmly inside col1 after comms
+      if (cryptoWidget) col1.appendChild(cryptoWidget);
+      if (todoistWidget) col1.appendChild(todoistWidget);
+
+      syncCategoryFilterTags(data.sections);
+
+      // Refresh global references
+      allBlocks = document.querySelectorAll('.cat-block');
+      allLinks = document.querySelectorAll('.link-row');
+      totalLinksCount = allLinks.length;
+
+      bindAccordionListeners();
+      if (typeof initDragAndDrop === 'function') initDragAndDrop();
+      if (typeof updateCategoryCounts === 'function') updateCategoryCounts();
+      if (typeof syncObsidianLinks === 'function') syncObsidianLinks();
+    }
+
+    async function loadLinksYaml(isManual = false) {
+      let loadedText = null;
+
+      try {
+        const res = await fetch('./links.yaml?_t=' + Date.now());
+        if (res.ok) {
+          loadedText = await res.text();
+        }
+      } catch (err) {}
+
+      if (!loadedText) {
+        loadedText = localStorage.getItem(YAML_STORAGE_KEY);
+      }
+
+      if (!loadedText) {
+        loadedText = DEFAULT_LINKS_YAML;
+      }
+
+      try {
+        let parsed = null;
+        if (window.jsyaml && typeof window.jsyaml.load === 'function') {
+          parsed = window.jsyaml.load(loadedText);
+        } else {
+          parsed = parseSimpleYaml(loadedText);
+        }
+
+        if (parsed && Array.isArray(parsed.sections)) {
+          currentYamlText = loadedText;
+          currentSectionsData = parsed;
+          localStorage.setItem(YAML_STORAGE_KEY, loadedText);
+          renderDirectoryGrid(parsed);
+          updateYamlStatus(parsed.sections.length);
+          if (isManual) {
+            showToast(`✓ Reloaded links.yaml: ${parsed.sections.length} sections, ${totalLinksCount} links active`, 'success');
+          }
+          return true;
+        }
+      } catch (parseErr) {
+        console.error('YAML parse error:', parseErr);
+        if (isManual) {
+          showToast('⚠ Error parsing links.yaml: ' + parseErr.message, 'error');
+        }
+      }
+      return false;
+    }
 
     function applyFilter(query) {
       const clean = query.trim().toLowerCase();
@@ -2778,6 +3890,17 @@
       let matches = 0;
 
       allBlocks.forEach(block => {
+        if (block.classList.contains('live-widget')) {
+          const widgetText = (block.textContent || '').toLowerCase();
+          if (widgetText.includes(clean)) {
+            block.classList.remove('hidden');
+            matches++;
+          } else {
+            block.classList.add('hidden');
+          }
+          return;
+        }
+
         let blockMatches = 0;
         const rows = block.querySelectorAll('.link-row');
         rows.forEach(row => {
@@ -3013,40 +4136,9 @@
       }
     });
 
-    // Category Accordion Collapse & Expand
-    allBlocks.forEach(block => {
-      const header = block.querySelector('.cat-header');
-      header.addEventListener('click', () => {
-        const isCollapsed = block.classList.toggle('collapsed');
-        header.setAttribute('aria-expanded', (!isCollapsed).toString());
-      });
-    });
-
-    // Category Filter Buttons
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    filterButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        filterButtons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-
-        const cat = btn.getAttribute('data-filter');
-        if (cat === 'all') {
-          allBlocks.forEach(b => b.classList.remove('hidden'));
-        } else {
-          allBlocks.forEach(b => {
-            if (b.getAttribute('data-category') === cat) {
-              b.classList.remove('hidden');
-            } else {
-              b.classList.add('hidden');
-            }
-          });
-        }
-      });
-    });
-
     // Bulk Expand / Collapse Controls
     document.getElementById('btnExpandAll').addEventListener('click', () => {
-      allBlocks.forEach(b => {
+      document.querySelectorAll('.cat-block').forEach(b => {
         b.classList.remove('collapsed');
         const h = b.querySelector('.cat-header');
         if (h) h.setAttribute('aria-expanded', 'true');
@@ -3054,12 +4146,86 @@
     });
 
     document.getElementById('btnCollapseAll').addEventListener('click', () => {
-      allBlocks.forEach(b => {
+      document.querySelectorAll('.cat-block').forEach(b => {
         b.classList.add('collapsed');
         const h = b.querySelector('.cat-header');
         if (h) h.setAttribute('aria-expanded', 'false');
       });
     });
+
+    // YAML Reload & Import Handlers
+    const btnReloadYaml = document.getElementById('btnReloadYaml');
+    if (btnReloadYaml) {
+      btnReloadYaml.addEventListener('click', async () => {
+        btnReloadYaml.textContent = '↻ Syncing...';
+        const ok = await loadLinksYaml(true);
+        btnReloadYaml.textContent = '↻ YAML';
+        if (!ok) {
+          showToast('Could not fetch links.yaml directly via file://. Open .env dialog to import or use a local web server.', 'error', 4000);
+        }
+      });
+    }
+
+    const btnReloadYamlDialog = document.getElementById('btnReloadYamlDialog');
+    if (btnReloadYamlDialog) {
+      btnReloadYamlDialog.addEventListener('click', async () => {
+        btnReloadYamlDialog.textContent = '↻ Syncing...';
+        const ok = await loadLinksYaml(true);
+        btnReloadYamlDialog.textContent = '↻ Reload links.yaml';
+        if (!ok) {
+          showToast('Could not fetch links.yaml directly. Use "Import YAML File" to select it directly from your disk.', 'error', 4000);
+        }
+      });
+    }
+
+    const yamlFileInput = document.getElementById('yamlFileInput');
+    if (yamlFileInput) {
+      yamlFileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const text = event.target.result;
+          try {
+            const parsed = (window.jsyaml && typeof window.jsyaml.load === 'function')
+              ? window.jsyaml.load(text)
+              : parseSimpleYaml(text);
+            if (parsed && Array.isArray(parsed.sections)) {
+              localStorage.setItem(YAML_STORAGE_KEY, text);
+              currentYamlText = text;
+              currentSectionsData = parsed;
+              renderDirectoryGrid(parsed);
+              updateYamlStatus(parsed.sections.length);
+              showToast(`✓ Loaded ${parsed.sections.length} sections from ${file.name}`, 'success');
+              if (searchFeedback) {
+                searchFeedback.innerHTML = `<span style="color: var(--status-success);">✓ Loaded ${parsed.sections.length} sections from ${file.name}</span>`;
+                setTimeout(() => { if (!searchInput.value) searchFeedback.textContent = ''; }, 3500);
+              }
+            } else {
+              showToast('⚠ Invalid YAML structure: missing "sections:" array', 'error');
+            }
+          } catch (err) {
+            showToast('⚠ Failed to parse YAML file: ' + err.message, 'error');
+          }
+        };
+        reader.readAsText(file);
+      });
+    }
+
+    const btnClearYamlCache = document.getElementById('btnClearYamlCache');
+    if (btnClearYamlCache) {
+      btnClearYamlCache.addEventListener('click', () => {
+        localStorage.removeItem(YAML_STORAGE_KEY);
+        const parsed = (window.jsyaml && typeof window.jsyaml.load === 'function')
+          ? window.jsyaml.load(DEFAULT_LINKS_YAML)
+          : parseSimpleYaml(DEFAULT_LINKS_YAML);
+        currentYamlText = DEFAULT_LINKS_YAML;
+        currentSectionsData = parsed;
+        renderDirectoryGrid(parsed);
+        updateYamlStatus(parsed.sections.length);
+        showToast('✓ Restored default YAML configuration', 'info');
+      });
+    }
 
 
 
@@ -3123,7 +4289,8 @@
       { key: 'URLSCAN_API_KEY', service: 'urlscan.io' },
       { key: 'OTX_API_KEY', service: 'AlienVault OTX' },
       { key: 'GREYNOISE_API_KEY', service: 'GreyNoise' },
-      { key: 'GROQ_API_KEY', service: 'GroqCloud' }
+      { key: 'GROQ_API_KEY', service: 'GroqCloud' },
+      { key: 'TODOIST_API_KEY', service: 'Todoist API (Today Tasks)' }
     ];
 
     function syncObsidianLinks() {
@@ -3296,6 +4463,7 @@
     if (btnReloadEnv) {
       btnReloadEnv.addEventListener('click', async () => {
         const ok = await fetchEnvFile();
+        if (typeof fetchTodoistTasks === 'function') fetchTodoistTasks(false);
         showToast(
           ok ? `✓ Reloaded .env: ${Object.keys(envConfig).length} keys active` : `Note: .env fetch blocked by file protocol. Use 'Import .env File'.`,
           ok ? 'success' : 'error'
@@ -3322,6 +4490,7 @@
           updateEnvBadge();
           renderEnvKeysList();
           syncObsidianLinks();
+          if (typeof fetchTodoistTasks === 'function') fetchTodoistTasks(false);
           showToast(`✓ Loaded ${Object.keys(parsed).length} keys from ${file.name}`, 'success');
           if (searchFeedback) {
             searchFeedback.innerHTML = `<span style="color: var(--status-success);">✓ Loaded ${Object.keys(parsed).length} keys from ${file.name}</span>`;
@@ -3339,6 +4508,7 @@
         updateEnvBadge();
         renderEnvKeysList();
         syncObsidianLinks();
+        if (typeof fetchTodoistTasks === 'function') fetchTodoistTasks(false);
         showToast('API key cache cleared', 'info');
         if (searchFeedback) {
           searchFeedback.innerHTML = `<span style="color: var(--accent-sky);">API key cache cleared</span>`;
@@ -3347,7 +4517,472 @@
       });
     }
 
-    fetchEnvFile();
+    fetchEnvFile().then(() => {
+      fetchTodoistTasks(false);
+    });
+
+    // ==========================================
+    // 12. REAL-TIME CRYPTO TICKER WIDGET
+    // ==========================================
+    const CRYPTO_STORAGE_KEY = 'root_khandal_crypto_cache_v1';
+    const cryptoCoins = [
+      { id: 'bitcoin', symbol: 'BTC', name: 'Bitcoin', icon: '₿', iconClass: 'btc' },
+      { id: 'ethereum', symbol: 'ETH', name: 'Ethereum', icon: 'Ξ', iconClass: 'eth' },
+      { id: 'solana', symbol: 'SOL', name: 'Solana', icon: '◎', iconClass: 'sol' },
+      { id: 'tether', symbol: 'USDT', name: 'Tether USD', icon: '₮', iconClass: 'usdt' },
+      { id: 'usd-coin', symbol: 'USDC', name: 'USD Coin', icon: '$', iconClass: 'usdc' }
+    ];
+
+    function formatUsdPrice(price) {
+      if (price === undefined || price === null || isNaN(price)) return '---';
+      if (price >= 1000) {
+        return '$' + Number(price).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      } else if (price >= 1) {
+        return '$' + Number(price).toFixed(2);
+      } else {
+        return '$' + Number(price).toFixed(4);
+      }
+    }
+
+    function renderCryptoRows(data) {
+      const body = document.getElementById('cryptoBody');
+      if (!body) return;
+      if (!data || Object.keys(data).length === 0) {
+        body.innerHTML = `
+          <div class="widget-error">
+            <span class="error-icon">⚠️</span>
+            <span>Unable to load live market data</span>
+            <button type="button" id="btnRetryCrypto">Retry Connection</button>
+          </div>
+        `;
+        const retryBtn = document.getElementById('btnRetryCrypto');
+        if (retryBtn) retryBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          fetchCryptoPrices(true);
+        });
+        return;
+      }
+
+      let html = '';
+      cryptoCoins.forEach(coin => {
+        const item = data[coin.id] || {};
+        const price = item.usd;
+        const change = item.usd_24h_change;
+        const isUp = change > 0;
+        const isDown = change < 0;
+        const changeClass = isUp ? 'up' : isDown ? 'down' : 'neutral';
+        const changeIcon = isUp ? '▲' : isDown ? '▼' : '•';
+        const changeText = (change !== undefined && change !== null && !isNaN(change))
+          ? `${changeIcon} ${Math.abs(change).toFixed(2)}%`
+          : '0.00%';
+
+        html += `
+          <a href="https://www.coingecko.com/en/coins/${encodeURIComponent(coin.id)}" target="_blank" rel="noopener noreferrer" class="crypto-row" title="View ${coin.name} (${coin.symbol}) live chart">
+            <div class="crypto-left">
+              <span class="crypto-icon ${coin.iconClass}">${coin.icon}</span>
+              <div class="crypto-name">
+                <span class="symbol">${coin.symbol}</span>
+                <span class="full-name">${coin.name}</span>
+              </div>
+            </div>
+            <div class="crypto-right">
+              <span class="crypto-price">${formatUsdPrice(price)}</span>
+              <span class="crypto-change ${changeClass}">${changeText}</span>
+            </div>
+          </a>
+        `;
+      });
+      body.innerHTML = html;
+    }
+
+    async function fetchCryptoPrices(isManual = false) {
+      const btnRefresh = document.getElementById('btnRefreshCrypto');
+      const statusDot = document.getElementById('cryptoStatusDot');
+      const statusText = document.getElementById('cryptoStatusText');
+      const lastUpdatedEl = document.getElementById('cryptoLastUpdated');
+
+      if (btnRefresh) btnRefresh.classList.add('spinning');
+      if (statusText) statusText.textContent = 'Syncing...';
+
+      let success = false;
+      let resultData = null;
+
+      // 1. Primary: CoinGecko API
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 6000);
+        const url = 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,tether,usd-coin&vs_currencies=usd&include_24hr_change=true';
+        const res = await fetch(url, { signal: controller.signal });
+        clearTimeout(timeoutId);
+        if (res.ok) {
+          const json = await res.json();
+          if (json.bitcoin && json.bitcoin.usd) {
+            resultData = json;
+            success = true;
+          }
+        }
+      } catch (err) {
+        // Fallback to secondary source
+      }
+
+      // 2. Fallback: Binance 24hr ticker API (Free, high limits, CORS enabled)
+      if (!success) {
+        try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 6000);
+          const symbols = encodeURIComponent('["BTCUSDT","ETHUSDT","SOLUSDT","USDCUSDT"]');
+          const res = await fetch(`https://api.binance.com/api/v3/ticker/24hr?symbols=${symbols}`, { signal: controller.signal });
+          clearTimeout(timeoutId);
+          if (res.ok) {
+            const list = await res.json();
+            const map = {};
+            list.forEach(t => {
+              const p = parseFloat(t.lastPrice);
+              const c = parseFloat(t.priceChangePercent);
+              if (t.symbol === 'BTCUSDT') map['bitcoin'] = { usd: p, usd_24h_change: c };
+              if (t.symbol === 'ETHUSDT') map['ethereum'] = { usd: p, usd_24h_change: c };
+              if (t.symbol === 'SOLUSDT') map['solana'] = { usd: p, usd_24h_change: c };
+              if (t.symbol === 'USDCUSDT') map['usd-coin'] = { usd: 1 / (p || 1), usd_24h_change: -c };
+            });
+            map['tether'] = { usd: 1.00, usd_24h_change: 0.01 };
+            if (map.bitcoin && map.bitcoin.usd) {
+              resultData = map;
+              success = true;
+            }
+          }
+        } catch (err2) {
+          // Secondary fallback failed
+        }
+      }
+
+      if (btnRefresh) btnRefresh.classList.remove('spinning');
+
+      if (success && resultData) {
+        localStorage.setItem(CRYPTO_STORAGE_KEY, JSON.stringify({
+          timestamp: Date.now(),
+          data: resultData
+        }));
+        renderCryptoRows(resultData);
+        if (statusDot) {
+          statusDot.className = 'status-dot live';
+        }
+        if (statusText) {
+          statusText.textContent = 'Live';
+          statusText.style.color = 'var(--status-success)';
+        }
+        if (lastUpdatedEl) {
+          const d = new Date();
+          lastUpdatedEl.textContent = `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+        }
+        if (isManual) showToast('✓ Real-time crypto market data updated', 'success', 2000);
+      } else {
+        const cached = localStorage.getItem(CRYPTO_STORAGE_KEY);
+        if (cached) {
+          try {
+            const parsed = JSON.parse(cached);
+            renderCryptoRows(parsed.data);
+            if (statusDot) statusDot.className = 'status-dot';
+            if (statusText) {
+              statusText.textContent = 'Cached';
+              statusText.style.color = 'var(--status-warning)';
+            }
+            if (lastUpdatedEl && parsed.timestamp) {
+              const d = new Date(parsed.timestamp);
+              lastUpdatedEl.textContent = `Cached ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+            }
+          } catch (e) {
+            renderCryptoRows(null);
+          }
+        } else {
+          renderCryptoRows(null);
+          if (statusDot) statusDot.className = 'status-dot error';
+          if (statusText) {
+            statusText.textContent = 'Offline';
+            statusText.style.color = 'var(--status-error)';
+          }
+        }
+        if (isManual) showToast('⚠ Could not refresh crypto prices (Rate limit / network)', 'error', 3000);
+      }
+    }
+
+    // ==========================================
+    // 13. TODAY'S TASKS FROM TODOIST REST API
+    // ==========================================
+    const TODOIST_CACHE_KEY = 'root_khandal_todoist_cache_v1';
+
+    function renderTodoistPrompt() {
+      const body = document.getElementById('todoistBody');
+      const countEl = document.getElementById('todoistHeaderCount');
+      const statusDot = document.getElementById('todoistStatusDot');
+      const statusText = document.getElementById('todoistStatusText');
+
+      if (countEl) countEl.textContent = '(Unset)';
+      if (statusDot) statusDot.className = 'status-dot';
+      if (statusText) {
+        statusText.textContent = 'Key Required';
+        statusText.style.color = 'var(--status-warning)';
+      }
+
+      if (!body) return;
+      body.innerHTML = `
+        <div style="padding: 14px 10px; border-radius: var(--radius-xs); background: rgba(222, 192, 139, 0.04); border: 1px dashed var(--border-subtle); display: flex; flex-direction: column; gap: 8px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 14px; color: var(--status-warning);">🔑</span>
+            <span style="font-size: 12.5px; font-weight: 600; color: var(--text-primary); font-family: var(--font-mono);">TODOIST_API_KEY Unconfigured</span>
+          </div>
+          <p style="font-size: 11.5px; color: var(--text-secondary); line-height: 1.5; margin: 0;">
+            Add your Todoist API token to <code style="color: var(--accent-sky); font-family: var(--font-mono);">.env</code> to display live today &amp; overdue tasks.
+          </p>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px;">
+            <button type="button" id="btnOpenEnvForTodoist" style="font-family: var(--font-mono); font-size: 11px; padding: 5px 10px; background: rgba(155, 183, 212, 0.12); border: 1px solid rgba(155, 183, 212, 0.3); color: var(--accent-sky); border-radius: var(--radius-xs); cursor: pointer; transition: all var(--transition-fast);">⚙ Configure in .env</button>
+            <a href="https://app.todoist.com/app/settings/integrations/developer" target="_blank" rel="noopener noreferrer" style="font-family: var(--font-mono); font-size: 11px; padding: 5px 10px; background: var(--bg-elevated); border: 1px solid var(--border-subtle); color: var(--text-secondary); border-radius: var(--radius-xs); text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">Get API Token ↗</a>
+          </div>
+        </div>
+      `;
+
+      const btnOpen = document.getElementById('btnOpenEnvForTodoist');
+      if (btnOpen) {
+        btnOpen.addEventListener('click', (e) => {
+          e.stopPropagation();
+          renderEnvKeysList();
+          if (envDialog) envDialog.showModal();
+        });
+      }
+    }
+
+    function renderTodoistTasks(tasks) {
+      const body = document.getElementById('todoistBody');
+      const countEl = document.getElementById('todoistHeaderCount');
+      if (!body) return;
+
+      if (!tasks || tasks.length === 0) {
+        if (countEl) countEl.textContent = '(0)';
+        body.innerHTML = `
+          <div class="todoist-empty">
+            <span class="empty-icon">🎯</span>
+            <span style="font-weight: 600; color: var(--text-primary);">Inbox Zero for Today</span>
+            <span style="font-size: 11px;">No pending or overdue tasks scheduled.</span>
+            <a href="https://app.todoist.com/app/today" target="_blank" rel="noopener" style="margin-top: 6px; font-size: 11px; color: var(--accent-sky); text-decoration: none;">+ Add task in Todoist ↗</a>
+          </div>
+        `;
+        return;
+      }
+
+      if (countEl) countEl.textContent = `(${tasks.length})`;
+
+      let html = '';
+      tasks.forEach(task => {
+        const priority = task.priority || 1;
+        const pClass = priority === 4 ? 'p1' : priority === 3 ? 'p2' : priority === 2 ? 'p3' : 'p4';
+        const pLabel = priority === 4 ? 'P1' : priority === 3 ? 'P2' : priority === 2 ? 'P3' : '';
+
+        const isOverdue = task.due && task.due.date && (new Date(task.due.date + 'T23:59:59') < new Date());
+        const dueTime = task.due ? (task.due.datetime ? task.due.datetime.slice(11, 16) : task.due.date) : '';
+
+        html += `
+          <div class="todoist-task" data-task-id="${escapeHtml(task.id)}">
+            <span class="todoist-check ${pClass}" role="button" tabindex="0" title="Mark completed in Todoist" data-task-id="${escapeHtml(task.id)}"></span>
+            <div class="todoist-task-info">
+              <a href="${escapeHtml(task.url || 'https://app.todoist.com/app/task/' + task.id)}" target="_blank" rel="noopener noreferrer" class="todoist-task-title" style="text-decoration: none; color: inherit;">
+                ${escapeHtml(task.content)}
+              </a>
+              ${task.description ? `<div class="todoist-task-desc" style="font-size: 11px; color: var(--text-muted); line-height: 1.4; margin-top: 1px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;" title="${escapeHtml(task.description)}">${escapeHtml(task.description)}</div>` : ''}
+              <div class="todoist-task-meta">
+                ${pLabel ? `<span class="todoist-priority ${pClass}">${pLabel}</span>` : ''}
+                ${isOverdue ? `<span style="color: var(--status-error); font-weight: 600;">⚠ Overdue</span>` : ''}
+                ${task.due ? `<span>${task.due.is_recurring ? '🔁 ' : ''}${escapeHtml(task.due.string || dueTime)}</span>` : ''}
+              </div>
+            </div>
+          </div>
+        `;
+      });
+      body.innerHTML = html;
+
+      // Add interactive click listeners to checkboxes
+      body.querySelectorAll('.todoist-check').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const taskId = btn.getAttribute('data-task-id');
+          if (!taskId) return;
+
+          btn.style.background = 'var(--status-success)';
+          btn.style.borderColor = 'var(--status-success)';
+          const taskRow = btn.closest('.todoist-task');
+          if (taskRow) {
+            taskRow.style.opacity = '0.4';
+            taskRow.style.textDecoration = 'line-through';
+          }
+
+          const apiKey = (envConfig['TODOIST_API_KEY'] || '').trim();
+          if (!apiKey) return;
+
+          try {
+            const res = await fetch(`https://api.todoist.com/api/v1/tasks/${encodeURIComponent(taskId)}/close`, {
+              method: 'POST',
+              headers: { 'Authorization': `Bearer ${apiKey}` }
+            });
+            if (res.ok || res.status === 204) {
+              showToast('✓ Task completed in Todoist', 'success', 2200);
+              setTimeout(() => {
+                fetchTodoistTasks(false);
+              }, 600);
+            } else {
+              showToast('⚠ Could not complete task in Todoist', 'error');
+              fetchTodoistTasks(false);
+            }
+          } catch (err) {
+            showToast('⚠ Error completing task', 'error');
+            fetchTodoistTasks(false);
+          }
+        });
+      });
+    }
+
+    async function fetchTodoistTasks(isManual = false) {
+      const apiKey = (envConfig['TODOIST_API_KEY'] || '').trim();
+      const statusDot = document.getElementById('todoistStatusDot');
+      const statusText = document.getElementById('todoistStatusText');
+      const btnRefresh = document.getElementById('btnRefreshTodoist');
+
+      if (!apiKey) {
+        renderTodoistPrompt();
+        return;
+      }
+
+      if (btnRefresh) btnRefresh.classList.add('spinning');
+      if (statusText) statusText.textContent = 'Syncing...';
+
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 7000);
+        const res = await fetch('https://api.todoist.com/api/v1/tasks/filter?query=today%20%7C%20overdue', {
+          headers: {
+            'Authorization': `Bearer ${apiKey}`
+          },
+          signal: controller.signal
+        });
+        clearTimeout(timeoutId);
+
+        if (btnRefresh) btnRefresh.classList.remove('spinning');
+
+        if (res.ok) {
+          const json = await res.json();
+          const tasks = Array.isArray(json) ? json : (Array.isArray(json.results) ? json.results : []);
+          localStorage.setItem(TODOIST_CACHE_KEY, JSON.stringify({
+            timestamp: Date.now(),
+            tasks: tasks
+          }));
+          renderTodoistTasks(tasks);
+          if (statusDot) statusDot.className = 'status-dot live';
+          if (statusText) {
+            statusText.textContent = 'Synced';
+            statusText.style.color = 'var(--status-success)';
+          }
+          if (isManual) showToast(`✓ Synced ${tasks.length} task(s) from Todoist`, 'success', 2000);
+        } else if (res.status === 401 || res.status === 403) {
+          if (statusDot) statusDot.className = 'status-dot error';
+          if (statusText) {
+            statusText.textContent = 'Auth Failed';
+            statusText.style.color = 'var(--status-error)';
+          }
+          const body = document.getElementById('todoistBody');
+          if (body) {
+            body.innerHTML = `
+              <div class="widget-error">
+                <span class="error-icon">🔒</span>
+                <span>Invalid Todoist API Key (401 Unauthorized)</span>
+                <button type="button" id="btnFixTodoistKey">Update API Key in .env</button>
+              </div>
+            `;
+            const fixBtn = document.getElementById('btnFixTodoistKey');
+            if (fixBtn) fixBtn.addEventListener('click', (e) => {
+              e.stopPropagation();
+              renderEnvKeysList();
+              if (envDialog) envDialog.showModal();
+            });
+          }
+          if (isManual) showToast('⚠ Invalid Todoist API Key', 'error', 3000);
+        } else {
+          throw new Error('API status: ' + res.status);
+        }
+      } catch (err) {
+        if (btnRefresh) btnRefresh.classList.remove('spinning');
+        const cached = localStorage.getItem(TODOIST_CACHE_KEY);
+        if (cached) {
+          try {
+            const parsed = JSON.parse(cached);
+            renderTodoistTasks(parsed.tasks);
+            if (statusDot) statusDot.className = 'status-dot';
+            if (statusText) {
+              statusText.textContent = 'Offline Cache';
+              statusText.style.color = 'var(--status-warning)';
+            }
+          } catch (e) {
+            renderTodoistTasks([]);
+          }
+        } else {
+          const body = document.getElementById('todoistBody');
+          if (body) {
+            body.innerHTML = `
+              <div class="widget-error">
+                <span class="error-icon">⚠️</span>
+                <span>Could not reach Todoist API</span>
+                <button type="button" id="btnRetryTodoist">Retry Sync</button>
+              </div>
+            `;
+            const retry = document.getElementById('btnRetryTodoist');
+            if (retry) retry.addEventListener('click', (e) => {
+              e.stopPropagation();
+              fetchTodoistTasks(true);
+            });
+          }
+          if (statusDot) statusDot.className = 'status-dot error';
+          if (statusText) {
+            statusText.textContent = 'Error';
+            statusText.style.color = 'var(--status-error)';
+          }
+        }
+        if (isManual) showToast('⚠ Todoist sync connection error', 'error', 3000);
+      }
+    }
+
+    const btnRefreshCrypto = document.getElementById('btnRefreshCrypto');
+    if (btnRefreshCrypto) {
+      btnRefreshCrypto.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        fetchCryptoPrices(true);
+      });
+      btnRefreshCrypto.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          e.stopPropagation();
+          fetchCryptoPrices(true);
+        }
+      });
+    }
+
+    const btnRefreshTodoist = document.getElementById('btnRefreshTodoist');
+    if (btnRefreshTodoist) {
+      btnRefreshTodoist.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        fetchTodoistTasks(true);
+      });
+      btnRefreshTodoist.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          e.stopPropagation();
+          fetchTodoistTasks(true);
+        }
+      });
+    }
+
+    // Initialize Real-time Crypto Prices & Todoist Sync Intervals
+    fetchCryptoPrices(false);
+    setInterval(() => fetchCryptoPrices(false), 60000);
+    setInterval(() => fetchTodoistTasks(false), 300000);
 
     // Dynamic Copyright Year (Item 31)
     const cpYearEl = document.getElementById('copyrightYear');
@@ -3468,7 +5103,10 @@
     // ==========================================
     // DRAG AND DROP & LINK CUSTOMIZATION (LocalStorage)
     // ==========================================
-    const STORAGE_KEY = 'root_khandal_link_order_v1';
+    const STORAGE_KEY = 'root_khandal_link_order_v2';
+    try {
+      localStorage.removeItem('root_khandal_link_order_v1');
+    } catch (e) {}
     const STORAGE_KEY_EDITS = 'root_khandal_link_edits_v1';
     const btnResetOrder = document.getElementById('btnResetOrder');
     const btnToggleEditMode = document.getElementById('btnToggleEditMode');
@@ -3655,7 +5293,7 @@
     const defaultOrder = new Map();
 
     function updateCategoryCounts() {
-      document.querySelectorAll('.cat-block').forEach(block => {
+      document.querySelectorAll('.cat-block:not(.live-widget)').forEach(block => {
         const countBadge = block.querySelector('.cat-count');
         const count = block.querySelectorAll('.link-row').length;
         if (countBadge) countBadge.textContent = `(${count})`;
@@ -3664,7 +5302,7 @@
 
     function saveLinkOrder() {
       const order = {};
-      document.querySelectorAll('.cat-block').forEach(block => {
+      document.querySelectorAll('.cat-block:not(.live-widget)').forEach(block => {
         const cat = block.getAttribute('data-category');
         const ids = [];
         block.querySelectorAll('.link-row').forEach(row => {
@@ -3679,7 +5317,7 @@
     }
 
     function initDragAndDrop() {
-      const allCategoryBlocks = document.querySelectorAll('.cat-block');
+      const allCategoryBlocks = document.querySelectorAll('.cat-block:not(.live-widget)');
 
       // Load saved customizations
       let savedEdits = {};
@@ -3774,6 +5412,19 @@
             ids.forEach(id => {
               const row = linkMap.get(id);
               if (row) {
+                if (note) {
+                  catBody.insertBefore(row, note);
+                } else {
+                  catBody.appendChild(row);
+                }
+                linkMap.delete(id);
+              }
+            });
+
+            // Ensure any links not in savedOrder (e.g. newly added links like Tuta Mail) remain visible
+            block.querySelectorAll('.link-row').forEach(row => {
+              const rowId = row.getAttribute('data-link-id');
+              if (linkMap.has(rowId)) {
                 if (note) {
                   catBody.insertBefore(row, note);
                 } else {
@@ -4016,6 +5667,9 @@
     }
 
     initDragAndDrop();
+
+    // Load directory links and sections from links.yaml
+    loadLinksYaml(false);
   </script>
 </body>
 </html>
