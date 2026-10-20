@@ -1,0 +1,23 @@
+# ========================================================
+# Production Security & Performance Headers
+# Compatible with Cloudflare Pages, Netlify & Modern Edge CDNs
+# ========================================================
+
+# Global Security & Caching Baseline
+/*
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
+  Content-Security-Policy: default-src 'self' 'unsafe-inline' https: data:; font-src 'self' https: data:; img-src 'self' https: data:; connect-src 'self' https:; frame-ancestors 'none'; base-uri 'self';
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Fast-updating Directory Manifest
+/links.yaml
+  Content-Type: text/yaml; charset=utf-8
+  Cache-Control: public, max-age=60, stale-while-revalidate=300
+
+# Strict Exclusion on Hidden / Dotfiles
+/.*
+  X-Robots-Tag: noindex, nofollow

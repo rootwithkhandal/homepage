@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /.*
+Disallow: /404.html
+Disallow: /security.md
+Disallow: /design.md
+
+Sitemap: https://khandal.tech/sitemap.xml
