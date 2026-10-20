@@ -28,6 +28,18 @@ sections:
         url: "https://mail.tutanota.com"
         description: "Quantum-resistant encrypted inbox"
         dest: "tutanota.com"
+      - title: "Discord"
+        url: "https://discord.com/app"
+        description: "Community channels, servers & voice chats"
+        dest: "discord.com"
+      - title: "Slack"
+        url: "https://app.slack.com"
+        description: "Team collaboration & project workspaces"
+        dest: "slack.com"
+      - title: "WhatsApp Web"
+        url: "https://web.whatsapp.com"
+        description: "Desktop instant messaging & conversations"
+        dest: "whatsapp.com"
 
   # ------------------------------------------------------
   # COLUMN 2: CENTER PANEL (Operations, Intel, AI & Training)
@@ -40,14 +52,18 @@ sections:
         url: "https://app.datadoghq.com"
         description: "APM, telemetry & live SIEM monitoring"
         dest: "datadog.com"
-      - title: "Discord (Alerts)"
-        url: "https://discord.com/app"
-        description: "Operational webhook streams & telemetry"
-        dest: "discord.com"
       - title: "NextDNS"
         url: "https://my.nextdns.io"
         description: "Encrypted DNS query logs & threat mitigation"
         dest: "nextdns.io"
+      - title: "Speedtest"
+        url: "https://www.speedtest.net"
+        description: "Internet bandwidth latency & throughput test"
+        dest: "speedtest.net"
+      - title: "CyberChef"
+        url: "https://gchq.github.io/CyberChef"
+        description: "Swiss Army Knife for data decoding & parsing"
+        dest: "github.io"
       - title: "System Hardening Status"
         url: "https://app.notion.com/p/3f359826d93d80b09abcc8bc23132684"
         description: "Host baselines, audit policies & compliance"
@@ -56,6 +72,27 @@ sections:
         url: "https://app.notion.com/p/3f259826d93d803ab195dd1fb856a8d4"
         description: "Network containment matrix & host airgaps"
         dest: "notion.com"
+
+  - tag: media
+    title: "Media & Streaming"
+    column: 2
+    links:
+      - title: "YouTube"
+        url: "https://www.youtube.com"
+        description: "Video streaming, tutorials, music & podcasts"
+        dest: "youtube.com"
+      - title: "Spotify"
+        url: "https://open.spotify.com"
+        description: "Music playlists, focus audio & creator podcasts"
+        dest: "spotify.com"
+      - title: "Netflix"
+        url: "https://www.netflix.com"
+        description: "Movies, documentaries & entertainment series"
+        dest: "netflix.com"
+      - title: "Twitch"
+        url: "https://www.twitch.tv"
+        description: "Live creative streams, gaming & tech broadcasts"
+        dest: "twitch.tv"
 
   - tag: intel
     title: "Threat Intel & Recon APIs"
@@ -102,6 +139,18 @@ sections:
     title: "AI & Inference APIs"
     column: 2
     links:
+      - title: "ChatGPT"
+        url: "https://chatgpt.com"
+        description: "OpenAI conversational intelligence & analysis"
+        dest: "chatgpt.com"
+      - title: "Claude"
+        url: "https://claude.ai"
+        description: "Anthropic reasoning, writing & code assistance"
+        dest: "claude.ai"
+      - title: "Grok"
+        url: "https://console.groq.com"
+        description: "Ultra-fast LPU inference engine for open-weights models"
+        dest: "groq.com"
       - title: "OpenRouter API"
         url: "https://openrouter.ai"
         description: "Unified AI gateway, model routing & low-latency endpoints"
@@ -110,10 +159,6 @@ sections:
         url: "https://build.nvidia.com"
         description: "Enterprise generative AI microservices, Nemotron & Llama"
         dest: "build.nvidia.com"
-      - title: "GroqCloud API"
-        url: "https://console.groq.com"
-        description: "Ultra-fast LPU inference engine for open-weights models"
-        dest: "groq.com"
       - title: "Hugging Face Inference API"
         url: "https://huggingface.co/inference-api"
         description: "Serverless model hubs, embeddings & transformer endpoints"
@@ -151,6 +196,28 @@ sections:
   # ------------------------------------------------------
   # COLUMN 3: RIGHT PANEL (Research, Dev, Notion, Tasks & Presence)
   # ------------------------------------------------------
+
+  - tag: social
+    title: "Social & Community"
+    column: 2
+    links:
+      - title: "Reddit"
+        url: "https://www.reddit.com"
+        description: "Interest communities, discussions & trending news"
+        dest: "reddit.com"
+      - title: "X / Twitter"
+        url: "https://x.com"
+        description: "Real-time global feeds, ideas & industry news"
+        dest: "x.com"
+      - title: "LinkedIn"
+        url: "https://www.linkedin.com"
+        description: "Professional network, careers & industry updates"
+        dest: "linkedin.com"
+      - title: "Hacker News"
+        url: "https://news.ycombinator.com"
+        description: "Technology news, startup ideas & intellectual discourse"
+        dest: "ycombinator.com"
+
   - tag: re
     title: "Reverse Engineering & Lab"
     column: 3
@@ -175,6 +242,14 @@ sections:
         url: "https://app.notion.com/p/c0cddbcf59254bc7aca3d12ab158c346"
         description: "Active sprints, milestones & technical debt"
         dest: "notion.com"
+      - title: "GitLab"
+        url: "https://gitlab.com"
+        description: "DevOps lifecycle, private repositories & pipelines"
+        dest: "gitlab.com"
+      - title: "Stack Overflow"
+        url: "https://stackoverflow.com"
+        description: "Community programming questions & debug solutions"
+        dest: "stackoverflow.com"
     note:
       tag: "DEV ENVIRONMENTS:"
       description: "Google Antigravity (dev) · Kiro CLI (security fixes): desktop CLI, local execution"
@@ -222,6 +297,10 @@ sections:
         url: "https://keep.google.com"
         description: "Rapid scratchpad & transient memory capture"
         dest: "keep.google.com"
+      - title: "Google Calendar"
+        url: "https://calendar.google.com"
+        description: "Meeting schedules, time blocks & appointment agenda"
+        dest: "google.com"
     note:
       tag: "SECURE MESSENGER:"
       description: "Signal: desktop client, end-to-end encrypted protocol"
