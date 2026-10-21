@@ -2287,7 +2287,7 @@
               </div>
             </div>
             <div class="technical-note" style="margin-top: 8px; display: flex; justify-content: space-between; align-items: center;">
-              <div><span class="tag">SYNC:</span> Todoist API v2</div>
+              <div><span class="tag">SYNC:</span> Todoist API</div>
               <a href="https://app.todoist.com/app/today" target="_blank" rel="noopener" style="color: var(--accent-sky); text-decoration: none; font-size: 10.5px; font-family: var(--font-mono);">Open Todoist ↗</a>
             </div>
           </div>
@@ -3953,6 +3953,25 @@ sections:
         } catch (err) {}
       }
 
+      // If running on local dev server (http/https), attempt to load local .env automatically
+      if (window.location.protocol.startsWith('http')) {
+        try {
+          const res = await fetch('./.env?_t=' + Date.now());
+          if (res.ok) {
+            const text = await res.text();
+            const parsed = parseEnvString(text);
+            if (Object.keys(parsed).length > 0) {
+              envConfig = parsed;
+              localStorage.setItem(ENV_STORAGE_KEY, JSON.stringify(parsed));
+              updateEnvBadge();
+              renderEnvKeysList();
+              syncObsidianLinks();
+              return true;
+            }
+          }
+        } catch (e) {}
+      }
+
       updateEnvBadge();
       renderEnvKeysList();
       syncObsidianLinks();
@@ -3984,7 +4003,25 @@ sections:
 
     if (btnReloadEnv) {
       btnReloadEnv.addEventListener('click', async () => {
-        const ok = await fetchEnvFile();
+        let loadedHttp = false;
+        if (window.location.protocol.startsWith('http')) {
+          try {
+            const res = await fetch('./.env?_t=' + Date.now());
+            if (res.ok) {
+              const text = await res.text();
+              const parsed = parseEnvString(text);
+              if (Object.keys(parsed).length > 0) {
+                envConfig = parsed;
+                localStorage.setItem(ENV_STORAGE_KEY, JSON.stringify(parsed));
+                updateEnvBadge();
+                renderEnvKeysList();
+                syncObsidianLinks();
+                loadedHttp = true;
+              }
+            }
+          } catch (e) {}
+        }
+        const ok = loadedHttp || await fetchEnvFile();
         if (typeof fetchTodoistTasks === 'function') fetchTodoistTasks(false);
         showToast(
           ok ? `✓ Reloaded .env: ${Object.keys(envConfig).length} keys active` : `No stored .env keys found. Use 'Import .env File' to load securely.`,
@@ -4340,11 +4377,27 @@ sections:
           if (!apiKey) return;
 
           try {
-            const res = await fetch(`https://api.todoist.com/rest/v2/tasks/${encodeURIComponent(taskId)}/close`, {
-              method: 'POST',
-              headers: { 'Authorization': `Bearer ${apiKey}` }
-            });
-            if (res.ok || res.status === 204) {
+            let closeOk = false;
+            // 1. Try local proxy if running on local server
+            if (window.location.protocol.startsWith('http')) {
+              try {
+                const pRes = await fetch(`/api/todoist/tasks/${encodeURIComponent(taskId)}/close`, {
+                  method: 'POST',
+                  headers: { 'Authorization': `Bearer ${apiKey}` }
+                });
+                if (pRes.ok || pRes.status === 204) closeOk = true;
+              } catch (e) {}
+            }
+            // 2. Direct Todoist API call
+            if (!closeOk) {
+              const res = await fetch(`https://api.todoist.com/api/v1/tasks/${encodeURIComponent(taskId)}/close`, {
+                method: 'POST',
+                headers: { 'Authorization': `Bearer ${apiKey}` }
+              });
+              if (res.ok || res.status === 204) closeOk = true;
+            }
+
+            if (closeOk) {
               showToast('✓ Task completed in Todoist', 'success', 2200);
               setTimeout(() => {
                 fetchTodoistTasks(false);
@@ -4376,33 +4429,55 @@ sections:
       if (statusText) statusText.textContent = 'Syncing...';
 
       try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 7000);
-        const res = await fetch(`https://api.todoist.com/rest/v2/tasks?filter=${encodeURIComponent('today | overdue')}`, {
-          headers: {
-            'Authorization': `Bearer ${apiKey}`
-          },
-          signal: controller.signal
-        });
-        clearTimeout(timeoutId);
+        let tasks = null;
+        let authFailed = false;
+
+        // 1. If running on local server with proxy support, attempt proxy first
+        if (window.location.protocol.startsWith('http')) {
+          try {
+            const pController = new AbortController();
+            const pTimeout = setTimeout(() => pController.abort(), 3500);
+            const pRes = await fetch(`/api/todoist/tasks/filter?query=${encodeURIComponent('today | overdue')}`, {
+              headers: { 'Authorization': `Bearer ${apiKey}` },
+              signal: pController.signal
+            });
+            clearTimeout(pTimeout);
+            if (pRes.ok) {
+              const json = await pRes.json();
+              tasks = Array.isArray(json) ? json : (Array.isArray(json.results) ? json.results : []);
+            } else if (pRes.status === 401 || pRes.status === 403) {
+              authFailed = true;
+            }
+          } catch (e) {
+            // Local proxy not running or not supported, fall through to direct fetch
+          }
+        }
+
+        // 2. Direct fetch to Todoist API v1 (natively supports CORS Origin: null for file://)
+        if (!tasks && !authFailed) {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 7000);
+          const res = await fetch(`https://api.todoist.com/api/v1/tasks/filter?query=${encodeURIComponent('today | overdue')}`, {
+            headers: {
+              'Authorization': `Bearer ${apiKey}`
+            },
+            signal: controller.signal
+          });
+          clearTimeout(timeoutId);
+
+          if (res.ok) {
+            const json = await res.json();
+            tasks = Array.isArray(json) ? json : (Array.isArray(json.results) ? json.results : []);
+          } else if (res.status === 401 || res.status === 403) {
+            authFailed = true;
+          } else {
+            throw new Error('API status: ' + res.status);
+          }
+        }
 
         if (btnRefresh) btnRefresh.classList.remove('spinning');
 
-        if (res.ok) {
-          const json = await res.json();
-          const tasks = Array.isArray(json) ? json : (Array.isArray(json.results) ? json.results : []);
-          localStorage.setItem(TODOIST_CACHE_KEY, JSON.stringify({
-            timestamp: Date.now(),
-            tasks: tasks
-          }));
-          renderTodoistTasks(tasks);
-          if (statusDot) statusDot.className = 'status-dot live';
-          if (statusText) {
-            statusText.textContent = 'Synced';
-            statusText.style.color = 'var(--status-success)';
-          }
-          if (isManual) showToast(`✓ Synced ${tasks.length} task(s) from Todoist`, 'success', 2000);
-        } else if (res.status === 401 || res.status === 403) {
+        if (authFailed) {
           if (statusDot) statusDot.className = 'status-dot error';
           if (statusText) {
             statusText.textContent = 'Auth Failed';
@@ -4425,11 +4500,29 @@ sections:
             });
           }
           if (isManual) showToast('⚠ Invalid Todoist API Key', 'error', 3000);
-        } else {
-          throw new Error('API status: ' + res.status);
+          return;
         }
+
+        if (tasks !== null) {
+          localStorage.setItem(TODOIST_CACHE_KEY, JSON.stringify({
+            timestamp: Date.now(),
+            tasks: tasks
+          }));
+          renderTodoistTasks(tasks);
+          if (statusDot) statusDot.className = 'status-dot live';
+          if (statusText) {
+            statusText.textContent = 'Synced';
+            statusText.style.color = 'var(--status-success)';
+          }
+          if (isManual) showToast(`✓ Synced ${tasks.length} task(s) from Todoist`, 'success', 2000);
+          return;
+        }
+
+        throw new Error('Could not retrieve task data');
       } catch (err) {
+        console.warn('Todoist API Sync:', err);
         if (btnRefresh) btnRefresh.classList.remove('spinning');
+
         const cached = localStorage.getItem(TODOIST_CACHE_KEY);
         if (cached) {
           try {
@@ -4440,6 +4533,8 @@ sections:
               statusText.textContent = 'Offline Cache';
               statusText.style.color = 'var(--status-warning)';
             }
+            if (isManual) showToast('Loaded cached tasks (network / connection blocked)', 'info');
+            return;
           } catch (e) {
             renderTodoistTasks([]);
           }
@@ -4449,10 +4544,14 @@ sections:
             body.innerHTML = `
               <div class="widget-error">
                 <span class="error-icon">⚠️</span>
-                <span>Could not reach Todoist API</span>
-                <button type="button" id="btnRetryTodoist">Retry Sync</button>
+                <span>Could not reach Todoist API (${escapeHtml(err.message || 'Connection error')})</span>
+                <div style="display: flex; gap: 8px; margin-top: 6px;">
+                  <a href="https://app.todoist.com/app/today" target="_blank" rel="noopener noreferrer" style="font-family: var(--font-mono); font-size: 11px; padding: 4px 10px; background: rgba(155, 183, 212, 0.12); border: 1px solid rgba(155, 183, 212, 0.3); color: var(--accent-sky); border-radius: var(--radius-xs); text-decoration: none;">Open Todoist ↗</a>
+                  <button type="button" id="btnRetryTodoist">Retry Sync</button>
+                </div>
               </div>
             `;
+
             const retry = document.getElementById('btnRetryTodoist');
             if (retry) retry.addEventListener('click', (e) => {
               e.stopPropagation();
@@ -4461,11 +4560,13 @@ sections:
           }
           if (statusDot) statusDot.className = 'status-dot error';
           if (statusText) {
-            statusText.textContent = 'Error';
+            statusText.textContent = 'Sync Error';
             statusText.style.color = 'var(--status-error)';
           }
         }
-        if (isManual) showToast('⚠ Todoist sync connection error', 'error', 3000);
+        if (isManual) {
+          showToast('⚠ Todoist sync connection error', 'error', 3000);
+        }
       }
     }
 
